@@ -125,9 +125,38 @@
             <h3 class="block headline-block"><span class="block-inner" contenteditable="true">[ New York Energy Usage ]</span></h3>
         </div>
 
-        <svg class="chart">
-
+        <svg width="170" height="27.796875" class="chart">
+            <g>
+                <rect width="170" height="13" style="fill: url(&quot;#g-85f7&quot;);"></rect>
+                <g class="labels" aria-hidden="true" transform="translate(0,16)">
+                    <text class="min" transform="translate(0,0)">
+                        <tspan x="0" dy="8">1</tspan>
+                    </text>
+                    <text class="max" transform="translate(170,0)">
+                        <tspan x="0" dy="8">5</tspan>
+                    </text>
+                </g>
+                <g class="highlight" aria-hidden="true">
+                    <path class="triangle" transform="translate(0,20)" d="M-5,0 L 5,0 L 0,-7 Z"></path>
+                    <g class="text" transform="translate(0,25)">
+                        <text class="buffer"></text>
+                        <text></text>
+                    </g>
+                </g>
+            </g>
+            <defs>
+                <linearGradient id="g-85f7" y2="0" x2="1">
+                    <stop offset="0%" stop-color="rgb(83, 194, 150)"></stop>
+                    <stop offset="18.75%" stop-color="rgb(153, 217, 115)"></stop>
+                    <stop offset="37.5%" stop-color="rgb(250, 229, 13)"></stop>
+                    <stop offset="56.25%" stop-color="rgb(241, 186, 5)"></stop>
+                    <stop offset="75%" stop-color="rgb(237, 126, 81)"></stop>
+                    <stop offset="93.75%" stop-color="rgb(221, 96, 0)"></stop>
+                    <stop offset="100%" stop-color="rgb(202, 31, 52)"></stop>
+                </linearGradient>
+            </defs>
         </svg>
+
     </div>
 
     </div>
@@ -174,14 +203,14 @@
 
 
     const color = d3.scaleLinear()
-        .domain([0, 5, 9])
-        .range(["blue", "yellow", "green"]);
+        .domain([0, 2, 4, 6, 8, 9])
+        .range(["blue", "green", "light yellow", "yellow", "dark yellow", "red"]);
 
     const color1 = d3.scaleQuantize()
         .domain([1, 10])
         .range(d3.schemePurples[9]);
 
-    const ss2 = d3.schemeSet2;
+    const ss2 = d3.schemeSet4;
     const sp2 = d3.schemePastel2;
 
     // energyUsageData = d3.csv('https://github.com/Yinghzzz/document/blob/d7bb7434a5325f6e4419f0a8950640d87f3673e2/data3.csv', ({Borough,id,YB,Occupancy,SourceEUI,NaturalGasUse,ElectricityUseGridPurchase,TotalGHGEmissions,WaterUse}) =>({Borough: Borough, id : id, YB: YB, Occupancy: Occupancy,SourceEUI :SourceEUI,NaturalGasUse: NaturalGasUse,ElectricityUseGridPurchase: ElectricityUseGridPurchase,TotalGHGEmissions: TotalGHGEmissions,WaterUse:WaterUse}));
@@ -239,16 +268,16 @@
 
         // Color test 4, OK
         .attr("fill", function(d, i) {
-            return ss2[i % 3]
+            return ss2[i % 6]
          })
         .text(function(d,i) { return( ": " + d)})
         .on("mouseover", function(d, i) {
             d3.select(this)
-                .attr("fill", sp2[i % 3]);
+                .attr("fill", sp2[i % 6]);
         })
         .on("mouseout", function(d, i) {
             d3.select(this)
-                .attr("fill", ss2[i % 3]);
+                .attr("fill", ss2[i % 6]);
         });
 
 

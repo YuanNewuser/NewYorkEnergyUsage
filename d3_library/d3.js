@@ -14050,6 +14050,8 @@ var Set2 = colors("66c2a5fc8d628da0cbe78ac3a6d854ffd92fe5c494b3b3b3");
 
 var Set3 = colors("8dd3c7ffffb3bebadafb807280b1d3fdb462b3de69fccde5d9d9d9bc80bdccebc5ffed6f");
 
+var Set4 = colors("53C29699D973FAE50DF1BA05DD6000CA1F34507B58799163EDE0A6AB3131540202");
+
 function ramp(scheme) {
   return rgbBasis(scheme[scheme.length - 1]);
 }
@@ -18078,6 +18080,7 @@ exports.schemePastel2 = Pastel2;
 exports.schemeSet1 = Set1;
 exports.schemeSet2 = Set2;
 exports.schemeSet3 = Set3;
+exports.schemeSet4 = Set4;
 exports.interpolateBrBG = BrBG;
 exports.schemeBrBG = scheme;
 exports.interpolatePRGn = PRGn;
