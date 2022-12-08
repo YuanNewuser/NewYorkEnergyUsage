@@ -157,6 +157,10 @@
             </defs>
         </svg>
 
+        <div id="messageBlock" class="messageBlockClass">
+            <text> this is text </text>
+        </div>
+
     </div>
 
     </div>
@@ -213,86 +217,49 @@
     const ss2 = d3.schemeSet4;
     const sp2 = d3.schemePastel2;
 
-    // energyUsageData = d3.csv('https://github.com/Yinghzzz/document/blob/d7bb7434a5325f6e4419f0a8950640d87f3673e2/data3.csv', ({Borough,id,YB,Occupancy,SourceEUI,NaturalGasUse,ElectricityUseGridPurchase,TotalGHGEmissions,WaterUse}) =>({Borough: Borough, id : id, YB: YB, Occupancy: Occupancy,SourceEUI :SourceEUI,NaturalGasUse: NaturalGasUse,ElectricityUseGridPurchase: ElectricityUseGridPurchase,TotalGHGEmissions: TotalGHGEmissions,WaterUse:WaterUse}));
-    //energyUsageData = d3.csv('https://github.com/YuanNewuser/IDVA-NYEnergyUsage/blob/main/DATA/data_newyork_brough_combined.csv', ({Borough,id,YearBuilt,Occupancy,SourceEUI,NaturalGasUse,ElectricityUseGridPurchase,TotalGHGEmissions,WaterUse,AverageYear}) =>({Borough: Borough, id : id, YearBuilt: YearBuilt, Occupancy: Occupancy,SourceEUI :SourceEUI,NaturalGasUse: NaturalGasUse,ElectricityUseGridPurchase: ElectricityUseGridPurchase,TotalGHGEmissions: TotalGHGEmissions,WaterUse:WaterUse, AverageYear : AverageYear}));
-
-    /*
-    energyUsageDatalog = d3.csv('https://github.com/Yinghzzz/document/blob/d7bb7434a5325f6e4419f0a8950640d87f3673e2/data3.csv',function(error, csvdata){
-        if(error) {
-            console.log(error);
-            window.alert();
-        }
-        console.log(energyUsageDatalog);
-        window.alert();
-    }); */
-
-    // unemployment = d3.tsv("https:/a314291805640a097e16e58248627eb/raw/365c199c5a173a0018608615b6823b5cdcaa6bae/unemployment.tsv", ({id, rate}) => ({county: id, rate : +rate}))
-    // unemployment = d3.tsv("https://gist.githubusercontent.com/jdev42092/9a314291805640a097e16e58248627eb/raw/365c199c5a173a0018608615b6823b5cdcaa6bae/unemployment.tsv", ({id, rate}) => ({county: id, rate : +rate}))
-
-    // This is used to read data
-    // unemployment = d3.tsv("https://gist.githubusercontent.com/jdev42092/9a314291805640a097e16e58248627eb/raw/365c199c5a173a0018608615b6823b5cdcaa6bae/unemployment.tsv", ({id, rate}) => boroug: id, rate : +rate}));
-
-    // const rateById = {};
-    // unemployment.forEach(d => (rateById[d.id] = d.rate));
-
-    // energyUsageData.forEach(d => (rateById[d.Borough] = +d.id));
-
-
     /**
      * 利用pathGenerator与features生成path路径，绘制地图
      */
     const mapPath = mapContainer.selectAll("path")
         .data(NewYorkGeoJson.features) //数据绑定
-        // .enter()
-        // .data(function(d){return d.boro_name;})
-    // .data(d3.range(10))
-        .join("path")
+        .enter().append("path")
         .attr("d", pathGenerator) //绘制path
         .attr("stroke-width", 0.5)
         .attr("stroke", "black")
-        // test 1
-        // .attr("fill", "#ffffff");
 
-        // Color test 2, OK
-        //.attr('x',function(d,i) { return i * 5; })
-        //.attr('y',30)
-        //.attr('width',30)
-        //.attr('height',30)
-        //.attr ("fill", function(d, i) { return color[i]; });
-
-        // Color test 3, OK
-        // .attr("fill", function(d,i){
-            // return color1(i);
-        // })
-        //.attr("fill", d => color1(rateById[d.id]))
-
-        // Color test 4, OK
         .attr("fill", function(d, i) {
             return ss2[i % 6]
          })
-        .text(function(d,i) { return( ": " + d)})
+
         .on("mouseover", function(d, i) {
             d3.select(this)
-                .attr("fill", sp2[i % 6]);
+                .attr("fill", sp2[i % 6])
+                .text("test test 4");  // not work
         })
         .on("mouseout", function(d, i) {
             d3.select(this)
-                .attr("fill", ss2[i % 6]);
+                .attr("fill", ss2[i % 6])
+                .text("test test 5"); // not work
         });
-
 
     function zoomed() {
         const t = d3.event.transform;
         mapContainer.attr("transform", `translate(${t.x}, ${t.y}) scale(${t.k})`); //改变mapContainer的位置及缩放
     }
     const zoom = d3.zoom()
-        .scaleExtent([1, 3])  //设置监听范围
-        .on("zoom", zoomed);  //设置监听事件
+        .scaleExtent([1, 3])  //Set the listening scale
+        .on("zoom", zoomed);  //Set the listening event
 
     svg.call(zoom); //仍然应用于svg上，但是事件触发时改变的是
 
-</script>
+    const text = svg.append("text")
+        .attr("x", 50)
+        .attr("y", 50)
+        .attr("font-size", 20)
+        .attr("fill", "green")
+        .text("My text");
 
+</script>
 
 <style>
     .selection-map-wrapper {
