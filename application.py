@@ -11,6 +11,14 @@ application= Flask(__name__)
 class DataStore():
     BoroughName=None
     Year=None
+    PropertyName= None
+    PropertyType= None
+    Occupancy= None
+    SourceEUI= None
+    NaturalGasUse= None
+    ElectricityUse= None
+    TotalGHGEmissions= None
+    WaterUse= None
     Prod= None
 data=DataStore()
 
@@ -22,10 +30,24 @@ data=DataStore()
 def homepage():
     BoroughName = request.form.get('borough_field','Manhattan')
     Year = request.form.get('Year_field', 2013)
+    PropertyType = request.form.get('Property_Type', 'Office')
+    # Occupancy = request.form.get('Occupancy', 'All')
+    # SourceEUI = request.form.get('SourceEUI', 'All')
+    # NaturalGasUse = request.form.get('NaturalGasUse', 'All')
+    # ElectricityUse = request.form.get('ElectricityUse', 'All')
+    # TotalGHGEmissions = request.form.get('TotalGHGEmissions', 'All')
+    # WaterUse = request.form.get('WaterUse', 'All')
 
     data.BoroughName=BoroughName
     data.Year=Year
-    
+    data.PropertyType= PropertyType
+    # data.Occupancy= Occupancy
+    # data.SourceEUI= SourceEUI
+    # data.NaturalGasUse= NaturalGasUse
+    # data.ElectricityUse= ElectricityUse
+    # data.TotalGHGEmissions= TotalGHGEmissions
+    # data.WaterUse= WaterUse
+
     df = pd.read_csv('../NewYorkEnergyUsage.csv')
     # dfP=dfP
     
@@ -37,15 +59,23 @@ def homepage():
     # choose columns to keep, in the desired nested json hierarchical order
     df = df[df.Borough == BoroughName]
     df = df[df["Year Built"] == int(Year)]
+    df = df[df["Property Type"] == PropertyType]
+    # df = df[df["Occupancy"]== Occupancy]
+    # df = df[df["Source EUI (kBtu/ft²)"] == SourceEUI]
+    # df = df[df["Natural Gas Use (kBtu)"] == NaturalGasUse]
+    # df = df[df["Electricity Use - Grid Purchase (kBtu)"] == ElectricityUse]
+    # df = df[df["Total GHG Emissions (Metric Tons CO2e)"] == TotalGHGEmissions]
+    # df = df[df["Water Use (All Water Sources) (kgal)"] == WaterUse]
     print(df.head())
     # df = df.drop(
     # ['Country', 'Item Code', 'Flag', 'Unit', 'Year Code', 'Element', 'Element Code', 'Code', 'Item'], axis=1)
-    df = df[["Primary Property Type - Self Selected", "Property Name", "Electricity Use - Grid Purchase (kBtu)"]]
+    df = df[["Property Type", "Property Name", "Electricity Use - Grid Purchase (kBtu)"]]
 
     # order in the groupby here matters, it determines the json nesting
     # the groupby call makes a pandas series by grouping 'the_parent' and 'the_child', while summing the numerical column 'child_size'
-    df1 = df.groupby(['Primary Property Type - Self Selected', 'Property Name'])['Electricity Use - Grid Purchase (kBtu)'].sum()
+    df1 = df.groupby(['Property Type', 'Property Name'])['Electricity Use - Grid Purchase (kBtu)'].sum()
     df1 = df1.reset_index()
+    print(df1.head())
 
     # start a new flare.json document
     flare = dict()
@@ -83,15 +113,26 @@ def homepage():
 #1481  2106  ...   199.964497
 #1800  2559  ...   168.784931
 #[5 rows x 13 columns]
-@application.route("/get-data",methods=["GET","POST"])
+@application.route("/get-data/",methods=["GET","POST"])
 def returnProdData():
-    f=data.Year
 
+    f=data.Year
+    print(f)
     return jsonify(f)
 # export the final result to a json file
 
+# Below for automatically populate in the dropdown list
+@application.route("/get-date",methods=["GET","POST"])
+def returnYearList():
 
+    df = pd.read_csv('../NewYorkEnergyUsage.csv')
+    yeardf = df["Year Built"].unique()
 
+    print(yeardf)
+    # Array to json, should be transfer to list firstly
+    yearJsonString = json.dumps({'Year': yeardf.tolist()})
+
+    return yearJsonString
 
 if __name__ == "__main__":
     application.run(debug=True)

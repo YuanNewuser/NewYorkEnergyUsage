@@ -312,15 +312,18 @@
         .text("My text");
     */
 
-    const energyDateReceived = d3.json("/get-data", function(error, data) {
+    const energyDateReceived = d3.json("/get-date", function(error, data) {
         //if (error) throw error;
         // 分区布局节点
         partition.nodes(data);
         x.domain([0, data.value]).nice();
-        console.log("name" + data);
+        // console.log("date = " + data);
+        // window.alert("date = " + data);
+        // document.getElementById("yearsListTest").innerHTML = data;
     });
 
     console.log(energyDateReceived);
+    document.getElementById("yearsListTest").innerHTML = energyDateReceived;
 
     window.onload = function(){
         // Below is used to test the append the year list in dropdown
