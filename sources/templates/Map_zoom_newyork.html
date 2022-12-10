@@ -4,9 +4,9 @@
 <head>
     <meta charset='UTF-8'>
     <title></title>
-    <script src="../d3_library/d3.js"></script>
+    <script src="../../d3_library/d3.js"></script>
     <!-- 将NewYorkGeoJson文件以js对象放在js文件中，输出变量为NewYorkGeoJson -->
-    <script src="../source/js/NewYorkGeo.js"></script>
+    <script src="../Scripts/NewYorkGeo.js"></script>
 
     <!-- below to import a css file -->
     <!-- <link rel="stylesheet" type="text/css" href="../source/css/style.css"> -->
@@ -102,7 +102,15 @@
                 <div class="select-box__value"><input class="select-box__input" type="radio" id="2002" value="2002" name="year"><p class="select-box__input-text">2002</p></div>
                 <div class="select-box__value"><input class="select-box__input" type="radio" id="2001" value="2001" name="year"><p class="select-box__input-text">2001</p></div>
                 <div class="select-box__value"><input class="select-box__input" type="radio" id="2000" value="2000" name="year"><p class="select-box__input-text">2000</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1999" value="1999" name="year"><p class="select-box__input-text">1999</p></div><div class="select-box__value"><input class="select-box__input" type="radio" id="1998" value="1998" name="year"><p class="select-box__input-text">1998</p></div><div class="select-box__value"><input class="select-box__input" type="radio" id="1997" value="1997" name="year"><p class="select-box__input-text">1997</p></div><div class="select-box__value"><input class="select-box__input" type="radio" id="1996" value="1996" name="year"><p class="select-box__input-text">1996</p></div><div class="select-box__value"><input class="select-box__input" type="radio" id="1995" value="1995" name="year"><p class="select-box__input-text">1995</p></div><div class="select-box__value"><input class="select-box__input" type="radio" id="1994" value="1994" name="year"><p class="select-box__input-text">1994</p></div><div class="select-box__value"><input class="select-box__input" type="radio" id="1993" value="1993" name="year"><p class="select-box__input-text">1993</p></div><div class="select-box__value"><input class="select-box__input" type="radio" id="1992" value="1992" name="year"><p class="select-box__input-text">1992</p></div><div class="select-box__value"><input class="select-box__input" type="radio" id="1991" value="1991" name="year"><p class="select-box__input-text">1991</p></div>
+                <div class="select-box__value"><input class="select-box__input" type="radio" id="1999" value="1999" name="year"><p class="select-box__input-text">1999</p></div>
+                <div class="select-box__value"><input class="select-box__input" type="radio" id="1998" value="1998" name="year"><p class="select-box__input-text">1998</p></div>
+                <div class="select-box__value"><input class="select-box__input" type="radio" id="1997" value="1997" name="year"><p class="select-box__input-text">1997</p></div>
+                <div class="select-box__value"><input class="select-box__input" type="radio" id="1996" value="1996" name="year"><p class="select-box__input-text">1996</p></div>
+                <div class="select-box__value"><input class="select-box__input" type="radio" id="1995" value="1995" name="year"><p class="select-box__input-text">1995</p></div>
+                <div class="select-box__value"><input class="select-box__input" type="radio" id="1994" value="1994" name="year"><p class="select-box__input-text">1994</p></div>
+                <div class="select-box__value"><input class="select-box__input" type="radio" id="1993" value="1993" name="year"><p class="select-box__input-text">1993</p></div>
+                <div class="select-box__value"><input class="select-box__input" type="radio" id="1992" value="1992" name="year"><p class="select-box__input-text">1992</p></div>
+                <div class="select-box__value"><input class="select-box__input" type="radio" id="1991" value="1991" name="year"><p class="select-box__input-text">1991</p></div>
                 <div class="select-box__value"><input class="select-box__input" type="radio" id="1990" value="1990" name="year"><p class="select-box__input-text">1990</p></div></div>
             <ul id="yearsList" class="select-box__list">
                 <li><label class="select-box__option" for="2020" aria-hidden="true">2020</label></li>
@@ -114,7 +122,44 @@
                 <li><label class="select-box__option" for="2014" aria-hidden="true">2014</label></li>
                 <li><label class="select-box__option" for="2013" aria-hidden="true">2013</label></li>
                 <li><label class="select-box__option" for="2012" aria-hidden="true">2012</label></li>
-                <li><label class="select-box__option" for="2011" aria-hidden="true">2011</label></li><li><label class="select-box__option" for="2010" aria-hidden="true">2010</label></li><li><label class="select-box__option" for="2009" aria-hidden="true">2009</label></li><li><label class="select-box__option" for="2008" aria-hidden="true">2008</label></li><li><label class="select-box__option" for="2007" aria-hidden="true">2007</label></li><li><label class="select-box__option" for="2006" aria-hidden="true">2006</label></li><li><label class="select-box__option" for="2005" aria-hidden="true">2005</label></li><li><label class="select-box__option" for="2004" aria-hidden="true">2004</label></li><li><label class="select-box__option" for="2003" aria-hidden="true">2003</label></li><li><label class="select-box__option" for="2002" aria-hidden="true">2002</label></li><li><label class="select-box__option" for="2001" aria-hidden="true">2001</label></li><li><label class="select-box__option" for="2000" aria-hidden="true">2000</label></li><li><label class="select-box__option" for="1999" aria-hidden="true">1999</label></li><li><label class="select-box__option" for="1998" aria-hidden="true">1998</label></li><li><label class="select-box__option" for="1997" aria-hidden="true">1997</label></li><li><label class="select-box__option" for="1996" aria-hidden="true">1996</label></li><li><label class="select-box__option" for="1995" aria-hidden="true">1995</label></li><li><label class="select-box__option" for="1994" aria-hidden="true">1994</label></li><li><label class="select-box__option" for="1993" aria-hidden="true">1993</label></li><li><label class="select-box__option" for="1992" aria-hidden="true">1992</label></li><li><label class="select-box__option" for="1991" aria-hidden="true">1991</label></li><li><label class="select-box__option" for="1990" aria-hidden="true">1990</label></li></ul>
+                <li><label class="select-box__option" for="2011" aria-hidden="true">2011</label></li>
+                <li><label class="select-box__option" for="2010" aria-hidden="true">2010</label></li>
+                <li><label class="select-box__option" for="2009" aria-hidden="true">2009</label></li>
+                <li><label class="select-box__option" for="2008" aria-hidden="true">2008</label></li>
+                <li><label class="select-box__option" for="2007" aria-hidden="true">2007</label></li>
+                <li><label class="select-box__option" for="2006" aria-hidden="true">2006</label></li>
+                <li><label class="select-box__option" for="2005" aria-hidden="true">2005</label></li>
+                <li><label class="select-box__option" for="2004" aria-hidden="true">2004</label></li>
+                <li><label class="select-box__option" for="2003" aria-hidden="true">2003</label></li>
+                <li><label class="select-box__option" for="2002" aria-hidden="true">2002</label></li>
+                <li><label class="select-box__option" for="2001" aria-hidden="true">2001</label></li>
+                <li><label class="select-box__option" for="2000" aria-hidden="true">2000</label></li>
+                <li><label class="select-box__option" for="1999" aria-hidden="true">1999</label></li>
+                <li><label class="select-box__option" for="1998" aria-hidden="true">1998</label></li>
+                <li><label class="select-box__option" for="1997" aria-hidden="true">1997</label></li>
+                <li><label class="select-box__option" for="1996" aria-hidden="true">1996</label></li>
+                <li><label class="select-box__option" for="1995" aria-hidden="true">1995</label></li>
+                <li><label class="select-box__option" for="1994" aria-hidden="true">1994</label></li>
+                <li><label class="select-box__option" for="1993" aria-hidden="true">1993</label></li>
+                <li><label class="select-box__option" for="1992" aria-hidden="true">1992</label></li>
+                <li><label class="select-box__option" for="1991" aria-hidden="true">1991</label></li>
+                <li><label class="select-box__option" for="1990" aria-hidden="true">1990</label></li>
+            </ul>
+        </div>
+
+
+        <div class="select-box">
+            <p class="selectTitle YEAR Test">Years Test</p>
+            <div id="yearsTest" class="select-box__current" tabindex="0">
+                <i class="select-box__icon fal fa-chevron-down" alt="Arrow Icon" aria-hidden="true"></i>
+                <div class="select-box__value">
+                    <input class="select-box__input" type="radio" id="2020Test" value="2020Test" name="year" checked="checked">
+                    <p class="select-box__input-text_test">2020</p>
+                </div>
+            <ul id="yearsListTest" class="select-box__list">
+                <li><label class="select-box__option" for="2020" aria-hidden="true">2020Test</label></li>
+            </ul>
+            </div>
         </div>
 
 
@@ -266,6 +311,57 @@
         .attr("fill", "green")
         .text("My text");
     */
+
+    const energyDateReceived = d3.json("/get-data", function(error, data) {
+        //if (error) throw error;
+        // 分区布局节点
+        partition.nodes(data);
+        x.domain([0, data.value]).nice();
+        console.log("name" + data);
+    });
+
+    console.log(energyDateReceived);
+
+    window.onload = function(){
+        // Below is used to test the append the year list in dropdown
+        const energyData = [{"name": "2010","value": "2010"},{"name": "2011","value": "2011"}]; // this is would be retrived from py
+        const energyDate = [ "2010", "2011"]; // this is would be retrived from py
+
+        // has some problem, but at least work
+        d3.select("yearsListTest")
+        .data(energyDate)
+        .enter().append("div")
+        .style("width", function(d) { return d * 50 + "px"; })
+        .text(function(d) { return d; });
+
+        const c = document.querySelector('#yearsListTest');
+        const yeardiv= c.appendChild(document.createElement('div'));
+
+        /*
+        for(const key in energyData){
+            document.getElementById("yearsListTest").options.appendChild( // add, append, appendItem has problem
+                new Option(energyData[key].name, energyData[key].value)
+            );
+        }
+
+        // Below is used to test displaying statistical data
+        const energyMessageDiv = document.createElement("div");
+        const nodeText = document.createTextNode("I am test for energy usage");
+        energyMessageDiv.appendChild(nodeText);
+        energyMessageDiv.style.color = 'grey';
+        document.body.appendChild(energyMessageDiv);
+
+        // const svg1 = d3.select("selection-map-wrapper").append("div").attr("I am test for energy usage");
+
+        const messagesection = d3.selectAll("selection-map-wrapper");
+        const div33 = messagesection.append("div");
+        div33.style.color = 'red';
+        div33.style.x0 = 50;
+        div33.style.y0 = 50;
+        div33.name("messageTest");
+        div33.attr("Hello, world!");*/
+
+    }
 </script>
 
 <style>
