@@ -26,7 +26,7 @@
                 <div class="select-box__value"><input class="select-box__input" type="radio" id="electricityUseGridPurchase" value="electricityUseGridPurchase" name="indicator"><p class="select-box__input-text" value="fuelOtherFossil">Electricity Use Grid Purchase</p></div>
                 <div class="select-box__value"><input class="select-box__input" type="radio" id="waterUse" value="waterUse" name="indicator"><p class="select-box__input-text" value="fuelOil">Water Use</p></div>
             </div>
-            <ul id="indicatorList" class="select-box__list">
+            <ul id="indicatorList" class="select-box__list" onclick="energyUsageInputSelection()">
                 <li><label class="select-box__option" for="sourceEUI" aria-hidden="true">Source EUI</label></li>
                 <li><label class="select-box__option" for="totalGHGEmission" aria-hidden="true">Total GHG Emissions</label></li>
                 <li><label class="select-box__option" for="naturalGasUse" aria-hidden="true">Natural gas use</label></li>
@@ -45,7 +45,7 @@
                 <div class="select-box__value"><input class="select-box__input" type="radio" id="Queens" value="Queens" name="indicator"><p class="select-box__input-text" value="fuelOtherFossil">Queens</p></div>
                 <div class="select-box__value"><input class="select-box__input" type="radio" id="Staten Island" value="Staten Island" name="indicator"><p class="select-box__input-text" value="fuelOil">Staten Island</p></div>
             </div>
-            <ul id="boroughList" class="select-box__list">
+            <ul id="boroughList" class="select-box__list" onclick="energyUsageInputSelection()" >
                 <li><label class="select-box__option" for="Bronx" aria-hidden="true">Bronx</label></li>
                 <li><label class="select-box__option" for="Brooklyn" aria-hidden="true">Brooklyn</label></li>
                 <li><label class="select-box__option" for="Manhattan" aria-hidden="true">Manhattan</label></li>
@@ -66,7 +66,7 @@
                     <div class="select-box__value"><input class="select-box__input" type="radio" id="MixedUse" value="MixedUse" name="indicator"><p class="select-box__input-text" value="MixedUse">MixedUse</p></div>
                     <div class="select-box__value"><input class="select-box__input" type="radio" id="SpecialPurpose" value="SpecialPurpose" name="indicator"><p class="select-box__input-text" value="SpecialPurpose">SpecialPurpose</p></div>
                 </div>
-                <ul id="propertyTypeList" class="select-box__list">
+                <ul id="propertyTypeList" class="select-box__list" onclick="energyUsageInputSelection()">
                     <li><label class="select-box__option" for="Multifamily" aria-hidden="true">Multifamily</label></li>
                     <li><label class="select-box__option" for="Office" aria-hidden="true">Office</label></li>
                     <li><label class="select-box__option" for="Industrial" aria-hidden="true">Industrial</label></li>
@@ -112,7 +112,7 @@
                 <div class="select-box__value"><input class="select-box__input" type="radio" id="1992" value="1992" name="year"><p class="select-box__input-text">1992</p></div>
                 <div class="select-box__value"><input class="select-box__input" type="radio" id="1991" value="1991" name="year"><p class="select-box__input-text">1991</p></div>
                 <div class="select-box__value"><input class="select-box__input" type="radio" id="1990" value="1990" name="year"><p class="select-box__input-text">1990</p></div></div>
-            <ul id="yearsList" class="select-box__list">
+            <ul id="yearsList" class="select-box__list" onclick="energyUsageInputSelection()">
                 <li><label class="select-box__option" for="2020" aria-hidden="true">2020</label></li>
                 <li><label class="select-box__option" for="2019" aria-hidden="true">2019</label></li>
                 <li><label class="select-box__option" for="2018" aria-hidden="true">2018</label></li>
@@ -156,10 +156,10 @@
                     <input class="select-box__input" type="radio" id="2020Test" value="2020Test" name="year" checked="checked">
                     <p class="select-box__input-text_test">2020</p>
                 </div>
+            </div>
             <ul id="yearsListTest" class="select-box__list">
                 <li><label class="select-box__option" for="2020" aria-hidden="true">2020Test</label></li>
             </ul>
-            </div>
         </div>
 
 
@@ -302,43 +302,56 @@
 
     svg.call(zoom); //仍然应用于svg上，但是事件触发时改变的是
 
-    /* Below is the message text block test */
-    /*
-    const text = svg.append("text")
-        .attr("x", 350)
-        .attr("y", 100)
-        .attr("font-size", 20)
-        .attr("fill", "green")
-        .text("My text");
-    */
-
     const energyDateReceived = d3.json("/get-date", function(error, data) {
         //if (error) throw error;
         // 分区布局节点
         partition.nodes(data);
         x.domain([0, data.value]).nice();
-        // console.log("date = " + data);
-        // window.alert("date = " + data);
-        // document.getElementById("yearsListTest").innerHTML = data;
+        console.log(data.value);
     });
 
-    console.log(energyDateReceived);
-    document.getElementById("yearsListTest").innerHTML = energyDateReceived;
+    const p1 = Promise.resolve(energyDateReceived);
+    p1.then(value => {
+        console.log(value); // 👉️ output object
+        const yearListObject = value;
+        const yearListArray = Object.values(value)
+        console.log(yearListArray);  // output array
+        console.log(yearListArray.length);  // output array
+
+        for(let i=0; i<176; i++){
+            console.log(yearListArray[i]);
+            const newOption = document.createElement("li");
+            newOption.text=i;
+            newOption.value=i;
+            // document.getElementById('#yearsListTest').append(newOption);
+
+            d3.select("yearsListTest")
+                .data(yearListArray[i])
+                //.enter().append("li")
+                // .append("label")
+                //.attr('class','select-box__option')
+                // .attr('aria-hidden','true')
+                // .style("width", function(d) { return d * 50 + "px"; })
+                //.text(function(d) { return d; });
+        }
+
+    });
+
+    // Below is used to test the append the year list in dropdown
+    const energyData = [{"name": "2010","value": "2010"},{"name": "2011","value": "2011"}]; // this is would be retrived from py
+    const energyDate = [ "2010", "2011"]; // this is would be retrived from py
+
+    // const c = document.querySelector('#yearsListTest');
+    // const yeardiv= c.appendChild(document.createElement('div'));
+
+    function energyUsageInputSelection(){
+        const thisvalue = d3.select(this);
+        console.log(thisvalue.attr);
+        console.log(thisvalue.id);
+        console.log(thisvalue.name);
+    }
 
     window.onload = function(){
-        // Below is used to test the append the year list in dropdown
-        const energyData = [{"name": "2010","value": "2010"},{"name": "2011","value": "2011"}]; // this is would be retrived from py
-        const energyDate = [ "2010", "2011"]; // this is would be retrived from py
-
-        // has some problem, but at least work
-        d3.select("yearsListTest")
-        .data(energyDate)
-        .enter().append("div")
-        .style("width", function(d) { return d * 50 + "px"; })
-        .text(function(d) { return d; });
-
-        const c = document.querySelector('#yearsListTest');
-        const yeardiv= c.appendChild(document.createElement('div'));
 
         /*
         for(const key in energyData){

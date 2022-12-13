@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='UTF-8'>
+    <title></title>
+    <script src="/static/d3.js"></script>
+    <!-- 将NewYorkGeoJson文件以js对象放在js文件中，输出变量为NewYorkGeoJson -->
+    <script src="/static/NewYorkGeo.js"></script>
+
+    <!-- below to import a css file -->
+    <!-- <link rel="stylesheet" type="text/css" href="../source/css/style.css"> -->
+    <script>
+        function updateMessageBox(newText) {
+            var textElement = document.getElementById("messageText");
+            textElement.innerHTML = newText;
+        }
+        function updataScatterPlot(newData) {
+
+        }
+    </script>
+    
+</head>
+
+<body>
+    <div class="selection-wrapper">
+        <select id="Borough" class="select-box">
+            <optgroup label="Borough" class="select-box__value"></optgroup>
+            <option value="1" class="select-box__list">Manhattan</option>
+            <option value="2" class="select-box__list">Queens</option>
+            <option value="3" class="select-box__list">Bronx</option>
+            <option value="4" class="select-box__list">Brooklyn</option>
+            <option value="5" class="select-box__list">Staten Island</option>
+        </select>
+        <select id="PropertyType" class="select-box">
+            <optgroup label="Property Type" class="select-box__current"></optgroup>
+            <option value="1" class="select-box__option">Multifamily</option>
+            <option value="2" class="select-box__option">Office</option>
+            <option value="3" class="select-box__option">Industrial</option>
+            <option value="4" class="select-box__option">Hospitality</option>
+            <option value="5" class="select-box__option">Hotel</option>
+        </select>
+        <select id="x axis" class="select-box">
+            <optgroup label="Energy usage correlations" class="select-box__current"></optgroup>
+            <option value="1" class="select-box__option">Year Built</option>
+            <option value="2" class="select-box__option">Occupancy</option>
+            <option value="3" class="select-box__option">Natural Gas Use (kBtu)</option>
+            <option value="4" class="select-box__option">Electricity Use - Grid Purchase (kBtu)</option>
+            <option value="5" class="select-box__option">Natural Gas Use (kBtu)</option>
+            <option value="6" class="select-box__option">Total GHG Emissions (Metric Tons CO2e)</option>
+            <option value="7" class="select-box__option">Water Use (All Water Sources) (kgal)</option>
+        </select>
+    </div>
+
+    <div class="map-message-wapper">
+        <!-- below div include the map header and the real map -->
+        <div class = "map-wapper">
+        <div id="header" class="dw-chart-header">
+            <h3 class="block headline-block"><span class="block-inner" contenteditable="true">[ New York Energy Usage ]</span></h3>
+        </div>
+
+        <svg width="170" height="27.796875" class="chart">
+            <g>
+                <rect width="170" height="13" style="fill: url(&quot;#g-85f7&quot;);"></rect>
+                <g class="labels" aria-hidden="true" transform="translate(0,16)">
+                    <text class="min" transform="translate(0,0)">
+                        <tspan x="0" dy="8">1</tspan>
+                    </text>
+                    <text class="max" transform="translate(170,0)">
+                        <tspan x="0" dy="8">5</tspan>
+                    </text>
+                </g>
+                <g class="highlight" aria-hidden="true">
+                    <path class="triangle" transform="translate(0,20)" d="M-5,0 L 5,0 L 0,-7 Z"></path>
+                    <g class="text" transform="translate(0,25)">
+                        <text class="buffer"></text>
+                        <text></text>
+                    </g>
+                </g>
+            </g>
+            <defs>
+                <linearGradient id="g-85f7" y2="0" x2="1">
+                    <stop offset="0%" stop-color="rgb(83, 194, 150)"></stop>
+                    <stop offset="18.75%" stop-color="rgb(153, 217, 115)"></stop>
+                    <stop offset="37.5%" stop-color="rgb(250, 229, 13)"></stop>
+                    <stop offset="56.25%" stop-color="rgb(241, 186, 5)"></stop>
+                    <stop offset="75%" stop-color="rgb(237, 126, 81)"></stop>
+                    <stop offset="93.75%" stop-color="rgb(221, 96, 0)"></stop>
+                    <stop offset="100%" stop-color="rgb(202, 31, 52)"></stop>
+                </linearGradient>
+            </defs>
+        </svg>
+        </div>
+
+        <!-- below div include the related map region message we would like to display -->
+        <div class="messageBox">
+            <text class="messageText" id="messageText">
+            </text>
+        </div>
+        <div id="my_dataviz" class = "my_dataviz"></div>
+    </div>
+
+
+
+    <!-- below to hyperlink another page -->
+    <!--  <div id="divPage"></div> <a href="CopyMap.html" id="aUrl">Load Page</a> -->
+
+    <script>
+        /**
+         * 基本配置 
+         */
+        const svgWidth = 700;
+        const svgHeight = 700;
+        const padding = 50;
+    
+        const svg = d3.select(".chart")
+            .attr("height", svgHeight)
+            .attr("width", svgWidth);
+    
+        const mapContainer = svg.append("g"); //添加mapContainer装载地图绘制内容
+    
+        /** 
+         * 获取投影，并配置
+         */
+        const x0 = padding;
+        const y0 = padding;
+        const x1 = svgWidth - padding * 2;
+        const y1 = svgHeight - padding * 2;
+    
+    
+        const projection = d3.geoMercator().fitExtent(
+            [
+                [x0, y0], //左上角坐标
+                [x1, y1], //右下角坐标
+            ], NewYorkGeoJson);
+        console.log(projection);
+    
+        /**
+         * 获取geographic path generator，并配置
+         */
+        const pathGenerator = d3.geoPath().projection(projection);
+    
+    
+        const color = d3.scaleLinear()
+            .domain([0, 2, 4, 6, 8, 9])
+            .range(["blue", "green", "light yellow", "yellow", "dark yellow", "red"]);
+    
+        const color1 = d3.scaleQuantize()
+            .domain([1, 10])
+            .range(d3.schemePurples[9]);
+    
+        const ss2 = d3.schemeSet4;
+        const sp2 = d3.schemePastel2;
+    
+        /**
+         * 利用pathGenerator与features生成path路径，绘制地图
+         */
+        const mapPath = mapContainer.selectAll("path")
+            .data(NewYorkGeoJson.features) //数据绑定
+            .enter().append("path")
+            .attr("d", pathGenerator) //绘制path
+            .attr("stroke-width", 0.5)
+            .attr("stroke", "black")
+    
+            .attr("fill", function(d, i) {
+                return ss2[i % 6]
+             })
+    
+            .on("mouseover", function(d, i) {
+                d3.select(this)
+                    .attr("fill", sp2[i % 6])
+                    .text("test test 4");  // not work
+            })
+            .on("mouseout", function(d, i) {
+                d3.select(this)
+                    .attr("fill", ss2[i % 6])
+                    .text("test test 5"); // not work
+            });
+    
+        function zoomed() {
+            const t = d3.event.transform;
+            mapContainer.attr("transform", `translate(${t.x}, ${t.y}) scale(${t.k})`); //改变mapContainer的位置及缩放
+        }
+        const zoom = d3.zoom()
+            .scaleExtent([1, 3])  //Set the listening scale
+            .on("zoom", zoomed);  //Set the listening event
+    
+        svg.call(zoom); //仍然应用于svg上，但是事件触发时改变的是
+    
+        /* Below is the message text block test */
+        /*
+        const text = svg.append("text")
+            .attr("x", 350)
+            .attr("y", 100)
+            .attr("font-size", 20)
+            .attr("fill", "green")
+            .text("My text");
+        */
+    
+        /*const energyDateReceived = d3.json("/get-date", function(error, data) {
+            //if (error) throw error;
+            // 分区布局节点
+            partition.nodes(data);
+            x.domain([0, data.value]).nice();
+            // console.log("date = " + data);
+            // window.alert("date = " + data);
+            // document.getElementById("yearsListTest").innerHTML = data;
+        });*/
+// set the dimensions and margins of the graph
+const margin = {top: 30, right: 40, bottom: 10, left: 50},
+        width = 470 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+const svg1 = d3.select("#my_dataviz")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    svg1.style("position", "absolute")
+    .style("top", "500px");
+
+//Read the data
+d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/2_TwoNum.csv").then( function(data) {
+
+    // Add X axis
+    const x = d3.scaleLinear()
+    .domain([0, 4000])
+    .range([ 0, 400 ]);
+    svg1.append("g")
+    .attr("transform", `translate(0, 350)`)
+    .call(d3.axisBottom(x));
+
+    // Add Y axis
+    const y = d3.scaleLinear()
+    .domain([0, 500000])
+    .range([ 380, 0]);
+    svg1.append("g")
+    .call(d3.axisLeft(y));
+
+    // Add dots
+    svg1.append('g')
+    .selectAll("dot")
+    .data(data)
+    .join("circle")
+        .attr("cx", function (d) { return x(d.GrLivArea); } )
+        .attr("cy", function (d) { return y(d.SalePrice); } )
+        .attr("r", 1.5)
+        .style("fill", "#69b3a2")
+})
+
+        const euiReceived = d3.json("/get-borough-data", function(error, data) {
+            //if (error) throw error;
+            // 分区布局节点
+            partition.nodes(data);
+            x.domain([0, data.value]).nice();
+            // console.log("date = " + data);
+            // window.alert("date = " + data);
+            // document.getElementById("yearsListTest").innerHTML = data;
+        });
+        const p1 = Promise.resolve(euiReceived)
+        const dataReceived = d3.json("/get-data", function(error, data) {
+            //if (error) throw error;
+            // 分区布局节点
+            partition.nodes(data);
+            x.domain([0, data.value]).nice();
+            // console.log("date = " + data);
+            // window.alert("date = " + data);
+            // document.getElementById("yearsListTest").innerHTML = data;
+        });
+        var dropdown1 = document.getElementById("x axis");
+    
+        // Add an event listener for when the user selects an option
+        // Get the value of the selected option
+        const p2 = Promise.resolve(dataReceived)
+                // set the dimensions and margins of the graph
+
+        // Get a reference to the dropdown list
+        var dropdown = document.getElementById("Borough");
+    
+        // Add an event listener for when the user selects an option
+        dropdown.addEventListener("change", function() {
+        // Get the value of the selected option
+        var selectedValue = this.value;
+    
+        // Do something with the selected value
+        // For example, you could use an if statement to take different actions
+        // depending on the selected value:
+            if (selectedValue === "1") {
+                // Do something when the first option is selected
+                p1.then(data => {
+                    const boroughListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<boroughListArray.length; i++) {
+                        const boroughArray = boroughListArray[i];
+                        console.log(boroughArray);
+                        if ( boroughArray["Borough"] === "Manhattan") {
+                            var euiArray = "Manhattan Source EUI" + ": " + boroughArray["SourceEUI"] + "<br> Natural Gas Use：" + boroughArray["NaturalGasUse"]
+                                + "<br> Electricity Use Grid Purchase：" + boroughArray["ElectricityUseGridPurchase"]
+                                + "<br> Total GHG Emissions：" + boroughArray["TotalGHGEmissions"]
+                                + "<br> Water Use：" + boroughArray["WaterUse"]
+                            updateMessageBox(euiArray)
+                        }
+                        // var euiArray = "Manhattan" + ": "+ data["Manhattan"]
+                    }
+                })
+            } else if (selectedValue === "2") {
+                // Do something when the second option is selected
+                p1.then(data => {
+                    const boroughListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<boroughListArray.length; i++) {
+                        const boroughArray = boroughListArray[i];
+                        console.log(boroughArray);
+                        if ( boroughArray["Borough"] === "Queens") {
+                            var euiArray = "Queens Source EUI" + ": " + boroughArray["SourceEUI"] + "<br> Natural Gas Use：" + boroughArray["NaturalGasUse"]
+                                + "<br> Electricity Use Grid Purchase：" + boroughArray["ElectricityUseGridPurchase"]
+                                + "<br> Total GHG Emissions：" + boroughArray["TotalGHGEmissions"]
+                                + "<br> Water Use：" + boroughArray["WaterUse"]
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            } else if (selectedValue === "3") {
+                // Do something when the third option is selected
+                p1.then(data => {
+                    const boroughListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<boroughListArray.length; i++) {
+                        const boroughArray = boroughListArray[i];
+                        console.log(boroughArray);
+                        if ( boroughArray["Borough"] === "Bronx") {
+                            var euiArray = "Bronx Source EUI" + ": " + boroughArray["SourceEUI"] + "<br> Natural Gas Use：" + boroughArray["NaturalGasUse"]
+                                + "<br> Electricity Use Grid Purchase：" + boroughArray["ElectricityUseGridPurchase"]
+                                + "<br> Total GHG Emissions：" + boroughArray["TotalGHGEmissions"]
+                                + "<br> Water Use：" + boroughArray["WaterUse"]
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            } else if (selectedValue === "4") {
+                // Do something when the third option is selected
+                p1.then(data => {
+                    const boroughListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<boroughListArray.length; i++) {
+                        const boroughArray = boroughListArray[i];
+                        console.log(boroughArray);
+                        if ( boroughArray["Borough"] === "Brooklyn") {
+                            var euiArray = "Brooklyn Source EUI" + ": " + boroughArray["SourceEUI"] + "<br> Natural Gas Use：" + boroughArray["NaturalGasUse"]
+                                + "<br> Electricity Use Grid Purchase：" + boroughArray["ElectricityUseGridPurchase"]
+                                + "<br> Total GHG Emissions：" + boroughArray["TotalGHGEmissions"]
+                                + "<br> Water Use：" + boroughArray["WaterUse"]
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            } else if (selectedValue === "5") {
+                // Do something when the third option is selected
+                p1.then(data => {
+                    const boroughListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray); // Staten Island
+                    for(let i=0; i<boroughListArray.length; i++) {
+                        const boroughArray = boroughListArray[i];
+                        console.log(boroughArray);
+                        if ( boroughArray["Borough"] === "Staten Island") {
+                            var euiArray = "Staten Island Source EUI" + ": " + boroughArray["SourceEUI"] + "<br> Natural Gas Use：" + boroughArray["NaturalGasUse"]
+                                + "<br> Electricity Use Grid Purchase：" + boroughArray["ElectricityUseGridPurchase"]
+                                + "<br> Total GHG Emissions：" + boroughArray["TotalGHGEmissions"]
+                                + "<br> Water Use：" + boroughArray["WaterUse"]
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            }
+
+            d3.selectAll("path")
+                .attr("fill", function(d, i) {
+                    return ss2[i % 6]
+                })
+
+        });
+
+        // Below used to retrive property type related information
+        const euiPropertyAllReceived = d3.json("/get-propertyType-all-data", function(error, data) {
+            //if (error) throw error;
+            partition.nodes(data);
+            x.domain([0, data.value]).nice();
+        });
+
+        const p3 = Promise.resolve(euiPropertyAllReceived)
+        console.log(p3)
+        // Get a reference to the dropdown list
+        var propertyDropdown = document.getElementById("PropertyType");
+
+        // Add an event listener for when the user selects an option
+        propertyDropdown.addEventListener("change", function() {
+            // Get the value of the selected option
+            var selectedValue = this.value;
+
+            if (selectedValue === "1") {
+                // Do something when the first option is selected
+                p3.then(data => {
+                    const propertyListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<propertyListArray.length; i++) {
+                        const propertyArray = propertyListArray[i];
+                        console.log(propertyArray);
+                        if ( propertyArray["Property Type"] === "Multifamily") {
+                            var euiArray = "Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
+                                + "<br> Electricity Use Grid Purchase：" + propertyArray["Electricity Use - Grid Purchase (kBtu)"]
+                                + "<br> Total GHG Emissions：" + propertyArray["Total GHG Emissions (Metric Tons CO2e)"]
+                                + "<br> Water Use：" + propertyArray["Water Use (All Water Sources) (kgal)"]
+                            updateMessageBox(euiArray)
+                        }
+                        // var euiArray = "Manhattan" + ": "+ data["Manhattan"]
+                    }
+                })
+            } else if (selectedValue === "2") {
+                // Do something when the second option is selected
+                p3.then(data => {
+                    const propertyListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<propertyListArray.length; i++) {
+                        const propertyArray = propertyListArray[i];
+                        console.log(propertyArray);
+                        if ( propertyArray["Property Type"] === "Office") {
+                            var euiArray = "Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
+                                + "<br> Electricity Use Grid Purchase：" + propertyArray["Electricity Use - Grid Purchase (kBtu)"]
+                                + "<br> Total GHG Emissions：" + propertyArray["Total GHG Emissions (Metric Tons CO2e)"]
+                                + "<br> Water Use：" + propertyArray["Water Use (All Water Sources) (kgal)"]
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            } else if (selectedValue === "3") {
+                // Do something when the third option is selected
+                p3.then(data => {
+                    const propertyListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<propertyListArray.length; i++) {
+                        const propertyArray = propertyListArray[i];
+                        console.log(propertyArray);
+                        if ( propertyArray["Property Type"] === "Industrial") {
+                            var euiArray = "Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
+                                + "<br> Electricity Use Grid Purchase：" + propertyArray["Electricity Use - Grid Purchase (kBtu)"]
+                                + "<br> Total GHG Emissions：" + propertyArray["Total GHG Emissions (Metric Tons CO2e)"]
+                                + "<br> Water Use：" + propertyArray["Water Use (All Water Sources) (kgal)"]
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            } else if (selectedValue === "4") {
+                // Do something when the third option is selected
+                p3.then(data => {
+                    const propertyListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<propertyListArray.length; i++) {
+                        const propertyArray = propertyListArray[i];
+                        console.log(propertyArray);
+                        if ( propertyArray["Property Type"] === "Hospitality") {
+                            var euiArray = "Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
+                                + "<br> Electricity Use Grid Purchase：" + propertyArray["Electricity Use - Grid Purchase (kBtu)"]
+                                + "<br> Total GHG Emissions：" + propertyArray["Total GHG Emissions (Metric Tons CO2e)"]
+                                + "<br> Water Use：" + propertyArray["Water Use (All Water Sources) (kgal)"]
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            } else if (selectedValue === "5") {
+                // Do something when the third option is selected
+                p3.then(data => {
+                    const propertyListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray); // Staten Island
+                    for(let i=0; i<propertyListArray.length; i++) {
+                        const propertyArray = propertyListArray[i];
+                        console.log(propertyArray);
+                        if ( propertyArray["Property Type"] === "Hotel") {
+                            var euiArray = "Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
+                                + "<br> Electricity Use Grid Purchase：" + propertyArray["Electricity Use - Grid Purchase (kBtu)"]
+                                + "<br> Total GHG Emissions：" + propertyArray["Total GHG Emissions (Metric Tons CO2e)"]
+                                + "<br> Water Use：" + propertyArray["Water Use (All Water Sources) (kgal)"]
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            }
+
+            // Only update the color coding
+            d3.selectAll("path")
+                .attr("fill", function(d, i) {
+                    return ss2[i % 6]
+                })
+
+        });
+
+    </script>
+</body>
+
+
+
+<style>
+    .selection-map-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 100px 700px;
+        grid-gap: 10px;
+    }
+
+    .selection-wrapper {
+        #justify-content: space-around;
+        display: flex;
+    }
+
+    .map-message-wapper {
+        display: grid;
+        grid-template-columns: 700px 400px;
+        grid-template-rows: 100px 100px;
+        grid-gap: 10px;
+    }
+
+    .messageText {
+        grid-row: 1/2;
+        position: relative;
+        display: block;
+        width: 450px;
+        height: 200px;
+        margin: 0 auto;
+        font-family: var(--font-family-main);
+        font-size: 18px;
+        color: #60666d;
+        padding: 0.4em;
+        box-shadow: rgb(0 0 0 / 4%) 0 0.0625em 0.0625em,
+        rgb(0 0 0 / 10%) 0 0.125em 0.5em, rgb(255 255 255 / 7%) 0 0 0 1px inset;
+        z-index: 9;
+        margin: 6px;
+    }
+
+    .select-box {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 62px;
+        margin: 0 auto;
+        font-family: var(--font-family-main);
+        font-size: 18px;
+        color: #60666d;
+        padding: 0.4em;
+        box-shadow: rgb(0 0 0 / 4%) 0 0.0625em 0.0625em,
+        rgb(0 0 0 / 10%) 0 0.125em 0.5em, rgb(255 255 255 / 7%) 0 0 0 1px inset;
+        z-index: 9;
+        margin: 6px;
+    }
+    .select-box:hover {
+        box-shadow: rgba(0, 0, 0, 0.25) 0 0.0625em 0.0625em,
+        rgba(0, 0, 0, 0.25) 0 0.125em 0.5em,
+        rgba(255, 255, 255, 0.1) 0 0 0 1px inset;
+    }
+    .select-box .selectTitle {
+        font-size: 0.5em;
+    }
+    .select-box__current {
+        position: relative;
+        cursor: pointer;
+        outline: 0;
+    }
+    .select-box__current:focus + .select-box__list {
+        opacity: 1;
+        -webkit-animation-name: none;
+        animation-name: none;
+    }
+    .select-box__current:focus + .select-box__list .select-box__option {
+        cursor: pointer;
+    }
+    .select-box__current:focus .select-box__icon {
+        transform: translateY(-50%) rotate(180deg);
+    }
+    .select-box__icon {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        width: 20px;
+        opacity: 0.3;
+        transition: 0.2s ease;
+        color: red;
+        font-size: 1.5em;
+        color: #333232;
+    }
+    .select-box__value {
+        display: flex;
+        align-items: center;
+    }
+    .select-box__input {
+        display: none;
+    }
+    .select-box__input:checked + .select-box__input-text {
+        display: block;
+    }
+    .select-box__input-text {
+        display: none;
+        width: 100%;
+        margin: 0;
+        background-color: #fff;
+        font-size: 12px;
+        font-weight: 900;
+    }
+    .select-box__list {
+        position: absolute;
+        width: 100%;
+        padding: 0;
+        margin: -8px;
+        margin-top: 20px;
+        list-style: none;
+        background-color: #fff;
+        opacity: 0;
+        -webkit-animation-name: HideList;
+        animation-name: HideList;
+        -webkit-animation-duration: 0.5s;
+        animation-duration: 0.5s;
+        -webkit-animation-delay: 0.5s;
+        animation-delay: 0.5s;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+        -webkit-animation-timing-function: step-start;
+        animation-timing-function: step-start;
+        box-shadow: 0 15px 30px -10px rgb(0 0 0 / 10%);
+        max-height: 380px;
+        overflow: auto;
+        font-size: 12px;
+        box-shadow: rgba(0, 0, 0, 0.25) 0 0.0625em 0.0625em,
+        rgba(0, 0, 0, 0.25) 0 0.125em 0.5em,
+        rgba(255, 255, 255, 0.1) 0 0 0 1px inset;
+    }
+    .select-box__option {
+        display: block;
+        padding: 5px;
+        background-color: #fff;
+    }
+    .select-box__option:focus, .select-box__option:hover {
+        color: white;
+        background-color: #32afafc9;
+    }
+
+    .messageBox {
+        grid-row: 1/2;
+        position: absolute;
+        width: 450px;
+        height: 200px;
+        right: 100px;
+        top: 100px;
+        padding: 10px;
+    }
+
+    .my_dataviz {
+        grid-row: 2/2;
+        position: absolute;
+        width: 460px;
+        height: 400px;
+        right: 90px;
+        top: 350px;
+        padding: 0;
+        display: block;
+        margin: 6px;
+        font-family: var(--font-family-main);
+        font-size: 18px;
+        color: #60666d;
+        box-shadow: rgb(0 0 0 / 4%) 0 0.0625em 0.0625em,
+        rgb(0 0 0 / 10%) 0 0.125em 0.5em, rgb(255 255 255 / 7%) 0 0 0 1px inset;
+        z-index: 9;
+    }
+
+    select {
+        /* Set the width of the dropdown box */
+        width: 200px;
+        /* Set the background color of the dropdown box */
+        background-color: #f2f2f2;
+        /* Set the font size and font family for the options in the dropdown box */
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+    }
+
+    .selection-map-wrapper {
+        display: grid;
+        grid-template-columns: 100px 100px;
+        grid-template-rows: 100px 10px;
+        grid-gap: 110px;
+    }
+
+    .select-box {
+        position: relative;
+        display: block;
+        width: 200px;
+        height: 50px;
+        margin: 0 auto;
+        font-family: var(--font-family-main);
+        font-size: 18px;
+        color: #60666d;
+        padding: 0.4em;
+        box-shadow: rgb(0 0 0 / 4%) 0 0.0625em 0.0625em,
+        rgb(0 0 0 / 10%) 0 0.125em 0.5em, rgb(255 255 255 / 7%) 0 0 0 1px inset;
+        z-index: 9;
+        margin: 6px;
+    }
+    .select-box:hover {
+        box-shadow: rgba(0, 0, 0, 0.25) 0 0.0625em 0.0625em,
+        rgba(0, 0, 0, 0.25) 0 0.125em 0.5em,
+        rgba(255, 255, 255, 0.1) 0 0 0 1px inset;
+    }
+    .select-box .selectTitle {
+        font-size: 0.5em;
+    }
+    .select-box__current {
+        position: relative;
+        cursor: pointer;
+        outline: 0;
+    }
+    .select-box__current:focus + .select-box__list {
+        opacity: 1;
+        -webkit-animation-name: none;
+        animation-name: none;
+    }
+    .select-box__current:focus + .select-box__list .select-box__option {
+        cursor: pointer;
+    }
+    .select-box__current:focus .select-box__icon {
+        transform: translateY(-50%) rotate(180deg);
+    }
+    .select-box__icon {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        width: 20px;
+        opacity: 0.3;
+        transition: 0.2s ease;
+        color: red;
+        font-size: 1.5em;
+        color: #333232;
+    }
+    .select-box__value {
+        display: flex;
+        align-items: center;
+    }
+    .select-box__input {
+        display: none;
+    }
+    .select-box__input:checked + .select-box__input-text {
+        display: block;
+    }
+    .select-box__input-text {
+        display: none;
+        width: 100%;
+        margin: 0;
+        background-color: #fff;
+        font-size: 12px;
+        font-weight: 900;
+    }
+    .select-box__list {
+        position: absolute;
+        width: 100%;
+        padding: 0;
+        margin: -8px;
+        margin-top: 20px;
+        list-style: none;
+        background-color: #fff;
+        opacity: 0;
+        -webkit-animation-name: HideList;
+        animation-name: HideList;
+        -webkit-animation-duration: 0.5s;
+        animation-duration: 0.5s;
+        -webkit-animation-delay: 0.5s;
+        animation-delay: 0.5s;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+        -webkit-animation-timing-function: step-start;
+        animation-timing-function: step-start;
+        box-shadow: 0 15px 30px -10px rgb(0 0 0 / 10%);
+        max-height: 380px;
+        overflow: auto;
+        font-size: 12px;
+        box-shadow: rgba(0, 0, 0, 0.25) 0 0.0625em 0.0625em,
+        rgba(0, 0, 0, 0.25) 0 0.125em 0.5em,
+        rgba(255, 255, 255, 0.1) 0 0 0 1px inset;
+    }
+    .select-box__option {
+        display: block;
+        padding: 5px;
+        background-color: #fff;
+    }
+    .select-box__option:focus, .select-box__option:hover {
+        color: white;
+        background-color: #32afafc9;
+    }
+
+
+</style>
+
+</html>

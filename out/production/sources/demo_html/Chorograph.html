@@ -1,0 +1,2497 @@
+<html lang="en" class="has-background-white-bis">
+<head>
+    <!--
+│
+│      _____        _
+│     |  __ \      | |
+│     | |  | | __ _| |_ __ ___      ___ __ __ _ _ __  _ __   ___ _ __
+│     | |  | |/ _` | __/ _` \ \ /\ / / '__/ _` | '_ \| '_ \ / _ \ '__|
+│     | |__| | (_| | || (_| |\ V  V /| | | (_| | |_) | |_) |  __/ |
+│     |_____/ \__,_|\__\__,_| \_/\_/ |_|  \__,_| .__/| .__/ \___|_|
+│                                              | |   | |
+│                                              |_|   |_|
+└─────────────────────────────────────────────────────────────────────────
+  ***  We're hiring → https://www.datawrapper.de/careers  ***
+-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="theme-color" content="#333333">
+
+    <link rel="stylesheet" type="text/css" href="../sources/css/mapwapper.css">
+    <link rel="stylesheet" href="/static/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/vendor/iconicfont/css/iconmonstr-iconic-font.min.css">
+    <link rel="icon" type="image/png" href="/lib/static/img/favicon.ico">
+
+    <style type="text/css">
+        @media (min-height: 800px) {
+            html {
+                scroll-padding-top: 80px !important
+            }
+        }
+
+        .browser-warning.svelte-1gqcwh8.svelte-1gqcwh8 {
+            font-family: Segoe UI, Arial, sans-serif;
+            background: #e9f3f6;
+            border-radius: 0
+        }
+
+        .header.svelte-1gqcwh8.svelte-1gqcwh8 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .title.svelte-1gqcwh8.svelte-1gqcwh8 {
+            text-align: center;
+            border-top: 1px solid #c9c9c9;
+            border-bottom: 1px solid #c9c9c9
+        }
+
+        .icon.svelte-1gqcwh8.svelte-1gqcwh8 {
+            display: block;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            margin: 5px 20px 0 0
+        }
+
+        .icon.svelte-1gqcwh8 svg.svelte-1gqcwh8 {
+            fill: currentColor;
+            color: inherit;
+            margin: 7px
+        }
+
+        .icon.is-warning.svelte-1gqcwh8.svelte-1gqcwh8 {
+            background: #ffcf27;
+            color: #4f4f4f
+        }
+
+        .icon.is-ok.svelte-1gqcwh8.svelte-1gqcwh8 {
+            background: #3ed081;
+            color: #ffffff
+        }
+
+        .browser-warning.svelte-1gqcwh8 p > a {
+            font-weight: bold
+        }
+
+        @media screen and (max-width: 1399px) {
+            .container.svelte-17572w4.svelte-17572w4:not(.is-max-desktop, .is-max-widescreen) {
+                max-width: none
+            }
+        }
+
+        header.svelte-17572w4.svelte-17572w4 {
+            background: white;
+            border-bottom: 1px solid var(--color-dw-grey-lighter);
+            border-top: 3px solid var(--color-dw-scooter);
+            transition: padding 0.2s ease-in-out, margin 0.2s ease-in-out;
+            padding: 0 1.5rem
+        }
+
+        header.is-sticky.svelte-17572w4.svelte-17572w4 {
+            position: sticky !important;
+            top: 0px;
+            z-index: 1000
+        }
+
+        .navbar.svelte-17572w4.svelte-17572w4 {
+            min-height: 2em;
+            padding-top: 2em;
+            padding-bottom: 2em
+        }
+
+        .navbar-burger.svelte-17572w4 > span.svelte-17572w4 {
+            height: 2px;
+            width: 20px
+        }
+
+        .navbar-brand.svelte-17572w4.svelte-17572w4 {
+            min-height: 0
+        }
+
+        .navbar-brand.svelte-17572w4 .navbar-item.svelte-17572w4 {
+            padding-top: 0;
+            padding-bottom: 0
+        }
+
+        .navbar-brand.svelte-17572w4 .logo-datawrapper {
+            width: 150px
+        }
+
+        .navbar-compact.svelte-17572w4.svelte-17572w4 {
+            padding-top: 0.75em;
+            padding-bottom: 0.75em
+        }
+
+        .navbar-compact.svelte-17572w4 .logo-datawrapper {
+            max-width: 120px
+        }
+
+        @media screen and (max-width: 1023px) {
+            .navbar-brand.svelte-17572w4 .navbar-item.svelte-17572w4 {
+                padding-left: 0
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            header.svelte-17572w4.svelte-17572w4 {
+                padding: 0 3rem
+            }
+        }
+
+        .logo-datawrapper.svelte-17xtdvb, svg.svelte-17xtdvb {
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+            height: auto
+        }
+
+        @media screen and (max-width: 1399px) {
+            .container.svelte-sv5nsr.svelte-sv5nsr.svelte-sv5nsr:not(.is-max-desktop, .is-max-widescreen) {
+                max-width: none
+            }
+        }
+
+        .navbar-menu.svelte-sv5nsr .navbar-item, .navbar-menu.svelte-sv5nsr .navbar-link {
+            border-radius: var(--radius)
+        }
+
+        .navbar-menu.svelte-sv5nsr a.navbar-item:hover {
+            color: var(--color-dw-scooter-dark)
+        }
+
+        .navbar-menu.svelte-sv5nsr .navbar-item.is-active:hover {
+            background-color: #e2eff3
+        }
+
+        .navbar-menu.svelte-sv5nsr .navbar-item .icon {
+            margin-right: 1ex;
+            color: var(--color-dw-scooter);
+            font-size: 20px;
+            width: 1em;
+            height: 1em
+        }
+
+        .navbar-menu.svelte-sv5nsr .navbar-separator.svelte-sv5nsr.svelte-sv5nsr {
+            display: flex;
+            background: var(--color-dw-grey-light);
+            height: 3em;
+            width: 1px;
+            align-self: center
+        }
+
+        .navbar-menu.svelte-sv5nsr .navbar-dropdown {
+            padding: 0.25rem 0
+        }
+
+        .navbar-menu.svelte-sv5nsr .navbar-dropdown .navbar-divider {
+            margin: 0.25rem 0
+        }
+
+        .navbar-menu.svelte-sv5nsr .navbar-item.has-dropdown .navbar-link:hover {
+            color: var(--color-dw-black-bis)
+        }
+
+        .navbar-menu.svelte-sv5nsr .navbar-dropdown .navbar-item {
+            margin: 0 0.25rem
+        }
+
+        .navbar-menu.svelte-sv5nsr .active-team.svelte-sv5nsr.svelte-sv5nsr {
+            background: var(--color-dw-white-ter);
+            margin: 0.25rem 0 -0.25rem;
+            border-radius: 0px 0px 5px 5px
+        }
+
+        .navbar-menu.svelte-sv5nsr .active-team.svelte-sv5nsr .icon {
+            font-size: 1.2em;
+            color: var(--dw-grey-dark)
+        }
+
+        .navbar-compact .navbar-menu.svelte-sv5nsr .navbar-separator.svelte-sv5nsr.svelte-sv5nsr {
+            transition: height 0.2s ease-in-out;
+            height: 1.5em
+        }
+
+        .navbar-compact .navbar-menu.svelte-sv5nsr .svelte-sv5nsr:not(.navbar-dropdown) > .navbar-item.svelte-sv5nsr, .navbar-compact .navbar-menu.svelte-sv5nsr .svelte-sv5nsr:not(.navbar-dropdown) > .navbar-link.svelte-sv5nsr {
+            padding-top: 0.15rem;
+            padding-bottom: 0.15rem;
+            transition: padding 0.2s ease-in-out
+        }
+
+        @media screen and (max-width: 1023px) {
+            .navbar-menu.svelte-sv5nsr .navbar-item.svelte-sv5nsr.svelte-sv5nsr:not(:last-child), .navbar-menu.svelte-sv5nsr .navbar-link.svelte-sv5nsr.svelte-sv5nsr {
+                border-radius: 0;
+                border-bottom: 1px solid #e5e5e5
+            }
+
+            .navbar-menu.svelte-sv5nsr .navbar-dropdown .navbar-item.svelte-sv5nsr.svelte-sv5nsr {
+                border-bottom: none;
+                padding: 0.5rem
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            .navbar-menu.svelte-sv5nsr .navbar-item.has-dropdown .navbar-item.has-dropdown .navbar-dropdown {
+                position: absolute;
+                left: -100%;
+                right: 100%;
+                top: -6px;
+                display: none
+            }
+
+            .navbar-menu.svelte-sv5nsr .navbar-item.has-dropdown .navbar-item.has-dropdown:hover .navbar-dropdown, .navbar-menu.svelte-sv5nsr .navbar-item.has-dropdown .navbar-item.has-dropdown:focus .navbar-dropdown {
+                display: block
+            }
+
+            .navbar-menu.svelte-sv5nsr .nav-item-admin > .navbar-link .navbar-title, .navbar-menu.svelte-sv5nsr .nav-item-more > .navbar-link .navbar-title {
+                display: none
+            }
+
+            .navbar-menu.svelte-sv5nsr .nav-item-more > .navbar-link .icon, .navbar-menu.svelte-sv5nsr .nav-item-admin > .navbar-link .icon {
+                margin-right: 0
+            }
+
+            .navbar-menu.svelte-sv5nsr .nav-item-more > .navbar-link .icon {
+                font-size: 30px
+            }
+
+            .navbar-menu.svelte-sv5nsr .just-arrow:hover:before {
+                content: "";
+                display: block;
+                position: absolute;
+                left: -2.5em;
+                bottom: 0;
+                width: 2.5em;
+                height: 1em;
+                background: transparent
+            }
+        }
+
+        @keyframes svelte-okvdq9-spin {
+            0% {
+                transform: rotate(0deg)
+            }
+            100% {
+                transform: rotate(359deg)
+            }
+        }
+
+        .spin.svelte-okvdq9.svelte-okvdq9 {
+            animation: svelte-okvdq9-spin 2s infinite linear
+        }
+
+        .crisp.svelte-okvdq9.svelte-okvdq9 {
+            shape-rendering: crispEdges
+        }
+
+        .icon.svelte-okvdq9.svelte-okvdq9 {
+            width: auto;
+            height: auto
+        }
+
+        .icon.svelte-okvdq9 svg.svelte-okvdq9 {
+            width: 1em;
+            height: 1em
+        }
+
+        @media screen and (max-width: 1399px) {
+            .container.svelte-15cec01:not(.is-max-desktop, .is-max-widescreen) {
+                max-width: none
+            }
+        }
+
+        .is-sticky.svelte-15cec01 {
+            position: sticky;
+            top: 64px;
+            z-index: 900;
+            background: var(--color-dw-white-ter)
+        }
+
+        .is-status-column.svelte-15cec01 {
+            line-height: 1.3
+        }
+
+        a.svelte-1e56o8w {
+            background: var(--color-dw-grey-lighter);
+            border-radius: 4px;
+            display: inline-block;
+            width: 100%;
+            line-height: 2rem;
+            white-space: nowrap
+        }
+
+        a.active.svelte-1e56o8w {
+            background: var(--color-dw-firebrick);
+            color: white;
+            cursor: default
+        }
+
+        a.active.svelte-1e56o8w:hover {
+            text-decoration: none
+        }
+
+        .step.svelte-1e56o8w {
+            display: inline-block;
+            font-weight: bold;
+            color: white;
+            vertical-align: -0.2rem;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+            font-size: 26px
+        }
+
+        a.disabled.svelte-1e56o8w:not(.active) {
+            pointer-events: none;
+            color: var(--color-dw-grey)
+        }
+
+        @media screen and (max-width: 1399px) {
+            .container.svelte-oj30b2:not(.is-max-desktop, .is-max-widescreen) {
+                max-width: none
+            }
+        }
+
+        .preview.sticky.svelte-oj30b2 {
+            position: sticky;
+            top: 20px
+        }
+
+        .preview.sticky.sticky-header.svelte-oj30b2 {
+            top: 85px
+        }
+
+        .limit-width.svelte-oj30b2 {
+            overflow-x: auto;
+            overflow-y: clip;
+            height: auto
+        }
+
+        .sidebar.svelte-oj30b2 {
+            position: relative
+        }
+
+        .icon-wrap.svelte-1qc2cig {
+            margin-right: -8px;
+            display: inline-block
+        }
+
+        .iframe-wrapper.svelte-mos8hf.svelte-mos8hf {
+            transform-origin: top left
+        }
+
+        .iframe-border.svelte-mos8hf.svelte-mos8hf {
+            box-sizing: content-box;
+            padding: 10px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            position: relative
+        }
+
+        .iframe-border.resizing.svelte-mos8hf > .svelte-mos8hf:not(.resizer) {
+            pointer-events: none
+        }
+
+        iframe.svelte-mos8hf.svelte-mos8hf {
+            width: 100%;
+            height: 100%
+        }
+
+        .resizer.svelte-mos8hf.svelte-mos8hf {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            cursor: nwse-resize;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            padding: 0.25em;
+            color: var(--color-dw-grey);
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #666
+        }
+
+        .resizer.svelte-mos8hf.svelte-mos8hf:hover {
+            background-color: rgba(0, 0, 0, 0.1)
+        }
+
+        .dark-background.svelte-mos8hf .resizer.svelte-mos8hf {
+            color: var(--color-dw-grey-lighter);
+            background-color: rgba(255, 255, 255, 0.1)
+        }
+
+        .dark-background.svelte-mos8hf .resizer.svelte-mos8hf:hover {
+            background-color: rgba(255, 255, 255, 0.15)
+        }
+
+        .fixed-height.svelte-mos8hf .resizer.svelte-mos8hf {
+            cursor: ew-resize
+        }
+
+        .is-loading.svelte-mos8hf.svelte-mos8hf {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #f3f3f3;
+            opacity: 0.95
+        }
+
+        .is-loading.svelte-mos8hf > div.svelte-mos8hf {
+            display: block;
+            color: #999;
+            position: absolute;
+            top: 50%;
+            right: 0;
+            bottom: 0;
+            font-size: 20px;
+            left: 0;
+            text-align: center;
+            line-height: 0
+        }
+
+        .toolbar.svelte-154mko0 {
+            justify-content: center;
+            display: flex;
+            column-gap: 0.875rem
+        }
+
+        @media screen and (max-width: 1399px) {
+        }
+
+        .toolbar-area-header.svelte-10x164s {
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+            color: #4f4f4f
+        }
+
+        .toolbar-area-body.svelte-10x164s {
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            padding: 0.75rem 0.875rem 0.875rem;
+            display: flex;
+            gap: 0.875rem
+        }
+
+        @media screen and (max-width: 1399px) {
+        }
+
+        .print-options.svelte-1dwhjjd {
+            border-top: 1px solid #e5e5e5
+        }
+
+        .size-presets.svelte-1dwhjjd .icon {
+            font-size: 1.15em
+        }
+
+        .size-presets.svelte-1dwhjjd .icon.mobile {
+            font-size: 0.75em
+        }
+
+        .size-presets.svelte-1dwhjjd .icon.desktop {
+            font-size: 1.4em
+        }
+
+        @media screen and (max-width: 1399px) {
+        }
+
+        .toolbar-header.svelte-hxjrc2 {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+            column-gap: 0.5em
+        }
+
+        .toolbar-title.svelte-hxjrc2 {
+            color: #858585;
+            font-size: 0.75rem
+        }
+
+        .toolbar-title.svelte-hxjrc2 .icon {
+            font-size: 0.875rem;
+            vertical-align: middle
+        }
+
+        .toolbar-body.svelte-hxjrc2 {
+            display: flex;
+            gap: 0.5rem
+        }
+
+        .toolbar-body.svelte-hxjrc2 > .field.is-grouped > .control:not(:last-child) {
+            margin-right: 0.25rem
+        }
+
+        .toolbar-body.svelte-hxjrc2 > .field {
+            margin-bottom: 0
+        }
+
+        .toolbar-footer.svelte-hxjrc2 {
+            margin-top: 0.25rem;
+            margin-bottom: -0.5rem
+        }
+
+        input[type=number].svelte-8t8wy7.svelte-8t8wy7:not(.spinner) {
+            -moz-appearance: textfield;
+            appearance: textfield;
+            margin: 0
+        }
+
+        input[type=number].svelte-8t8wy7.svelte-8t8wy7:not(.spinner)::-webkit-inner-spin-button, input[type=number].svelte-8t8wy7.svelte-8t8wy7:not(.spinner)::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0
+        }
+
+        .control.svelte-8t8wy7 input[type=number].svelte-8t8wy7 {
+            display: none
+        }
+
+        .control.svelte-8t8wy7:focus-within:not(.disabled) input[type=number].svelte-8t8wy7, .control.svelte-8t8wy7:hover:not(.disabled) input[type=number].svelte-8t8wy7 {
+            display: inline
+        }
+
+        .control.svelte-8t8wy7:focus-within:not(.disabled) input[type=text].svelte-8t8wy7, .control.svelte-8t8wy7:hover:not(.disabled) input[type=text].svelte-8t8wy7 {
+            display: none
+        }
+
+        @media screen and (max-width: 1399px) {
+            .container.svelte-q5etaq.svelte-q5etaq:not(.is-max-desktop, .is-max-widescreen) {
+                max-width: none
+            }
+        }
+
+        .button.svelte-q5etaq .mode-label.svelte-q5etaq {
+            font-size: 10px;
+            display: none
+        }
+
+        .button.svelte-q5etaq .mode-icon.svelte-q5etaq {
+            margin: 0 -0.5em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .button.svelte-q5etaq .mode-icon img.svelte-q5etaq {
+            width: 20px
+        }
+
+        .button.normal.svelte-q5etaq .mode-label.svelte-q5etaq {
+            display: inline-flex;
+            position: absolute;
+            font-weight: 700;
+            text-shadow: 0 1px rgba(255, 255, 255, 0.5), 1px 0 rgba(255, 255, 255, 0.5), 0 -1px rgba(255, 255, 255, 0.5), -1px 0 rgba(255, 255, 255, 0.5)
+        }
+
+        .button.normal.svelte-q5etaq .mode-icon img.svelte-q5etaq {
+            opacity: 0.5
+        }
+
+        .button.svelte-q5etaq .more-info.svelte-q5etaq {
+            display: none;
+            position: absolute;
+            top: 2.25rem;
+            left: 0;
+            padding-top: 1.25rem;
+            text-align: left;
+            width: 15em;
+            white-space: normal;
+            color: #858585;
+            font-size: 0.875rem;
+            line-height: 1.35;
+            font-weight: 400
+        }
+
+        .button.svelte-q5etaq .more-info.svelte-q5etaq:before {
+            content: "";
+            display: block;
+            height: 1rem;
+            position: absolute;
+            left: 1em;
+            top: 0;
+            border-left: 1px solid #858585
+        }
+
+        .button.svelte-q5etaq .color-warning.svelte-q5etaq {
+            color: #ffcf27;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            width: 2em;
+            height: 2em;
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+
+        .button.svelte-q5etaq .color-warning.svelte-q5etaq .icon {
+            position: relative;
+            top: -0.05em
+        }
+
+        .button.svelte-q5etaq:hover .more-info.svelte-q5etaq, .buttons.svelte-q5etaq:not(:hover) .button.is-active .more-info.svelte-q5etaq {
+            display: block
+        }
+
+        @media screen and (max-width: 1399px) {
+            .container.svelte-1d510th.svelte-1d510th:not(.is-max-desktop, .is-max-widescreen) {
+                max-width: none
+            }
+        }
+
+        .sidehelp.svelte-1d510th.svelte-1d510th {
+            position: relative;
+            display: inline-flex
+        }
+
+        .sidehelp-icon.svelte-1d510th.svelte-1d510th {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 1.5em;
+            height: 1.5em;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.07);
+            color: #a7a7a7;
+            font-size: 0.75rem;
+            cursor: default
+        }
+
+        .sidehelp-icon.svelte-1d510th.svelte-1d510th:hover {
+            background: #e5e5e5;
+            color: #858585
+        }
+
+        .sidehelp-icon.svelte-1d510th:focus + .sidehelp-content.svelte-1d510th {
+            visibility: visible
+        }
+
+        .sidehelp-content.svelte-1d510th.svelte-1d510th {
+            position: absolute;
+            visibility: hidden;
+            z-index: 1000;
+            top: -1em;
+            left: -1em;
+            padding: 1em 1em 1em 3em;
+            background: #eef8fc;
+            color: #1d81a2;
+            width: 240px;
+            border-radius: 4px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+            text-align: left
+        }
+
+        .sidehelp-content.is-visible.svelte-1d510th.svelte-1d510th {
+            visibility: visible
+        }
+
+        .sidehelp-content.svelte-1d510th > .icon {
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0.45em;
+            top: 0.45em
+        }
+
+        .sidehelp-content.svelte-1d510th a {
+            color: inherit;
+            text-decoration: underline
+        }
+
+        .sidehelp.open-to-left.svelte-1d510th .sidehelp-content.svelte-1d510th {
+            left: auto;
+            right: -1em;
+            padding: 1em 3em 1em 1em
+        }
+
+        .sidehelp.open-to-left.svelte-1d510th .sidehelp-content.svelte-1d510th > .icon {
+            left: auto;
+            right: 0.45em
+        }
+
+        .sidehelp.upgrade.svelte-1d510th .sidehelp-icon.svelte-1d510th {
+            background: #c9fced;
+            color: #09bb9f
+        }
+
+        .sidehelp.upgrade.svelte-1d510th .sidehelp-content.svelte-1d510th {
+            background: #09bb9f;
+            color: white
+        }
+
+        .sidehelp.floating.svelte-1d510th.svelte-1d510th {
+            float: right;
+            top: 0.35em
+        }
+
+        .sidehelp.small.svelte-1d510th.svelte-1d510th, .sidehelp.normal.svelte-1d510th.svelte-1d510th, .sidehelp.medium.svelte-1d510th.svelte-1d510th, .sidehelp.large.svelte-1d510th.svelte-1d510th {
+            top: 0.375em
+        }
+
+        .sidehelp.small.svelte-1d510th.svelte-1d510th {
+            font-size: 0.75rem
+        }
+
+        .sidehelp.medium.svelte-1d510th.svelte-1d510th {
+            font-size: 1.25rem
+        }
+
+        .sidehelp.large.svelte-1d510th.svelte-1d510th {
+            font-size: 1.5rem
+        }
+
+        .button.is-selected.svelte-p9rq6i .icon {
+            color: var(--color-dw-orange)
+        }
+
+        .beacon.svelte-8i9sa2 {
+            width: 2.5em;
+            border-radius: 50%;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050
+        }
+
+        .Beacon .BeaconContainer {
+            height: calc(100% - 118px) !important;
+            bottom: calc(80px) !important
+        }
+
+        footer.svelte-1koh5ue li a.highlight.svelte-1koh5ue.svelte-1koh5ue {
+            background: var(--color-dw-scooter);
+            color: white;
+            padding: 3px 6px;
+            font-weight: bold
+        }
+
+        footer.svelte-1koh5ue li a.highlight.svelte-1koh5ue.svelte-1koh5ue:hover {
+            text-decoration: underline
+        }
+
+        nav.svelte-1koh5ue ul.svelte-1koh5ue.svelte-1koh5ue {
+            color: silver;
+            margin: 0;
+            padding: 0
+        }
+
+        nav.svelte-1koh5ue ul li.svelte-1koh5ue.svelte-1koh5ue {
+            display: inline-block;
+            margin-right: 0.3ex
+        }
+
+        nav.svelte-1koh5ue ul li.svelte-1koh5ue + li.svelte-1koh5ue {
+            margin-left: 0.3ex
+        }
+
+        nav.svelte-1koh5ue ul li.svelte-1koh5ue + li.svelte-1koh5ue:before {
+            content: ' – '
+        }
+    </style>
+
+
+    <script type="text/javascript" src="https://beacon-v2.helpscout.net/static/js/vendor.ddc3f9c8.js"></script>
+    <script type="text/javascript" src="https://beacon-v2.helpscout.net/static/js/main.14d1f7f7.js"></script>
+    <script type="text/javascript" async="" src="https://beacon-v2.helpscout.net"></script>
+    <script src="https://js.sentry-cdn.com/dbbbddf4642b4f5fb45fd10e395f8948.min.js" crossorigin="anonymous"></script>
+    <script>
+        if (window.Sentry !== undefined) { // Check that Sentry is defined, because it could have been blocked by an ad blocker.
+            Sentry.onLoad(function () {
+                Sentry.init({
+                    release: 'f0bc35edef67ef9bbbbaf83b31fee0546b0108db',
+                    serverName: 'frontend',
+                    tracesSampleRate: 1,
+                    environment: 'production'
+                });
+            });
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        window.dw = {
+            backend: {
+                __api_domain: location.host.replace('app.', 'api.')
+            }
+        };
+    </script>
+
+    <style type="text/css">
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 500;
+            src: local('Roboto Medium'), local('Roboto-Medium'),
+            url('https://static.dwcdn.net/css/fonts/roboto/roboto_500.woff2') format('woff2'),
+            url('https://static.dwcdn.net/css/fonts/roboto/roboto_500.woff') format('woff'),
+            url('https://static.dwcdn.net/css/fonts/roboto/roboto_500.eot?#iefix') format('embedded-opentype'),
+            url('https://static.dwcdn.net/css/fonts/roboto/roboto_500.svg#Roboto') format('svg'),
+            url('https://static.dwcdn.net/css/fonts/roboto/roboto_500.ttf') format('truetype');
+        }
+    </style>
+
+    <script>
+        window.__DW_SVELTE_PROPS__ = {polyfillUri: '/lib/polyfills'};
+    </script>
+    <script src="/lib/chart-core/load-polyfills.js"></script>
+    <script src="/lib/static/js/svg4everybody.js"></script>
+    <script>
+        if (window.document.documentMode) {
+            svg4everybody();
+        }
+    </script>
+
+    <script type="text/javascript" src="/lib/requirejs/require.js"></script>
+    <script type="text/javascript">
+        requirejs.config({
+            paths: {
+                lib: '/lib/csr',
+                dayjs: '/static/vendor/dayjs/dayjs.min',
+                jquery: '/static/vendor/jquery/jquery.min',
+                cm: '/static/vendor/codemirror',
+                Handsontable: '/lib/static/js/hot/handsontable.full.min'
+            }
+        });
+    </script>
+
+    <!-- This contains the contents of the <svelte:head> component, if
+     the current page has one -->
+    <title>[ New York Energy Usgae ] - [3NqNq] - Visualize - Datawrapper</title>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/edit/Index.svelte.js?sha=f0bc35edef67ef9bbbbaf83b31fee0546b0108db"
+            src="/lib/csr/edit/Index.svelte.js?sha=f0bc35edef67ef9bbbbaf83b31fee0546b0108db"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/f112cb31.js" src="/lib/csr/_chunks/f112cb31.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/01a9cb10.js" src="/lib/csr/_chunks/01a9cb10.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/8ef027ee.js" src="/lib/csr/_chunks/8ef027ee.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/fcd9e5b4.js" src="/lib/csr/_chunks/fcd9e5b4.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/2f2839b6.js" src="/lib/csr/_chunks/2f2839b6.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/7e660d72.js" src="/lib/csr/_chunks/7e660d72.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/2f69b2ad.js" src="/lib/csr/_chunks/2f69b2ad.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/753fcc7f.js" src="/lib/csr/_chunks/753fcc7f.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/12c0fac4.js" src="/lib/csr/_chunks/12c0fac4.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/2cecaaf1.js" src="/lib/csr/_chunks/2cecaaf1.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/e28f4198.js" src="/lib/csr/_chunks/e28f4198.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/55f1e8e6.js" src="/lib/csr/_chunks/55f1e8e6.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/dfa928a7.js" src="/lib/csr/_chunks/dfa928a7.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/938d6a8d.js" src="/lib/csr/_chunks/938d6a8d.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/52076f42.js" src="/lib/csr/_chunks/52076f42.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/24646d26.js" src="/lib/csr/_chunks/24646d26.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/4cdc9f0e.js" src="/lib/csr/_chunks/4cdc9f0e.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/bc92d63e.js" src="/lib/csr/_chunks/bc92d63e.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/3c1e1419.js" src="/lib/csr/_chunks/3c1e1419.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/d6bdcb80.js" src="/lib/csr/_chunks/d6bdcb80.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/87d5d399.js" src="/lib/csr/_chunks/87d5d399.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/942b4749.js" src="/lib/csr/_chunks/942b4749.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/4f7f57d0.js" src="/lib/csr/_chunks/4f7f57d0.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/5b873866.js" src="/lib/csr/_chunks/5b873866.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="/lib/csr/_chunks/b96ce077.js" src="/lib/csr/_chunks/b96ce077.js"></script>
+    <script src="https://pwk.datawrapper.de/plugins/HeatmapSessionRecording/configs.php?idsite=1&amp;trackerid=v9WnG7&amp;url=https%3A%2F%2Fapp.datawrapper.de%2Fmap%2F3NqNq%2Fvisualize"
+            async="" defer=""></script>
+    <style id="svelte-1kh0efa">@media (min-height: 800px) {
+        html {
+            scroll-padding-top: 80px !important
+        }
+    }</style>
+    <style id="svelte-1gqcwh8">.browser-warning.svelte-1gqcwh8.svelte-1gqcwh8 {
+        font-family: Segoe UI, Arial, sans-serif;
+        background: #e9f3f6;
+        border-radius: 0
+    }
+
+    .header.svelte-1gqcwh8.svelte-1gqcwh8 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between
+    }
+
+    .title.svelte-1gqcwh8.svelte-1gqcwh8 {
+        text-align: center;
+        border-top: 1px solid #c9c9c9;
+        border-bottom: 1px solid #c9c9c9
+    }
+
+    .icon.svelte-1gqcwh8.svelte-1gqcwh8 {
+        display: block;
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        margin: 5px 20px 0 0
+    }
+
+    .icon.svelte-1gqcwh8 svg.svelte-1gqcwh8 {
+        fill: currentColor;
+        color: inherit;
+        margin: 7px
+    }
+
+    .icon.is-warning.svelte-1gqcwh8.svelte-1gqcwh8 {
+        background: #ffcf27;
+        color: #4f4f4f
+    }
+
+    .icon.is-ok.svelte-1gqcwh8.svelte-1gqcwh8 {
+        background: #3ed081;
+        color: #ffffff
+    }
+
+    .browser-warning.svelte-1gqcwh8 p > a {
+        font-weight: bold
+    }</style>
+    <style id="svelte-17572w4">@media screen and (max-width: 1399px) {
+        .container.svelte-17572w4.svelte-17572w4:not(.is-max-desktop, .is-max-widescreen) {
+            max-width: none
+        }
+    }
+
+    header.svelte-17572w4.svelte-17572w4 {
+        background: white;
+        border-bottom: 1px solid var(--color-dw-grey-lighter);
+        border-top: 3px solid var(--color-dw-scooter);
+        transition: padding 0.2s ease-in-out, margin 0.2s ease-in-out;
+        padding: 0 1.5rem
+    }
+
+    header.is-sticky.svelte-17572w4.svelte-17572w4 {
+        position: sticky !important;
+        top: 0px;
+        z-index: 1000
+    }
+
+    .navbar.svelte-17572w4.svelte-17572w4 {
+        min-height: 2em;
+        padding-top: 2em;
+        padding-bottom: 2em
+    }
+
+    .navbar-burger.svelte-17572w4 > span.svelte-17572w4 {
+        height: 2px;
+        width: 20px
+    }
+
+    .navbar-brand.svelte-17572w4.svelte-17572w4 {
+        min-height: 0
+    }
+
+    .navbar-brand.svelte-17572w4 .navbar-item.svelte-17572w4 {
+        padding-top: 0;
+        padding-bottom: 0
+    }
+
+    .navbar-brand.svelte-17572w4 .logo-datawrapper {
+        width: 150px
+    }
+
+    .navbar-compact.svelte-17572w4.svelte-17572w4 {
+        padding-top: 0.75em;
+        padding-bottom: 0.75em
+    }
+
+    .navbar-compact.svelte-17572w4 .logo-datawrapper {
+        max-width: 120px
+    }
+
+    @media screen and (max-width: 1023px) {
+        .navbar-brand.svelte-17572w4 .navbar-item.svelte-17572w4 {
+            padding-left: 0
+        }
+    }
+
+    @media screen and (min-width: 1200px) {
+        header.svelte-17572w4.svelte-17572w4 {
+            padding: 0 3rem
+        }
+    }</style>
+    <style id="svelte-17xtdvb">.logo-datawrapper.svelte-17xtdvb, svg.svelte-17xtdvb {
+        transition: all 0.2s ease-in-out;
+        width: 100%;
+        height: auto
+    }</style>
+    <style id="svelte-sv5nsr">@media screen and (max-width: 1399px) {
+        .container.svelte-sv5nsr.svelte-sv5nsr.svelte-sv5nsr:not(.is-max-desktop, .is-max-widescreen) {
+            max-width: none
+        }
+    }
+
+    .navbar-menu.svelte-sv5nsr .navbar-item, .navbar-menu.svelte-sv5nsr .navbar-link {
+        border-radius: var(--radius)
+    }
+
+    .navbar-menu.svelte-sv5nsr a.navbar-item:hover {
+        color: var(--color-dw-scooter-dark)
+    }
+
+    .navbar-menu.svelte-sv5nsr .navbar-item.is-active:hover {
+        background-color: #e2eff3
+    }
+
+    .navbar-menu.svelte-sv5nsr .navbar-item .icon {
+        margin-right: 1ex;
+        color: var(--color-dw-scooter);
+        font-size: 20px;
+        width: 1em;
+        height: 1em
+    }
+
+    .navbar-menu.svelte-sv5nsr .navbar-separator.svelte-sv5nsr.svelte-sv5nsr {
+        display: flex;
+        background: var(--color-dw-grey-light);
+        height: 3em;
+        width: 1px;
+        align-self: center
+    }
+
+    .navbar-menu.svelte-sv5nsr .navbar-dropdown {
+        padding: 0.25rem 0
+    }
+
+    .navbar-menu.svelte-sv5nsr .navbar-dropdown .navbar-divider {
+        margin: 0.25rem 0
+    }
+
+    .navbar-menu.svelte-sv5nsr .navbar-item.has-dropdown .navbar-link:hover {
+        color: var(--color-dw-black-bis)
+    }
+
+    .navbar-menu.svelte-sv5nsr .navbar-dropdown .navbar-item {
+        margin: 0 0.25rem
+    }
+
+    .navbar-menu.svelte-sv5nsr .active-team.svelte-sv5nsr.svelte-sv5nsr {
+        background: var(--color-dw-white-ter);
+        margin: 0.25rem 0 -0.25rem;
+        border-radius: 0px 0px 5px 5px
+    }
+
+    .navbar-menu.svelte-sv5nsr .active-team.svelte-sv5nsr .icon {
+        font-size: 1.2em;
+        color: var(--dw-grey-dark)
+    }
+
+    .navbar-compact .navbar-menu.svelte-sv5nsr .navbar-separator.svelte-sv5nsr.svelte-sv5nsr {
+        transition: height 0.2s ease-in-out;
+        height: 1.5em
+    }
+
+    .navbar-compact .navbar-menu.svelte-sv5nsr .svelte-sv5nsr:not(.navbar-dropdown) > .navbar-item.svelte-sv5nsr, .navbar-compact .navbar-menu.svelte-sv5nsr .svelte-sv5nsr:not(.navbar-dropdown) > .navbar-link.svelte-sv5nsr {
+        padding-top: 0.15rem;
+        padding-bottom: 0.15rem;
+        transition: padding 0.2s ease-in-out
+    }
+
+    @media screen and (max-width: 1023px) {
+        .navbar-menu.svelte-sv5nsr .navbar-item.svelte-sv5nsr.svelte-sv5nsr:not(:last-child), .navbar-menu.svelte-sv5nsr .navbar-link.svelte-sv5nsr.svelte-sv5nsr {
+            border-radius: 0;
+            border-bottom: 1px solid #e5e5e5
+        }
+
+        .navbar-menu.svelte-sv5nsr .navbar-dropdown .navbar-item.svelte-sv5nsr.svelte-sv5nsr {
+            border-bottom: none;
+            padding: 0.5rem
+        }
+    }
+
+    @media screen and (min-width: 1024px) {
+        .navbar-menu.svelte-sv5nsr .navbar-item.has-dropdown .navbar-item.has-dropdown .navbar-dropdown {
+            position: absolute;
+            left: -100%;
+            right: 100%;
+            top: -6px;
+            display: none
+        }
+
+        .navbar-menu.svelte-sv5nsr .navbar-item.has-dropdown .navbar-item.has-dropdown:hover .navbar-dropdown, .navbar-menu.svelte-sv5nsr .navbar-item.has-dropdown .navbar-item.has-dropdown:focus .navbar-dropdown {
+            display: block
+        }
+
+        .navbar-menu.svelte-sv5nsr .nav-item-admin > .navbar-link .navbar-title, .navbar-menu.svelte-sv5nsr .nav-item-more > .navbar-link .navbar-title {
+            display: none
+        }
+
+        .navbar-menu.svelte-sv5nsr .nav-item-more > .navbar-link .icon, .navbar-menu.svelte-sv5nsr .nav-item-admin > .navbar-link .icon {
+            margin-right: 0
+        }
+
+        .navbar-menu.svelte-sv5nsr .nav-item-more > .navbar-link .icon {
+            font-size: 30px
+        }
+
+        .navbar-menu.svelte-sv5nsr .just-arrow:hover:before {
+            content: "";
+            display: block;
+            position: absolute;
+            left: -2.5em;
+            bottom: 0;
+            width: 2.5em;
+            height: 1em;
+            background: transparent
+        }
+    }</style>
+    <style id="svelte-okvdq9">@keyframes svelte-okvdq9-spin {
+                                  0% {
+                                      transform: rotate(0deg)
+                                  }
+                                  100% {
+                                      transform: rotate(359deg)
+                                  }
+                              }
+
+    .spin.svelte-okvdq9.svelte-okvdq9 {
+        animation: svelte-okvdq9-spin 2s infinite linear
+    }
+
+    .crisp.svelte-okvdq9.svelte-okvdq9 {
+        shape-rendering: crispEdges
+    }
+
+    .icon.svelte-okvdq9.svelte-okvdq9 {
+        width: auto;
+        height: auto
+    }
+
+    .icon.svelte-okvdq9 svg.svelte-okvdq9 {
+        width: 1em;
+        height: 1em
+    }</style>
+    <style id="svelte-15cec01">@media screen and (max-width: 1399px) {
+        .container.svelte-15cec01:not(.is-max-desktop, .is-max-widescreen) {
+            max-width: none
+        }
+    }
+
+    .is-sticky.svelte-15cec01 {
+        position: sticky;
+        top: 64px;
+        z-index: 900;
+        background: var(--color-dw-white-ter)
+    }
+
+    .is-status-column.svelte-15cec01 {
+        line-height: 1.3
+    }</style>
+    <style id="svelte-1e56o8w">a.svelte-1e56o8w {
+        background: var(--color-dw-grey-lighter);
+        border-radius: 4px;
+        display: inline-block;
+        width: 100%;
+        line-height: 2rem;
+        white-space: nowrap
+    }
+
+    a.active.svelte-1e56o8w {
+        background: var(--color-dw-firebrick);
+        color: white;
+        cursor: default
+    }
+
+    a.active.svelte-1e56o8w:hover {
+        text-decoration: none
+    }
+
+    .step.svelte-1e56o8w {
+        display: inline-block;
+        font-weight: bold;
+        color: white;
+        vertical-align: -0.2rem;
+        text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+        font-size: 26px
+    }
+
+    a.disabled.svelte-1e56o8w:not(.active) {
+        pointer-events: none;
+        color: var(--color-dw-grey)
+    }</style>
+    <style id="svelte-oj30b2">@media screen and (max-width: 1399px) {
+        .container.svelte-oj30b2:not(.is-max-desktop, .is-max-widescreen) {
+            max-width: none
+        }
+    }
+
+    .preview.sticky.svelte-oj30b2 {
+        position: sticky;
+        top: 20px
+    }
+
+    .preview.sticky.sticky-header.svelte-oj30b2 {
+        top: 85px
+    }
+
+    .limit-width.svelte-oj30b2 {
+        overflow-x: auto;
+        overflow-y: clip;
+        height: auto
+    }
+
+    .sidebar.svelte-oj30b2 {
+        position: relative
+    }</style>
+    <style id="svelte-1qc2cig">.icon-wrap.svelte-1qc2cig {
+        margin-right: -8px;
+        display: inline-block
+    }</style>
+    <style id="svelte-mos8hf">.iframe-wrapper.svelte-mos8hf.svelte-mos8hf {
+        transform-origin: top left
+    }
+
+    .iframe-border.svelte-mos8hf.svelte-mos8hf {
+        box-sizing: content-box;
+        padding: 10px;
+        margin: 0 auto;
+        border: 1px solid #ddd;
+        position: relative
+    }
+
+    .iframe-border.resizing.svelte-mos8hf > .svelte-mos8hf:not(.resizer) {
+        pointer-events: none
+    }
+
+    iframe.svelte-mos8hf.svelte-mos8hf {
+        width: 100%;
+        height: 100%
+    }
+
+    .resizer.svelte-mos8hf.svelte-mos8hf {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        cursor: nwse-resize;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        padding: 0.25em;
+        color: var(--color-dw-grey);
+        background-color: rgba(0, 0, 0, 0.05);
+        color: #666
+    }
+
+    .resizer.svelte-mos8hf.svelte-mos8hf:hover {
+        background-color: rgba(0, 0, 0, 0.1)
+    }
+
+    .dark-background.svelte-mos8hf .resizer.svelte-mos8hf {
+        color: var(--color-dw-grey-lighter);
+        background-color: rgba(255, 255, 255, 0.1)
+    }
+
+    .dark-background.svelte-mos8hf .resizer.svelte-mos8hf:hover {
+        background-color: rgba(255, 255, 255, 0.15)
+    }
+
+    .fixed-height.svelte-mos8hf .resizer.svelte-mos8hf {
+        cursor: ew-resize
+    }
+
+    .is-loading.svelte-mos8hf.svelte-mos8hf {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #f3f3f3;
+        opacity: 0.95
+    }
+
+    .is-loading.svelte-mos8hf > div.svelte-mos8hf {
+        display: block;
+        color: #999;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        bottom: 0;
+        font-size: 20px;
+        left: 0;
+        text-align: center;
+        line-height: 0
+    }</style>
+    <style id="svelte-154mko0">.toolbar.svelte-154mko0 {
+        justify-content: center;
+        display: flex;
+        column-gap: 0.875rem
+    }</style>
+    <style id="svelte-10x164s">@media screen and (max-width: 1399px) {
+    }
+
+    .toolbar-area-header.svelte-10x164s {
+        font-weight: 500;
+        letter-spacing: 0.025em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        margin-bottom: 0.25rem;
+        color: #4f4f4f
+    }
+
+    .toolbar-area-body.svelte-10x164s {
+        border: 1px solid #e5e5e5;
+        border-radius: 4px;
+        padding: 0.75rem 0.875rem 0.875rem;
+        display: flex;
+        gap: 0.875rem
+    }</style>
+    <style id="svelte-1dwhjjd">@media screen and (max-width: 1399px) {
+    }
+
+    .print-options.svelte-1dwhjjd {
+        border-top: 1px solid #e5e5e5
+    }
+
+    .size-presets.svelte-1dwhjjd .icon {
+        font-size: 1.15em
+    }
+
+    .size-presets.svelte-1dwhjjd .icon.mobile {
+        font-size: 0.75em
+    }
+
+    .size-presets.svelte-1dwhjjd .icon.desktop {
+        font-size: 1.4em
+    }</style>
+    <style id="svelte-hxjrc2">@media screen and (max-width: 1399px) {
+    }
+
+    .toolbar-header.svelte-hxjrc2 {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.25rem;
+        column-gap: 0.5em
+    }
+
+    .toolbar-title.svelte-hxjrc2 {
+        color: #858585;
+        font-size: 0.75rem
+    }
+
+    .toolbar-title.svelte-hxjrc2 .icon {
+        font-size: 0.875rem;
+        vertical-align: middle
+    }
+
+    .toolbar-body.svelte-hxjrc2 {
+        display: flex;
+        gap: 0.5rem
+    }
+
+    .toolbar-body.svelte-hxjrc2 > .field.is-grouped > .control:not(:last-child) {
+        margin-right: 0.25rem
+    }
+
+    .toolbar-body.svelte-hxjrc2 > .field {
+        margin-bottom: 0
+    }
+
+    .toolbar-footer.svelte-hxjrc2 {
+        margin-top: 0.25rem;
+        margin-bottom: -0.5rem
+    }</style>
+    <style id="svelte-8t8wy7">input[type=number].svelte-8t8wy7.svelte-8t8wy7:not(.spinner) {
+        -moz-appearance: textfield;
+        appearance: textfield;
+        margin: 0
+    }
+
+    input[type=number].svelte-8t8wy7.svelte-8t8wy7:not(.spinner)::-webkit-inner-spin-button, input[type=number].svelte-8t8wy7.svelte-8t8wy7:not(.spinner)::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0
+    }
+
+    .control.svelte-8t8wy7 input[type=number].svelte-8t8wy7 {
+        display: none
+    }
+
+    .control.svelte-8t8wy7:focus-within:not(.disabled) input[type=number].svelte-8t8wy7, .control.svelte-8t8wy7:hover:not(.disabled) input[type=number].svelte-8t8wy7 {
+        display: inline
+    }
+
+    .control.svelte-8t8wy7:focus-within:not(.disabled) input[type=text].svelte-8t8wy7, .control.svelte-8t8wy7:hover:not(.disabled) input[type=text].svelte-8t8wy7 {
+        display: none
+    }</style>
+    <style id="svelte-q5etaq">@media screen and (max-width: 1399px) {
+        .container.svelte-q5etaq.svelte-q5etaq:not(.is-max-desktop, .is-max-widescreen) {
+            max-width: none
+        }
+    }
+
+    .button.svelte-q5etaq .mode-label.svelte-q5etaq {
+        font-size: 10px;
+        display: none
+    }
+
+    .button.svelte-q5etaq .mode-icon.svelte-q5etaq {
+        margin: 0 -0.5em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center
+    }
+
+    .button.svelte-q5etaq .mode-icon img.svelte-q5etaq {
+        width: 20px
+    }
+
+    .button.normal.svelte-q5etaq .mode-label.svelte-q5etaq {
+        display: inline-flex;
+        position: absolute;
+        font-weight: 700;
+        text-shadow: 0 1px rgba(255, 255, 255, 0.5), 1px 0 rgba(255, 255, 255, 0.5), 0 -1px rgba(255, 255, 255, 0.5), -1px 0 rgba(255, 255, 255, 0.5)
+    }
+
+    .button.normal.svelte-q5etaq .mode-icon img.svelte-q5etaq {
+        opacity: 0.5
+    }
+
+    .button.svelte-q5etaq .more-info.svelte-q5etaq {
+        display: none;
+        position: absolute;
+        top: 2.25rem;
+        left: 0;
+        padding-top: 1.25rem;
+        text-align: left;
+        width: 15em;
+        white-space: normal;
+        color: #858585;
+        font-size: 0.875rem;
+        line-height: 1.35;
+        font-weight: 400
+    }
+
+    .button.svelte-q5etaq .more-info.svelte-q5etaq:before {
+        content: "";
+        display: block;
+        height: 1rem;
+        position: absolute;
+        left: 1em;
+        top: 0;
+        border-left: 1px solid #858585
+    }
+
+    .button.svelte-q5etaq .color-warning.svelte-q5etaq {
+        color: #ffcf27;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.3);
+        position: absolute;
+        width: 2em;
+        height: 2em;
+        display: flex;
+        justify-content: center;
+        align-items: center
+    }
+
+    .button.svelte-q5etaq .color-warning.svelte-q5etaq .icon {
+        position: relative;
+        top: -0.05em
+    }
+
+    .button.svelte-q5etaq:hover .more-info.svelte-q5etaq, .buttons.svelte-q5etaq:not(:hover) .button.is-active .more-info.svelte-q5etaq {
+        display: block
+    }</style>
+    <style id="svelte-1d510th">@media screen and (max-width: 1399px) {
+        .container.svelte-1d510th.svelte-1d510th:not(.is-max-desktop, .is-max-widescreen) {
+            max-width: none
+        }
+    }
+
+    .sidehelp.svelte-1d510th.svelte-1d510th {
+        position: relative;
+        display: inline-flex
+    }
+
+    .sidehelp-icon.svelte-1d510th.svelte-1d510th {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 1.5em;
+        height: 1.5em;
+        border: none;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.07);
+        color: #a7a7a7;
+        font-size: 0.75rem;
+        cursor: default
+    }
+
+    .sidehelp-icon.svelte-1d510th.svelte-1d510th:hover {
+        background: #e5e5e5;
+        color: #858585
+    }
+
+    .sidehelp-icon.svelte-1d510th:focus + .sidehelp-content.svelte-1d510th {
+        visibility: visible
+    }
+
+    .sidehelp-content.svelte-1d510th.svelte-1d510th {
+        position: absolute;
+        visibility: hidden;
+        z-index: 1000;
+        top: -1em;
+        left: -1em;
+        padding: 1em 1em 1em 3em;
+        background: #eef8fc;
+        color: #1d81a2;
+        width: 240px;
+        border-radius: 4px;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        text-align: left
+    }
+
+    .sidehelp-content.is-visible.svelte-1d510th.svelte-1d510th {
+        visibility: visible
+    }
+
+    .sidehelp-content.svelte-1d510th > .icon {
+        font-size: 1.5rem;
+        position: absolute;
+        left: 0.45em;
+        top: 0.45em
+    }
+
+    .sidehelp-content.svelte-1d510th a {
+        color: inherit;
+        text-decoration: underline
+    }
+
+    .sidehelp.open-to-left.svelte-1d510th .sidehelp-content.svelte-1d510th {
+        left: auto;
+        right: -1em;
+        padding: 1em 3em 1em 1em
+    }
+
+    .sidehelp.open-to-left.svelte-1d510th .sidehelp-content.svelte-1d510th > .icon {
+        left: auto;
+        right: 0.45em
+    }
+
+    .sidehelp.upgrade.svelte-1d510th .sidehelp-icon.svelte-1d510th {
+        background: #c9fced;
+        color: #09bb9f
+    }
+
+    .sidehelp.upgrade.svelte-1d510th .sidehelp-content.svelte-1d510th {
+        background: #09bb9f;
+        color: white
+    }
+
+    .sidehelp.floating.svelte-1d510th.svelte-1d510th {
+        float: right;
+        top: 0.35em
+    }
+
+    .sidehelp.small.svelte-1d510th.svelte-1d510th, .sidehelp.normal.svelte-1d510th.svelte-1d510th, .sidehelp.medium.svelte-1d510th.svelte-1d510th, .sidehelp.large.svelte-1d510th.svelte-1d510th {
+        top: 0.375em
+    }
+
+    .sidehelp.small.svelte-1d510th.svelte-1d510th {
+        font-size: 0.75rem
+    }
+
+    .sidehelp.medium.svelte-1d510th.svelte-1d510th {
+        font-size: 1.25rem
+    }
+
+    .sidehelp.large.svelte-1d510th.svelte-1d510th {
+        font-size: 1.5rem
+    }</style>
+    <style id="svelte-p9rq6i">.button.is-selected.svelte-p9rq6i .icon {
+        color: var(--color-dw-orange)
+    }</style>
+    <style id="svelte-8i9sa2">.beacon.svelte-8i9sa2 {
+        width: 2.5em;
+        border-radius: 50%;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1050
+    }
+
+    .Beacon .BeaconContainer {
+        height: calc(100% - 118px) !important;
+        bottom: calc(80px) !important
+    }</style>
+    <style id="svelte-1koh5ue">footer.svelte-1koh5ue li a.highlight.svelte-1koh5ue.svelte-1koh5ue {
+        background: var(--color-dw-scooter);
+        color: white;
+        padding: 3px 6px;
+        font-weight: bold
+    }
+
+    footer.svelte-1koh5ue li a.highlight.svelte-1koh5ue.svelte-1koh5ue:hover {
+        text-decoration: underline
+    }
+
+    nav.svelte-1koh5ue ul.svelte-1koh5ue.svelte-1koh5ue {
+        color: silver;
+        margin: 0;
+        padding: 0
+    }
+
+    nav.svelte-1koh5ue ul li.svelte-1koh5ue.svelte-1koh5ue {
+        display: inline-block;
+        margin-right: 0.3ex
+    }
+
+    nav.svelte-1koh5ue ul li.svelte-1koh5ue + li.svelte-1koh5ue {
+        margin-left: 0.3ex
+    }
+
+    nav.svelte-1koh5ue ul li.svelte-1koh5ue + li.svelte-1koh5ue:before {
+        content: ' – '
+    }</style>
+    <style id="svelte-jdkld3">@media screen and (max-width: 1399px) {
+    }
+
+    .chart-title.svelte-jdkld3 {
+        position: relative
+    }
+
+    .chart-title.svelte-jdkld3 .checkbox {
+        opacity: 0.5;
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-size: 0.75rem
+    }
+
+    .chart-title.svelte-jdkld3 .checkbox:hover {
+        opacity: 1
+    }</style>
+    <style id="svelte-okja37">.checkbox.svelte-okja37.svelte-okja37 {
+        white-space: nowrap;
+        margin-bottom: 0.5em;
+        line-height: 1.3
+    }
+
+    .checkbox.svelte-okja37.svelte-okja37:not(:last-of-type) {
+        margin-right: 1em
+    }
+
+    .is-faded.svelte-okja37.svelte-okja37 {
+        color: #858585
+    }
+
+    .is-faded.svelte-okja37 .checkbox-icon.svelte-okja37 {
+        opacity: 0.5
+    }
+
+    .checkbox-label.svelte-okja37.svelte-okja37 {
+        display: inline-block;
+        white-space: normal;
+        margin-left: 0.25em
+    }
+
+    .checkbox-icon.svelte-okja37.svelte-okja37 {
+        display: inline-block;
+        position: relative;
+        top: 0.15em;
+        width: 1.25em;
+        height: 1.25em;
+        border-radius: 2px;
+        border: 1px solid #a7a7a7;
+        font-size: 0.8em;
+        text-align: center;
+        vertical-align: top
+    }
+
+    input[type=checkbox].svelte-okja37.svelte-okja37 {
+        opacity: 0 !important;
+        pointer-events: none;
+        position: absolute;
+        display: inline-block
+    }
+
+    input[type=checkbox].svelte-okja37:checked + .checkbox-icon.svelte-okja37 {
+        background: #18a1cd;
+        border-color: #18a1cd
+    }
+
+    input[type=checkbox].svelte-okja37:focus + .checkbox-icon.svelte-okja37 {
+        border-color: #18a1cd;
+        box-shadow: 0 0 1px 1px fade(#18a1cd, 55%)
+    }
+
+    input[type=checkbox].svelte-okja37:disabled + .checkbox-icon.svelte-okja37 {
+        border-color: #a7a7a7;
+        background: #e5e5e5;
+        cursor: inherit;
+        opacity: 0.6
+    }
+
+    input[type=checkbox].svelte-okja37:disabled:checked + .checkbox-icon.svelte-okja37 {
+        border-color: #a7a7a7;
+        background: #a7a7a7
+    }</style>
+    <style id="svelte-89gwky">.field.svelte-89gwky.svelte-89gwky {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between
+    }
+
+    :not(.field-body) > .field.compact:not(:last-child) {
+        margin-bottom: 0.5rem
+    }
+
+    .field.compact.svelte-89gwky .label.svelte-89gwky {
+        font-weight: 400
+    }
+
+    .field.compact.svelte-89gwky .label.svelte-89gwky:not(:last-child) {
+        margin-bottom: 0.15rem
+    }
+
+    .control.svelte-89gwky.svelte-89gwky {
+        flex-basis: 100%
+    }</style>
+    <style id="svelte-1agvitn">.text-container.svelte-1agvitn {
+        display: flex
+    }
+
+    input.svelte-1agvitn, textarea.svelte-1agvitn {
+        margin: 0 !important;
+        width: 100%
+    }
+
+    textarea.svelte-1agvitn {
+        line-height: 20px !important;
+        resize: none;
+        overflow: hidden;
+        box-sizing: content-box
+    }
+
+    textarea.scroll.svelte-1agvitn {
+        resize: vertical;
+        overflow-y: scroll
+    }
+
+    input[disabled].svelte-1agvitn, textarea[disabled].svelte-1agvitn {
+        cursor: default;
+        color: #999
+    }</style>
+    <style id="svelte-87ynlw">textarea.svelte-87ynlw {
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+        line-height: 1.5em !important
+    }</style>
+    <style></style>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="svelte/../../../../../../../../../static/vendor/jschardet/jschardet.min"
+            src="./svelte/../../../../../../../../../static/vendor/jschardet/jschardet.min.js"></script>
+    <script type="text/javascript" charset="utf-8" async="" data-requirecontext="_"
+            data-requiremodule="svelte/../../../../../../../../../static/vendor/xlsx/xlsx.full.min"
+            src="./svelte/../../../../../../../../../static/vendor/xlsx/xlsx.full.min.js"></script>
+    <style></style>
+    <style></style>
+    <style hs-beacon="active" data-styled-version="5.1.1"></style>
+    <style></style>
+    <style></style>
+    <style></style>
+    <style></style>
+    <style></style>
+    <style></style>
+    <style></style>
+    <style></style>
+    <style></style>
+    <style></style>
+    <style></style>
+    <style></style>
+    <style></style>
+</head>
+<body>
+<header id="top" class="svelte-17572w4 is-sticky" style="position: relative;">
+    <div class="container svelte-17572w4">
+        <nav class="navbar svelte-17572w4 navbar-compact" aria-label="main navigation">
+            <div class="navbar-brand svelte-17572w4"><a class="navbar-item svelte-17572w4" href="/"
+                                                        style="line-height: 1">
+                <div class="logo-datawrapper svelte-17xtdvb" style="">
+                    <svg alt="Datawrapper logo" viewBox="0 0 336 90" fill="none" xmlns="http://www.w3.org/2000/svg"
+                         class="svelte-17xtdvb">
+                        <g fill="#333333">
+                            <path d="M5 0H0v91h335v-5H5V0z"></path>
+                            <path d="M34.794 56V18.676h11.023c3.298 0 6.22.735 8.767 2.204 2.563 1.47 4.546 3.555 5.947 6.255 1.402 2.7 2.102 5.794 2.102 9.28v1.871c0 3.538-.709 6.648-2.127 9.331-1.402 2.684-3.41 4.751-6.025 6.204C51.884 55.274 48.901 56 45.535 56H34.794zm6.486-32.095v26.917h4.23c3.4 0 6.006-1.06 7.818-3.179 1.828-2.136 2.76-5.195 2.794-9.177v-2.077c0-4.05-.88-7.143-2.64-9.28-1.76-2.136-4.316-3.204-7.665-3.204h-4.538zM84.014 56c-.274-.53-.513-1.393-.718-2.59-1.983 2.069-4.41 3.103-7.28 3.103-2.786 0-5.059-.795-6.82-2.384-1.76-1.59-2.64-3.555-2.64-5.896 0-2.957 1.094-5.221 3.282-6.793 2.204-1.59 5.349-2.385 9.433-2.385h3.82v-1.82c0-1.435-.402-2.58-1.205-3.435-.803-.871-2.025-1.307-3.666-1.307-1.418 0-2.58.359-3.486 1.077-.906.7-1.359 1.597-1.359 2.691h-6.229c0-1.52.504-2.94 1.513-4.255 1.008-1.333 2.375-2.376 4.101-3.128 1.743-.752 3.683-1.128 5.82-1.128 3.246 0 5.835.82 7.767 2.461 1.93 1.624 2.922 3.914 2.973 6.87v12.51c0 2.495.35 4.486 1.051 5.973V56h-6.357zm-6.845-4.486c1.23 0 2.384-.3 3.46-.897 1.095-.598 1.915-1.402 2.462-2.41v-5.23h-3.358c-2.307 0-4.042.402-5.204 1.205-1.162.804-1.743 1.94-1.743 3.41 0 1.196.393 2.153 1.179 2.87.803.702 1.871 1.052 3.204 1.052zM102.6 21.521v6.742h4.896v4.614H102.6v15.484c0 1.06.205 1.829.615 2.307.427.461 1.179.692 2.256.692.718 0 1.444-.085 2.179-.256v4.82c-1.418.392-2.786.589-4.102.589-4.785 0-7.177-2.64-7.177-7.921V32.877h-4.563v-4.614h4.563v-6.742h6.229zM127.8 56c-.273-.53-.513-1.393-.718-2.59-1.982 2.069-4.409 3.103-7.28 3.103-2.786 0-5.059-.795-6.819-2.384-1.76-1.59-2.64-3.555-2.64-5.896 0-2.957 1.093-5.221 3.281-6.793 2.205-1.59 5.349-2.385 9.434-2.385h3.819v-1.82c0-1.435-.402-2.58-1.205-3.435-.803-.871-2.025-1.307-3.666-1.307-1.418 0-2.58.359-3.486 1.077-.906.7-1.358 1.597-1.358 2.691h-6.23c0-1.52.504-2.94 1.513-4.255 1.008-1.333 2.375-2.376 4.101-3.128 1.743-.752 3.683-1.128 5.819-1.128 3.247 0 5.837.82 7.768 2.461 1.931 1.624 2.922 3.914 2.973 6.87v12.51c0 2.495.351 4.486 1.051 5.973V56H127.8zm-6.845-4.486c1.231 0 2.385-.3 3.461-.897 1.094-.598 1.914-1.402 2.461-2.41v-5.23h-3.358c-2.307 0-4.042.402-5.204 1.205-1.162.804-1.743 1.94-1.743 3.41 0 1.196.393 2.153 1.179 2.87.803.702 1.871 1.052 3.204 1.052zM162.946 47.412l4.409-19.149h6.076L165.869 56h-5.127l-5.948-19.047L148.95 56h-5.127l-7.588-27.737h6.075l4.486 18.944 5.691-18.944h4.691l5.768 19.15zM191.069 33.954a15.43 15.43 0 00-2.538-.205c-2.854 0-4.777 1.094-5.768 3.281V56h-6.229V28.263h5.947l.154 3.102c1.504-2.41 3.589-3.614 6.255-3.614.888 0 1.623.12 2.204.358l-.025 5.845zM209.757 56c-.273-.53-.512-1.393-.717-2.59-1.983 2.069-4.41 3.103-7.281 3.103-2.785 0-5.058-.795-6.819-2.384-1.76-1.59-2.64-3.555-2.64-5.896 0-2.957 1.094-5.221 3.281-6.793 2.205-1.59 5.349-2.385 9.434-2.385h3.82v-1.82c0-1.435-.402-2.58-1.205-3.435-.804-.871-2.025-1.307-3.666-1.307-1.419 0-2.581.359-3.486 1.077-.906.7-1.359 1.597-1.359 2.691h-6.229c0-1.52.504-2.94 1.512-4.255 1.008-1.333 2.376-2.376 4.102-3.128 1.743-.752 3.683-1.128 5.819-1.128 3.247 0 5.836.82 7.767 2.461 1.931 1.624 2.922 3.914 2.974 6.87v12.51c0 2.495.35 4.486 1.051 5.973V56h-6.358zm-6.844-4.486c1.23 0 2.384-.3 3.461-.897 1.093-.598 1.914-1.402 2.461-2.41v-5.23h-3.359c-2.307 0-4.041.402-5.203 1.205-1.163.804-1.744 1.94-1.744 3.41 0 1.196.393 2.153 1.18 2.87.803.702 1.871 1.052 3.204 1.052zM244.827 42.414c0 4.29-.974 7.716-2.923 10.28-1.948 2.545-4.563 3.819-7.844 3.819-3.042 0-5.477-1-7.306-3v13.151h-6.229v-38.4h5.742l.257 2.819c1.828-2.222 4.315-3.332 7.459-3.332 3.384 0 6.033 1.264 7.947 3.793 1.931 2.513 2.897 6.007 2.897 10.485v.385zm-6.204-.539c0-2.768-.555-4.964-1.666-6.588-1.094-1.623-2.666-2.435-4.717-2.435-2.546 0-4.375 1.05-5.486 3.153V48.31c1.128 2.153 2.974 3.23 5.537 3.23 1.983 0 3.529-.795 4.64-2.384 1.128-1.607 1.692-4.034 1.692-7.28zM273.359 42.414c0 4.29-.974 7.716-2.922 10.28-1.948 2.545-4.563 3.819-7.844 3.819-3.042 0-5.478-1-7.306-3v13.151h-6.229v-38.4h5.742l.256 2.819c1.829-2.222 4.315-3.332 7.46-3.332 3.384 0 6.032 1.264 7.947 3.793 1.931 2.513 2.896 6.007 2.896 10.485v.385zm-6.203-.539c0-2.768-.556-4.964-1.667-6.588-1.093-1.623-2.666-2.435-4.716-2.435-2.547 0-4.375 1.05-5.486 3.153V48.31c1.128 2.153 2.973 3.23 5.537 3.23 1.982 0 3.529-.795 4.64-2.384 1.128-1.607 1.692-4.034 1.692-7.28zM289.818 56.513c-3.948 0-7.152-1.24-9.613-3.717-2.444-2.495-3.666-5.81-3.666-9.947v-.769c0-2.768.53-5.238 1.589-7.408 1.077-2.188 2.581-3.888 4.512-5.101 1.931-1.214 4.085-1.82 6.46-1.82 3.777 0 6.691 1.204 8.741 3.614 2.068 2.41 3.102 5.82 3.102 10.228v2.512H282.82c.188 2.29.948 4.102 2.281 5.435 1.35 1.333 3.042 2 5.076 2 2.854 0 5.178-1.154 6.972-3.461l3.359 3.204c-1.111 1.658-2.598 2.948-4.461 3.871-1.846.906-3.922 1.359-6.229 1.359zm-.744-23.764c-1.709 0-3.093.598-4.152 1.795-1.043 1.196-1.709 2.862-2 4.998h11.869v-.46c-.137-2.086-.692-3.658-1.666-4.718-.974-1.076-2.325-1.615-4.051-1.615zM319.273 33.954a15.412 15.412 0 00-2.538-.205c-2.854 0-4.776 1.094-5.767 3.281V56h-6.23V28.263h5.948l.153 3.102c1.504-2.41 3.589-3.614 6.255-3.614.889 0 1.624.12 2.205.358l-.026 5.845z"></path>
+                        </g>
+                    </svg>
+                </div>
+            </a> <a role="button" class="navbar-burger svelte-17572w4" aria-label="menu" aria-expanded="false"
+                    href="#/mobile-menu"><span aria-hidden="true" class="svelte-17572w4"></span> <span
+                    aria-hidden="true" class="svelte-17572w4"></span> <span aria-hidden="true"
+                                                                            class="svelte-17572w4"></span></a></div>
+            <div class="navbar-menu svelte-sv5nsr">
+                <div class="navbar-end svelte-sv5nsr">
+                    <div data-uid="create-new"
+                         class="navbar-item has-dropdown is-hoverable is-size-5 has-text-weight-medium ml-1 nav-item-create-new svelte-sv5nsr">
+                        <a href="#/dropdown" class="navbar-link svelte-sv5nsr is-arrowless" style=""><span
+                                class="icon svelte-okvdq9" style="vertical-align: top; "><svg
+                                class="svg-add-dims svelte-okvdq9" style=""><use style="fill: currentColor"
+                                                                                 xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#add"></use></svg></span>
+                            <span class="navbar-title">Create new <span class="has-text-grey">…</span></span></a>
+                        <div class="navbar-dropdown is-right is-boxed svelte-sv5nsr"><a
+                                class="navbar-item has-text-weight-normal  svelte-sv5nsr" href="/create/chart"><span
+                                class="icon svelte-okvdq9" style="vertical-align: top; "><svg
+                                class="svg-dw-chart-dims svelte-okvdq9" style=""><use style="fill: currentColor"
+                                                                                      xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#dw-chart"></use></svg></span>
+                            <span class="navbar-title">Chart</span></a><a
+                                class="navbar-item has-text-weight-normal  svelte-sv5nsr" href="/select/map"><span
+                                class="icon svelte-okvdq9" style="vertical-align: top; "><svg
+                                class="svg-dw-map-dims svelte-okvdq9" style=""><use style="fill: currentColor"
+                                                                                    xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#dw-map"></use></svg></span>
+                            <span class="navbar-title">Map</span></a><a
+                                class="navbar-item has-text-weight-normal  svelte-sv5nsr" href="/create/table"><span
+                                class="icon svelte-okvdq9" style="vertical-align: top; "><svg
+                                class="svg-dw-table-dims svelte-okvdq9" style=""><use style="fill: currentColor"
+                                                                                      xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#dw-table"></use></svg></span>
+                            <span class="navbar-title">Table</span></a></div>
+                    </div>
+                    <a class="navbar-item is-size-5 has-text-weight-medium ml-1 nav-item-sign-in svelte-sv5nsr"
+                       href="/signin?ref=/map/3NqNq/visualize"><span class="icon svelte-okvdq9"
+                                                                     style="vertical-align: top; "><svg
+                            class="svg-sign-in-dims svelte-okvdq9" style=""><use style="fill: currentColor"
+                                                                                 xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#sign-in"></use></svg></span>
+                        <span>Sign in</span></a>
+                    <hr class="navbar-separator mx-3 my-0 is-hidden-touch svelte-sv5nsr">
+                    <div data-uid="settings"
+                         class="navbar-item has-dropdown is-hoverable is-size-5 has-text-weight-medium ml-1 nav-item-more svelte-sv5nsr">
+                        <a href="#/dropdown" class="navbar-link svelte-sv5nsr is-arrowless" style=""><span
+                                class="icon svelte-okvdq9" style="vertical-align: top; "><svg
+                                class="svg-menu-dims svelte-okvdq9" style=""><use style="fill: currentColor"
+                                                                                  xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#menu"></use></svg></span>
+                            <span class="navbar-title">More</span></a>
+                        <div class="navbar-dropdown is-right is-boxed svelte-sv5nsr"><a
+                                class="navbar-item has-text-weight-normal  svelte-sv5nsr" href="/river"><span
+                                class="icon svelte-okvdq9" style="vertical-align: top; "><svg
+                                class="svg-dw-river-dims svelte-okvdq9" style=""><use style="fill: currentColor"
+                                                                                      xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#dw-river"></use></svg></span>
+                            <span class="navbar-title">River</span></a><a
+                                class="navbar-item has-dropdown is-hoverable has-text-weight-normal  svelte-sv5nsr"
+                                href="#/dropdown"><span class="icon svelte-okvdq9" style="vertical-align: top; "><svg
+                                class="svg-globe-dims svelte-okvdq9" style=""><use style="fill: currentColor"
+                                                                                   xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#globe"></use></svg></span>
+                            <span>Language</span>
+                            <div class="navbar-dropdown is-right is-boxed svelte-sv5nsr"><a href="#/"
+                                                                                            class="navbar-item has-text-weight-normal  svelte-sv5nsr"><span
+                                    class="icon has-text-grey-light svelte-okvdq9" style="vertical-align: top; "><svg
+                                    class="svg-circle-dims svelte-okvdq9" style=""><use
+                                    xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#circle"
+                                    style="fill: currentcolor;"></use></svg></span> <span
+                                    class="navbar-title">Deutsch</span> </a><a href="#/"
+                                                                               class="navbar-item has-text-weight-normal  svelte-sv5nsr"><span
+                                    class="icon svelte-okvdq9" style="vertical-align: top; "><svg
+                                    class="svg-check-circle-dims svelte-okvdq9" style=""><use
+                                    xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#check-circle"
+                                    style="fill: currentcolor;"></use></svg></span> <span
+                                    class="navbar-title">English</span> </a><a href="#/"
+                                                                               class="navbar-item has-text-weight-normal  svelte-sv5nsr"><span
+                                    class="icon has-text-grey-light svelte-okvdq9" style="vertical-align: top; "><svg
+                                    class="svg-circle-dims svelte-okvdq9" style=""><use
+                                    xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#circle"
+                                    style="fill: currentcolor;"></use></svg></span> <span
+                                    class="navbar-title">français</span> </a><a href="#/"
+                                                                                class="navbar-item has-text-weight-normal  svelte-sv5nsr"><span
+                                    class="icon has-text-grey-light svelte-okvdq9" style="vertical-align: top; "><svg
+                                    class="svg-circle-dims svelte-okvdq9" style=""><use
+                                    xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#circle"
+                                    style="fill: currentcolor;"></use></svg></span> <span
+                                    class="navbar-title">español</span> </a><a href="#/"
+                                                                               class="navbar-item has-text-weight-normal  svelte-sv5nsr"><span
+                                    class="icon has-text-grey-light svelte-okvdq9" style="vertical-align: top; "><svg
+                                    class="svg-circle-dims svelte-okvdq9" style=""><use
+                                    xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#circle"
+                                    style="fill: currentcolor;"></use></svg></span> <span
+                                    class="navbar-title">italiano</span> </a><a href="#/"
+                                                                                class="navbar-item has-text-weight-normal  svelte-sv5nsr"><span
+                                    class="icon has-text-grey-light svelte-okvdq9" style="vertical-align: top; "><svg
+                                    class="svg-circle-dims svelte-okvdq9" style=""><use
+                                    xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#circle"
+                                    style="fill: currentcolor;"></use></svg></span> <span
+                                    class="navbar-title">中國的</span> </a></div>
+                        </a></div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <iframe style="display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; border: 0; opacity: 0; pointer-events: none; z-index: -1;"
+            aria-hidden="true" tabindex="-1" src="about:blank"></iframe>
+</header>
+<section class="section pt-5">
+    <div class="container block svelte-15cec01">
+        <div class="columns is-1 is-variable">
+            <div class="column has-text-grey has-text-weight-medium">Welcome to Datawrapper 🙂! <a
+                    rel="nofollow noopener noreferrer" target="_blank"
+                    href="https://academy.datawrapper.de/article/245-how-to-create-your-first-datawrapper-chart">Learn
+                how to create your first chart.</a></div>
+            <div class="column is-status-column is-narrow has-text-right has-text-grey is-size-7 svelte-15cec01"></div>
+        </div>
+        <div class="editor-step-nav">
+            <div class="columns step-nav">
+                <div class="column"><a href="basemap" class="px-4 py-2 is-size-5 svelte-1e56o8w visited"
+                                       style="clip-path: path(&quot;M 0 0 l 177 0 q 2 0 4 2 L 195.17 20.6 Q 197.72 24 195.17 27.4 L 181 46 q -2 2 -4 2 L 0 48 Z&quot;); position: relative;"><span
+                        class="step ml-1 mr-3 svelte-1e56o8w">1</span>Select your map <i class="fa fa-check"></i>
+                    <iframe style="display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; border: 0; opacity: 0; pointer-events: none; z-index: -1;"
+                            aria-hidden="true" tabindex="-1" src="about:blank"></iframe>
+                </a></div>
+                <div class="column"><a href="data" class="px-4 py-2 is-size-5 svelte-1e56o8w visited"
+                                       style="clip-path: path(&quot;M 0 0 l 164 0 q 2 0 4 2 L 182.17 20.6 Q 184.72 24 182.17 27.4 L 168 46 q -2 2 -4 2 L 0 48 Z&quot;); position: relative;"><span
+                        class="step ml-1 mr-3 svelte-1e56o8w">2</span>Add your data <i class="fa fa-check"></i>
+                    <iframe style="display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; border: 0; opacity: 0; pointer-events: none; z-index: -1;"
+                            aria-hidden="true" tabindex="-1" src="about:blank"></iframe>
+                </a></div>
+                <div class="column"><a href="visualize" class="px-4 py-2 is-size-5 svelte-1e56o8w active visited"
+                                       style="clip-path: path(&quot;M 0 0 l 164 0 q 2 0 4 2 L 182.17 20.6 Q 184.72 24 182.17 27.4 L 168 46 q -2 2 -4 2 L 0 48 Z&quot;); position: relative;"><span
+                        class="step ml-1 mr-3 svelte-1e56o8w">3</span>Visualize
+                    <iframe style="display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; border: 0; opacity: 0; pointer-events: none; z-index: -1;"
+                            aria-hidden="true" tabindex="-1" src="about:blank"></iframe>
+                </a></div>
+                <div class="column"><a href="publish" class="px-4 py-2 is-size-5 svelte-1e56o8w"
+                                       style="clip-path: path(&quot;M 0 0 l 164 0 q 2 0 4 2 L 182.17 20.6 Q 184.72 24 182.17 27.4 L 168 46 q -2 2 -4 2 L 0 48 Z&quot;); position: relative;"><span
+                        class="step ml-1 mr-3 svelte-1e56o8w">4</span>Publish &amp; Embed
+                    <iframe style="display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; border: 0; opacity: 0; pointer-events: none; z-index: -1;"
+                            aria-hidden="true" tabindex="-1" src="about:blank"></iframe>
+                </a></div>
+            </div>
+        </div>
+    </div>
+    <div class="is-sr-only">
+        <div class="container">
+            <svelte2-wrapper></svelte2-wrapper>
+        </div>
+        <script src="/lib/plugins/external-data/static/external-data-svelte.js?v=a3f254fc"
+                type="text/javascript"></script>
+
+        <script type="text/javascript">
+            (function () {
+                function init() {
+                    // wait for svelte/upload component to be registered
+                    if (!require.defined('svelte/upload')) return setTimeout(init, 100);
+                    require(['svelte/upload', 'plugin/external-data/external-data-svelte'], function (
+                        Upload,
+                        plugin
+                    ) {
+                        dw.backend.__external_data_url = 'https://static.dwcdn.net/data/';
+
+                        run();
+
+                        function run() {
+                            if (!Upload.app) return setTimeout(run, 100);
+                            Upload.app.addButton({
+                                id: 'google-spreadsheet',
+                                title: 'Connect Google Sheet',
+                                longTitle: 'Import data from Google Sheet',
+                                icon: 'im im-table',
+                                mainPanel: plugin.GoogleSpreadsheetMainPanel,
+                                sidebar: plugin.GoogleSpreadsheetSidebar
+                            });
+                            Upload.app.addButton({
+                                id: 'external-data',
+                                title: 'Link external dataset',
+                                longTitle: 'Link an external live dataset',
+                                icon: 'im im-link',
+                                mainPanel: plugin.ExternalDataMainPanel,
+                                sidebar: plugin.ExternalDataSidebar
+                            });
+                        }
+                    });
+                }
+
+                init();
+            })();
+        </script>
+    </div>
+    <div class="">
+        <div class="container svelte-oj30b2">
+            <div class="columns" style="position: relative;">
+                <div class="column is-one-third">
+                    <div class="sidebar svelte-oj30b2" style="left: -9.5px;">
+                        <div class="vis-controls block">
+                            <div class="tabs is-boxed  svelte-1qc2cig">
+                                <ul>
+                                    <li class=""><a href="#refine">Refine </a></li>
+                                    <li class="is-active"><a href="#annotate">Annotate </a></li>
+                                    <li><a href="#layout">Layout </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="block is-hidden">
+                            <svelte2-wrapper></svelte2-wrapper>
+                        </div>
+                        <div class="block">
+                            <div class="block">
+                                <div class="block">
+                                    <div class="field chart-title svelte-jdkld3"><label
+                                            class="checkbox svelte-okja37"><input type="checkbox" aria-label="hide"
+                                                                                  class="svelte-okja37"> <span
+                                            class="checkbox-icon svelte-okja37"></span> <span
+                                            class="checkbox-label svelte-okja37">hide</span></label>
+                                        <div class="field svelte-89gwky compact"><label class="label svelte-89gwky">Title</label>
+                                            <div class="control svelte-89gwky">
+                                                <div class="control">
+                                                    <div class="text-container svelte-1agvitn"
+                                                         data-uid="annotate-chart-title" style="width: 100%;"><textarea
+                                                            class="input svelte-1agvitn" dir="ltr" rows="1" id=""
+                                                            placeholder="" autocomplete="off"
+                                                            style="height: 20px;"></textarea></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field svelte-89gwky compact"><label class="label svelte-89gwky">Description</label>
+                                        <div class="control svelte-89gwky">
+                                            <div data-uid="" class="control" style="width: 100%;"><textarea
+                                                    class="input undefined svelte-87ynlw" dir="ltr" id="" placeholder=""
+                                                    autocomplete="off"
+                                                    style="height: auto; resize: vertical;"></textarea></div>
+                                        </div>
+                                    </div>
+                                    <div class="field svelte-89gwky compact"><label
+                                            class="label svelte-89gwky">Notes</label>
+                                        <div class="control svelte-89gwky">
+                                            <div class="control">
+                                                <div class="text-container svelte-1agvitn" data-uid="notes"
+                                                     style="width: 100%;"><textarea class="input svelte-1agvitn"
+                                                                                    dir="ltr" rows="1" id=""
+                                                                                    placeholder="" autocomplete="off"
+                                                                                    style="height: 20px;"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="columns">
+                                        <div class="column is-half pb-0">
+                                            <div class="field svelte-89gwky compact"><label class="label svelte-89gwky">Data
+                                                source</label>
+                                                <div class="control svelte-89gwky">
+                                                    <div class="control">
+                                                        <div class="text-container svelte-1agvitn" data-uid=""
+                                                             style="width: 100%;"><textarea class="input svelte-1agvitn"
+                                                                                            dir="ltr" rows="1" id=""
+                                                                                            placeholder="Who published the data?‎"
+                                                                                            autocomplete="off"
+                                                                                            style="height: 20px;"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="column is-half pb-0">
+                                            <div class="field svelte-89gwky compact"><label class="label svelte-89gwky">Link
+                                                to data source</label>
+                                                <div class="control svelte-89gwky">
+                                                    <div class="control">
+                                                        <div class="text-container svelte-1agvitn" data-uid=""
+                                                             style="width: 100%;"><input type="text"
+                                                                                         class="input svelte-1agvitn"
+                                                                                         id="" placeholder="https://..."
+                                                                                         autocomplete="off" dir="ltr">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field svelte-89gwky compact"><label
+                                            class="label svelte-89gwky">Byline</label>
+                                        <div class="control svelte-89gwky">
+                                            <div class="control">
+                                                <div class="text-container svelte-1agvitn" data-uid=""
+                                                     style="width: 100%;"><textarea class="input svelte-1agvitn"
+                                                                                    dir="ltr" rows="1" id=""
+                                                                                    placeholder="Who created the chart?‎"
+                                                                                    autocomplete="off"
+                                                                                    style="height: 20px;"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field svelte-89gwky compact"><label class="label svelte-89gwky">Alternative
+                                        description for screen readers<span slot="labelExtra"
+                                                                            class="has-text-grey ml-1"><span
+                                                class="icon svelte-okvdq9" style="vertical-align: middle; "><svg
+                                                class="svg-accessibility-dims svelte-okvdq9" style=""><use
+                                                xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#accessibility"
+                                                style="fill: currentcolor;"></use></svg></span></span></label>
+                                        <div class="sidehelp svelte-1d510th">
+                                            <button class="sidehelp-icon svelte-1d510th" aria-labelledby="1kzq"><span
+                                                    class="icon svelte-okvdq9" style="vertical-align: -0.15em; "><svg
+                                                    class="svg-help-dims svelte-okvdq9" style=""><use
+                                                    xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#help"
+                                                    style="fill: currentcolor;"></use></svg></span></button>
+                                            <div class="sidehelp-content svelte-1d510th" id="1kzq" role="tooltip"><span
+                                                    class="icon svelte-okvdq9" style="vertical-align: -0.15em; "><svg
+                                                    class="svg-help-circle-dims svelte-okvdq9" style=""><use
+                                                    xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#help-circle"
+                                                    style="fill: currentcolor;"></use></svg></span>
+                                                <div>If set, this text is used as textual representation of the
+                                                    visualization for screen readers. This will replace the automatic
+                                                    text description generated by Datawrapper.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="control svelte-89gwky">
+                                            <div data-uid="" class="control" style="width: 100%;"><textarea
+                                                    class="input undefined svelte-87ynlw" dir="ltr" id=""
+                                                    placeholder="Describe the presented information for readers who can't see the visualization"
+                                                    autocomplete="off"
+                                                    style="height: auto; resize: vertical;"></textarea></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <svelte2-wrapper></svelte2-wrapper>
+                        </div>
+                        <div class="buttons">
+                            <button class="button"><span class="icon svelte-okvdq9" style="vertical-align: -0.15em; "><svg
+                                    class="svg-arrow-left-dims svelte-okvdq9" style=""><use style="fill: currentColor"
+                                                                                            xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#arrow-left"></use></svg></span><span>Back</span>
+                            </button>
+                            <button class="button is-primary"><span>Proceed</span> <span class="icon svelte-okvdq9"
+                                                                                         style="vertical-align: -0.15em; "><svg
+                                    class="svg-arrow-right-dims svelte-okvdq9" style=""><use style="fill: currentColor"
+                                                                                             xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#arrow-right"></use></svg></span>
+                            </button>
+                        </div>
+                        <iframe style="display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; border: 0; opacity: 0; pointer-events: none; z-index: -1;"
+                                aria-hidden="true" tabindex="-1" src="about:blank"></iframe>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="preview svelte-oj30b2 sticky-header">
+                        <div style="position: relative; left: -9.5px;">
+                            <div class="block limit-width svelte-oj30b2" style="max-width: 552px;">
+                                <div class="iframe-wrapper svelte-mos8hf" style="transform: scale(1); height: 750px;">
+                                    <div class="iframe-border svelte-mos8hf fixed-height"
+                                         style="background: rgb(255, 255, 255); width: 600px; height: 728px; border-color: rgb(219, 219, 219); padding: 10px 10px 0px;">
+                                        <iframe id="iframe-vis" title="[ New York Energy Usgae ]"
+                                                src="/preview/3NqNq?allowEditing=1&amp;previewId=visualize"
+                                                scrolling="no" class="svelte-mos8hf"></iframe>
+                                        <div class="resizer svelte-mos8hf"><span class="icon svelte-okvdq9"
+                                                                                 style="vertical-align: -0.15em; "><svg
+                                                class="svg-resize-horizontal-dims svelte-okvdq9" style=""><use
+                                                style="fill: currentColor"
+                                                xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#resize-horizontal"></use></svg></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block mt-5 pt-2">
+                                <div class="toolbar svelte-154mko0">
+                                    <div class="toolbar-area">
+                                        <div class="toolbar-area-header svelte-10x164s">Preview</div>
+                                        <div class="toolbar-area-body svelte-10x164s">
+                                            <div class="toolbar-item">
+                                                <div class="toolbar-header svelte-hxjrc2">
+                                                    <div class="toolbar-title svelte-hxjrc2">Size (px)</div>
+                                                </div>
+                                                <div class="toolbar-body svelte-hxjrc2">
+                                                    <div class="field is-grouped">
+                                                        <div class="control">
+                                                            <div class="control number-input is-flex svelte-8t8wy7"
+                                                                 data-uid="web-width"><input
+                                                                    class="input is-small svelte-8t8wy7 spinner"
+                                                                    type="number" style="width:10ex" step="1"> <input
+                                                                    type="text" class="input is-small svelte-8t8wy7"
+                                                                    style="width:10ex;" placeholder=""></div>
+                                                        </div>
+                                                        <div class="control">
+                                                            <div class="control number-input is-flex svelte-8t8wy7 disabled">
+                                                                <input class="input is-small svelte-8t8wy7 spinner"
+                                                                       type="number" style="width:8ex" step="1"
+                                                                       disabled=""> <input type="text"
+                                                                                           class="input is-small svelte-8t8wy7"
+                                                                                           style="width:8ex;"
+                                                                                           placeholder="" disabled="">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="field has-addons size-presets svelte-1dwhjjd">
+                                                        <div class="control">
+                                                            <button class="button is-small is-outlined is-dark"><span
+                                                                    class="icon mobile svelte-okvdq9"
+                                                                    style="vertical-align: -0.15em; "><svg
+                                                                    class="svg-mobile-dims svelte-okvdq9" style=""><use
+                                                                    style="fill: currentColor"
+                                                                    xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#mobile"></use></svg></span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="control">
+                                                            <button class="button is-small is-outlined is-dark"><span
+                                                                    class="icon tablet svelte-okvdq9"
+                                                                    style="vertical-align: -0.15em; "><svg
+                                                                    class="svg-tablet-dims svelte-okvdq9" style=""><use
+                                                                    style="fill: currentColor"
+                                                                    xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#tablet"></use></svg></span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="control">
+                                                            <button class="button is-small is-outlined is-dark is-selected">
+                                                                <span class="icon desktop svelte-okvdq9"
+                                                                      style="vertical-align: -0.15em; "><svg
+                                                                        class="svg-desktop-dims svelte-okvdq9" style=""><use
+                                                                        style="fill: currentColor"
+                                                                        xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#desktop"></use></svg></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="toolbar-footer svelte-hxjrc2"></div>
+                                            </div>
+                                            <div class="toolbar-item">
+                                                <div class="toolbar-header svelte-hxjrc2">
+                                                    <div class="toolbar-title svelte-hxjrc2"> Colorblind check <span
+                                                            class="icon has-text-grey svelte-okvdq9"
+                                                            style="vertical-align: -0.2em; "><svg
+                                                            class="svg-accessibility-dims svelte-okvdq9" style=""><use
+                                                            style="fill: currentColor"
+                                                            xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#accessibility"></use></svg></span>
+                                                    </div>
+                                                    <div class="sidehelp svelte-1d510th open-to-left">
+                                                        <button class="sidehelp-icon svelte-1d510th"
+                                                                aria-labelledby="1mi8"><span class="icon svelte-okvdq9"
+                                                                                             style="vertical-align: -0.15em; "><svg
+                                                                class="svg-help-dims svelte-okvdq9" style=""><use
+                                                                style="fill: currentColor"
+                                                                xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#help"></use></svg></span>
+                                                        </button>
+                                                        <div class="sidehelp-content svelte-1d510th" id="1mi8"
+                                                             role="tooltip"><span class="icon svelte-okvdq9"
+                                                                                  style="vertical-align: -0.15em; "><svg
+                                                                class="svg-help-circle-dims svelte-okvdq9" style=""><use
+                                                                style="fill: currentColor"
+                                                                xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#help-circle"></use></svg></span>
+                                                            <div slot="tooltip">Colorblind check lets you test your
+                                                                colors and warns you if the colors in your chart/map
+                                                                would not be distinguishable by somebody with a color
+                                                                vision deficiency. See our <a
+                                                                        rel="nofollow noopener noreferrer"
+                                                                        target="_blank"
+                                                                        href="https://academy.datawrapper.de/article/206-how-we-make-sure-our-charts-maps-and-tables-are-accessible">Academy
+                                                                    article</a>.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="toolbar-body svelte-hxjrc2">
+                                                    <div class="field has-addons buttons are-outlined svelte-q5etaq">
+                                                        <div class="control">
+                                                            <button class="button is-small is-outlined is-dark normal svelte-q5etaq is-selected">
+                                                                <figure class="mode-icon svelte-q5etaq"><img
+                                                                        alt="normal"
+                                                                        src="/static/img/colorblind-check/norm.png"
+                                                                        class="svelte-q5etaq">
+                                                                    <figcaption class="mode-label svelte-q5etaq">None
+                                                                    </figcaption>
+                                                                </figure>
+                                                            </button>
+                                                        </div>
+                                                        <div class="control">
+                                                            <button class="button is-small is-outlined is-dark deuteranopia svelte-q5etaq">
+                                                                <figure class="mode-icon svelte-q5etaq"><img
+                                                                        alt="deuteranopia"
+                                                                        src="/static/img/colorblind-check/deut.png"
+                                                                        class="svelte-q5etaq">
+                                                                    <figcaption class="mode-label svelte-q5etaq">Deut
+                                                                    </figcaption>
+                                                                </figure>
+                                                                <div class="more-info svelte-q5etaq"><b>Deuteranopia</b>
+                                                                    is a form of red-green blindness (1% of males).
+                                                                </div>
+                                                            </button>
+                                                        </div>
+                                                        <div class="control">
+                                                            <button class="button is-small is-outlined is-dark protanopia svelte-q5etaq">
+                                                                <figure class="mode-icon svelte-q5etaq"><img
+                                                                        alt="protanopia"
+                                                                        src="/static/img/colorblind-check/prot.png"
+                                                                        class="svelte-q5etaq">
+                                                                    <figcaption class="mode-label svelte-q5etaq">Prot
+                                                                    </figcaption>
+                                                                </figure>
+                                                                <div class="more-info svelte-q5etaq"><b>Protanopia</b>
+                                                                    is a form of red-green blindness (1% of males).
+                                                                </div>
+                                                            </button>
+                                                        </div>
+                                                        <div class="control">
+                                                            <button class="button is-small is-outlined is-dark tritanopia svelte-q5etaq">
+                                                                <figure class="mode-icon svelte-q5etaq"><img
+                                                                        alt="tritanopia"
+                                                                        src="/static/img/colorblind-check/trit.png"
+                                                                        class="svelte-q5etaq">
+                                                                    <figcaption class="mode-label svelte-q5etaq">Trit
+                                                                    </figcaption>
+                                                                </figure>
+                                                                <div class="more-info svelte-q5etaq"><b>Tritanopia</b>
+                                                                    is a form of blue-yellow blindness (less than 1%
+                                                                    affected).
+                                                                </div>
+                                                            </button>
+                                                        </div>
+                                                        <div class="control">
+                                                            <button class="button is-small is-outlined is-dark achromatopsia svelte-q5etaq">
+                                                                <figure class="mode-icon svelte-q5etaq"><img
+                                                                        alt="achromatopsia"
+                                                                        src="/static/img/colorblind-check/bw.png"
+                                                                        class="svelte-q5etaq">
+                                                                    <figcaption class="mode-label svelte-q5etaq">Achr
+                                                                    </figcaption>
+                                                                </figure>
+                                                                <div class="more-info svelte-q5etaq">
+                                                                    <b>Achromatopsia</b> (total color blindness) is very
+                                                                    rare. But for most accessibility "get it right in
+                                                                    black and white" 🙂
+                                                                </div>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="toolbar-item">
+                                                <div class="toolbar-header svelte-hxjrc2">
+                                                    <div class="toolbar-title svelte-hxjrc2">Dark Mode</div>
+                                                    <div class="sidehelp svelte-1d510th open-to-left">
+                                                        <button class="sidehelp-icon svelte-1d510th"
+                                                                aria-labelledby="1t8j"><span class="icon svelte-okvdq9"
+                                                                                             style="vertical-align: -0.15em; "><svg
+                                                                class="svg-help-dims svelte-okvdq9" style=""><use
+                                                                style="fill: currentColor"
+                                                                xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#help"></use></svg></span>
+                                                        </button>
+                                                        <div class="sidehelp-content svelte-1d510th" id="1t8j"
+                                                             role="tooltip"><span class="icon svelte-okvdq9"
+                                                                                  style="vertical-align: -0.15em; "><svg
+                                                                class="svg-help-circle-dims svelte-okvdq9" style=""><use
+                                                                style="fill: currentColor"
+                                                                xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#help-circle"></use></svg></span>
+                                                            <div slot="tooltip">You can activate dark mode in the <b><a
+                                                                    rel="nofollow noopener noreferrer" target="_blank"
+                                                                    id="to-layout-tab" href="#layout">layout</a></b>
+                                                                tab. Find out more in the <b><a
+                                                                        rel="nofollow noopener noreferrer"
+                                                                        target="_blank"
+                                                                        href="https://academy.datawrapper.de/article/357-dark-mode-in-embedded-datawrapper-visualizations">Academy</a></b>.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="toolbar-body svelte-hxjrc2">
+                                                    <div class="field has-addons buttons are-outlined">
+                                                        <div class="control">
+                                                            <button class="button is-small is-outlined is-dark svelte-p9rq6i is-selected">
+                                                                <span class="icon mx-0 svelte-okvdq9"
+                                                                      style="vertical-align: -0.15em; "><svg
+                                                                        class="svg-sun-dims svelte-okvdq9" style=""><use
+                                                                        style="fill: currentColor"
+                                                                        xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#sun"></use></svg></span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="control">
+                                                            <button id="dark-mode"
+                                                                    class="button is-small is-outlined is-dark svelte-p9rq6i">
+                                                                <span class="icon mx-0 svelte-okvdq9"
+                                                                      style="vertical-align: -0.15em; "><svg
+                                                                        class="svg-moon-dims svelte-okvdq9" style=""><use
+                                                                        style="fill: currentColor"
+                                                                        xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#moon"></use></svg></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <iframe style="display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; border: 0; opacity: 0; pointer-events: none; z-index: -1;"
+                        aria-hidden="true" tabindex="-1" src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+<button class="beacon button is-large is-primary is-circle svelte-8i9sa2"><span class="icon svelte-okvdq9"
+                                                                                style="vertical-align: -0.15em; "><svg
+        class="svg-graduation-dims svelte-okvdq9" style="font-size:1em;"><use style="fill: currentColor"
+                                                                              xlink:href="/lib/icons/symbol/svg/sprite.symbol.svg?v=1.12.0#graduation"></use></svg></span>
+</button>
+<footer class="footer svelte-1koh5ue">
+    <div class="container">
+        <hr>
+        <div class="columns">
+            <div class="column"><p class="mb-0">Datawrapper is developed by <b>Datawrapper GmbH</b>.</p>
+                <nav class="svelte-1koh5ue">
+                    <ul class="svelte-1koh5ue">
+                        <li class="svelte-1koh5ue"><a href="https://www.datawrapper.de/careers"
+                                                      class="svelte-1koh5ue highlight">We're Hiring</a></li>
+                        <li class="svelte-1koh5ue"><a href="https://academy.datawrapper.de/" class="svelte-1koh5ue">Academy</a>
+                        </li>
+                        <li class="svelte-1koh5ue"><a href="https://blog.datawrapper.de/"
+                                                      class="svelte-1koh5ue">Blog</a></li>
+                        <li class="svelte-1koh5ue"><a href="https://www.datawrapper.de/terms" class="svelte-1koh5ue">Terms</a>
+                        </li>
+                        <li class="svelte-1koh5ue"><a href="https://www.datawrapper.de/privacy" class="svelte-1koh5ue">Privacy
+                            Policy</a></li>
+                        <li class="svelte-1koh5ue"><a href="https://www.datawrapper.de/imprint" class="svelte-1koh5ue">Imprint</a>
+                        </li>
+                        <li class="svelte-1koh5ue"><a href="https://www.datawrapper.de/changelog"
+                                                      class="svelte-1koh5ue">Changelog</a></li>
+                        <li class="svelte-1koh5ue"><a href="mailto:support@datawrapper.de" class="svelte-1koh5ue">support@datawrapper.de</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="column is-narrow"><a href="#top">Back to top</a></div>
+        </div>
+    </div>
+</footer>
+<script src="/lib/csr/_partials/svelte2/Svelte2Wrapper.element.svelte.js?sha=f0bc35ed"></script>
+<script src="/lib/static/js/svelte2/upload.js?sha=f0bc35ed"></script>
+<script src="/lib/plugins/d3-maps/static/controls-choropleth.js?sha=c32b0b3a"></script>
+<script src="/lib/plugins/d3-maps/static/controls-choropleth.js?sha=c32b0b3a"></script>
+<div id="beacon-container">
+    <div class="hsds-beacon">
+        <div class="Beacon">
+            <div class="ContainerGradient-sc-c9f6a2-0 dLQACL"></div>
+            <div class="ContainerFramecss__WrapperUI-sc-1j8one0-0 fsgohG BeaconContainer is-configDisplayRight is-manual">
+                <button data-cy="beacon-close-button"
+                        class="CloseButtoncss__ButtonUI-sc-hcqsxt-0 kEDcDJ c-BeaconCloseButton is-rendered"><span
+                        class="CloseButtoncss__LabelUI-sc-hcqsxt-1 iNUbSw c-BeaconCloseButton__label"><span
+                        data-cy="Text" class="Textstyles__TextUI-sc-jkyxsz-0 frCWgc c-Text is-span is-13 is-default">Close</span></span><span
+                        aria-hidden="true" role="img" data-cy="Icon"
+                        class="Iconstyles__IconUI-sc-35yr6s-0 bGxvTN c-Icon is-noInteract is-24 c-BeaconCloseButton__iconClose"
+                        data-icon-name="" title=""><span class="c-Icon__icon"><span data-cy="BaseIcon"
+                                                                                    class="baseIcon__BaseIconUI-sc-q7zmye-0 izECQ"><svg
+                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd"
+                                                                                     d="M13.414 12l2.293-2.293a.999.999 0 1 0-1.414-1.414L12 10.586 9.707 8.293a.999.999 0 1 0-1.414 1.414L10.586 12l-2.293 2.293a.999.999 0 1 0 1.414 1.414L12 13.414l2.293 2.293a.997.997 0 0 0 1.414 0 .999.999 0 0 0 0-1.414L13.414 12z"></path></svg></span></span><span
+                        data-cy="VisuallyHidden"
+                        class="VisuallyHiddenstyles__VisuallyHiddenUI-sc-15ba650-0 bxIaSx c-VisuallyHidden"></span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

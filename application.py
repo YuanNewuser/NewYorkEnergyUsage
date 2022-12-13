@@ -48,6 +48,8 @@ def homepage():
     # data.TotalGHGEmissions= TotalGHGEmissions
     # data.WaterUse= WaterUse
 
+    # Note: MAC and Windows has different handling when reading this file !!!
+    # Windows:  df = pd.read_csv('NewYorkEnergyUsage.csv')
     df = pd.read_csv('../NewYorkEnergyUsage.csv')
     # dfP=dfP
     
@@ -113,13 +115,30 @@ def homepage():
 #1481  2106  ...   199.964497
 #1800  2559  ...   168.784931
 #[5 rows x 13 columns]
+
 @application.route("/get-data/",methods=["GET","POST"])
 def returnProdData():
-
-    f=data.Year
-    print(f)
-    return jsonify(f)
+    df1 = pd.read_csv('NewYorkEnergyUsage.csv')
+    Boroughs = df1["Borough"].values
+    sEUI = df1["Source EUI (kBtu/ft²)"].values
+    dict_sEUI = {}
+    for i in range(len(Boroughs)):
+        dict_sEUI[Boroughs[i]] = sEUI[i]
+    return json.dumps(dict_sEUI)
 # export the final result to a json file
+@application.route("/get-data",methods=["GET","POST"])
+def returnData():
+    df = pd.read_csv('NewYorkEnergyUsage.csv', index_col=0)
+    dfa = df.values
+    list_item = []
+    cols = df.columns.values.tolist()
+    for l in dfa:
+        item = {}
+        for i in range(len(cols)):
+            item[cols[i]] = l[i]
+        list_item.append(item)
+    return json.dumps(list_item)
+# Below for automatically populate in the dropdown list
 
 # Below for automatically populate in the dropdown list
 @application.route("/get-date",methods=["GET","POST"])
