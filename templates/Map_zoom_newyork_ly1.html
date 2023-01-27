@@ -15,8 +15,8 @@
         console.log(boroughSelect);
         var propertyTypeSelect = document.getElementById("propertyType");
         console.log(propertyTypeSelect);
-        var filteredBoroughName;
-        var filteredPropertyType;
+        var filteredBoroughName = "Manhattan";
+        var filteredPropertyType = "Multifamily";
 
         function updateMessageBox(newText) {
             var textElement = document.getElementById("messageText1");
@@ -54,6 +54,35 @@
                                 .style("fill", "#69b3a2")
                         })
         }
+
+        function updateGHGScatterPlot(newData) {
+            // Add X axis
+            var x = d3.scaleLinear()
+                .domain([1800, 2021])
+                .range([ 0, 380 ]);
+            svg1.append("g")
+                .attr("transform", `translate(0, 350)`)
+                .call(d3.axisBottom(x));
+
+            // Add Y axis
+            var y = d3.scaleLinear()
+                .domain([0, 850000])
+                .range([ 350, 0]);
+            svg1.append("g")
+                .call(d3.axisLeft(y));
+            d3.csv(newData).then( function(data) {
+                // Add dots
+                svg1.append('g')
+                    .selectAll("dot")
+                    .data(data)
+                    .join("circle")
+                    .attr("cx", function (d) { return x(d.tge); } )
+                    .attr("cy", function (d) { return y(d.seui); } )
+                    .attr("r", 1.5)
+                    .style("fill", "Yellow")
+            })
+        }
+
     </script>
     <div class="info-div" id="infoDiv" style="border: thin solid black">
         <p><b><i> Welcome to the Newyork energy usage visualization tool: <br>
@@ -90,15 +119,15 @@
             <option value="4" name='Hospitality' class="select-box__option">Hospitality</option>
             <option value="5" name='Hotel' class="select-box__option">Hotel</option>
         </select>
-        <label for="Borough">Correlation-x axis:</label>
+        <label for="x_axis">Correlation-x axis:</label>
         <select id="x_axis" class="select-box">
             <optgroup label="x_axis" class="select-box__current"></optgroup>
-            <option value="1" class="select-box__option">Year Built</option>
-            <option value="2" class="select-box__option">Occupancy</option>
-            <option value="3" class="select-box__option">Electricity Use - Grid Purchase (kBtu)</option>
-            <option value="4" class="select-box__option">Natural Gas Use (kBtu)</option>
-            <option value="5" class="select-box__option">Total GHG Emissions (Metric Tons CO2e)</option>
-            <option value="6" class="select-box__option">Water Use (All Water Sources) (kgal)</option>
+            <option value="1" name='yearBuilt' class="select-box__option">Year Built</option>
+            <option value="2" name='occupancy' class="select-box__option">Occupancy</option>
+            <option value="3" name='electricity' class="select-box__option">Electricity Use - Grid Purchase (kBtu)</option>
+            <option value="4" name='naturalGasUse' class="select-box__option">Natural Gas Use (kBtu)</option>
+            <option value="5" name='totalGHGEmissions' class="select-box__option">Total GHG Emissions (Metric Tons CO2e)</option>
+            <option value="6" name='waterUse' class="select-box__option">Water Use (All Water Sources) (kgal)</option>
         </select>
     </div>
 
@@ -281,7 +310,7 @@
                                 console.log(boroughArray);
                                 if ( boroughArray["Borough"] === d) {
                                     var euiArray = "Average Usage Metrics for "
-                                        + "<br> Borough " + d
+                                        + "<br> Borough: " + d
                                         + "<br> PropertyType" + ": " + filteredPropertyType
                                         + "<br> sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
                                         + "<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
@@ -778,6 +807,100 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                     }
                 })
             }
+        });
+
+
+        // Get a correlation reference to the dropdown list
+        var correctionDropdown = document.getElementById("x_axis");
+
+        correctionDropdown.addEventListener("change", function() {
+            var selectedValue = this.value;
+
+            if(filteredBoroughName === "Manhattan"){
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[0]
+                    console.log(strout);
+                    updateMessageBox2(strout);
+                })
+                if(selectedValue === "1"){
+                    updateScatterPlot("/static/Manhattan.csv");
+                }
+
+                if(selectedValue === "5"){
+                    updateGHGScatterPlot("/static/Manhattan.csv");
+                }
+
+
+            }
+
+            if(filteredBoroughName.toString() === "Queens" ){
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[1]
+                    console.log(strout);
+                    updateMessageBox2(strout);
+                })
+                if(selectedValue === "1"){
+                    updateScatterPlot("/static/Queens.csv");
+                }
+
+                if(selectedValue === "5"){
+                    updateGHGScatterPlot("/static/Queens.csv");
+                }
+
+            }
+
+            if(filteredBoroughName.toString() === "Bronx" ){
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[2]
+                    console.log(strout);
+                    updateMessageBox2(strout);
+                })
+
+                if(selectedValue === "1"){
+                    updateScatterPlot("/static/Bronx.csv");
+                }
+
+                if(selectedValue === "5"){
+                    updateGHGScatterPlot("/static/Bronx.csv");
+                }
+            }
+
+            if(filteredBoroughName.toString() === "Brooklyn" ){
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[3]
+                    console.log(strout);
+                    updateMessageBox2(strout);
+                })
+
+                if(selectedValue === "1"){
+                    updateScatterPlot("/static/Brooklyn.csv");
+                }
+                if(selectedValue === "5"){
+                    updateGHGScatterPlot("/static/Brooklyn.csv");
+                }
+            }
+
+            if(filteredBoroughName.toString() === "Staten Island" ){
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[4]
+                    console.log(strout);
+                    updateMessageBox2(strout);
+                })
+
+                if(selectedValue === "1"){
+                    updateScatterPlot("/static/Staten_Island.csv");
+                }
+                if(selectedValue === "5"){
+                    updateGHGScatterPlot("/static/Staten_Island.csv");
+                }
+            }
+
+
         });
 
     </script>
