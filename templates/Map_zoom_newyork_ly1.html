@@ -20,43 +20,6 @@
             textElement.innerHTML = newText;
         }
 
-        function boroughMessage(boroughListArray) {
-            for(let i=0; i<5; i++){
-                const boroughArray = boroughListArray[i];
-                console.log(boroughArray);
-                if (selectedValue === "1" && boroughArray["Borough"] === "Manhattan"){
-                    var euiArray = "Manhattan sEUI" + ": "+ boroughArray["SourceEUI"] +"<br> NaturalGasUse：" + boroughArray["NaturalGasUse"]
-                        +"<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"]
-                        +"<br> TotalGHGEmissions：" + boroughArray["TotalGHGEmissions"]
-                        +"<br> WaterUse：" + boroughArray["WaterUse"]
-                    updateMessageBox(euiArray)
-                } else if (selectedValue === "2"  && boroughArray["Borough"] === "Queens"){
-                    var euiArray = "Queens sEUI" + ": "+ boroughArray["SourceEUI"] +"<br> NaturalGasUse：" + boroughArray["NaturalGasUse"]
-                        +"<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"]
-                        +"<br> TotalGHGEmissions：" + boroughArray["TotalGHGEmissions"]
-                        +"<br> WaterUse：" + boroughArray["WaterUse"]
-                    updateMessageBox(euiArray)
-                } else if (selectedValue === "3"  && boroughArray["Borough"] === "Bronx"){
-                    var euiArray = "Bronx sEUI" + ": "+ boroughArray["SourceEUI"] +"<br> NaturalGasUse：" + boroughArray["NaturalGasUse"]
-                        +"<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"]
-                        +"<br> TotalGHGEmissions：" + boroughArray["TotalGHGEmissions"]
-                        +"<br> WaterUse：" + boroughArray["WaterUse"]
-                    updateMessageBox(euiArray)
-                } else if (selectedValue === "4"  && boroughArray["Borough"] === "Brooklyn"){
-                    var euiArray = "Brooklyn sEUI" + ": "+ boroughArray["SourceEUI"] +"<br> NaturalGasUse：" + boroughArray["NaturalGasUse"]
-                        +"<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"]
-                        +"<br> TotalGHGEmissions：" + boroughArray["TotalGHGEmissions"]
-                        +"<br> WaterUse：" + boroughArray["WaterUse"]
-                    updateMessageBox(euiArray)
-                } else if (selectedValue === "5"  && boroughArray["Borough"] === "Staten Island"){
-                    var euiArray = "Staten Island sEUI" + ": "+ boroughArray["SourceEUI"] +"<br> NaturalGasUse：" + boroughArray["NaturalGasUse"]
-                        +"<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"]
-                        +"<br> TotalGHGEmissions：" + boroughArray["TotalGHGEmissions"]
-                        +"<br> WaterUse：" + boroughArray["WaterUse"]
-                    updateMessageBox(euiArray)
-                }
-            }
-        }
         function updateScatterPlot(newData) {
                          // Add X axis
                         var x = d3.scaleLinear()
@@ -245,7 +208,16 @@
             x.domain([0, data.value]).nice();
         });
 
-        const p11 = Promise.resolve(euiReceived1);
+        const p1 = Promise.resolve(euiReceived1);
+
+        const corReceived = d3.json("/get-cor", function(error, data) {
+            //if (error) throw error;
+            // 分区布局节点
+            partition.nodes(data);
+            x.domain([0, data.value]).nice();
+        });
+
+        const p4 =  Promise.resolve(corReceived)
 
 
     
@@ -270,7 +242,7 @@
                 const borough = [boroughProperties.boro_name];
                 console.log(borough);
                 d3.select(this)
-                    .data(borough) //数据绑定
+                    .data(borough) //bind data
                     //.enter()
                     //.append("text")
                     .attr("fill", sp2[i % 6])
@@ -288,7 +260,7 @@
                         // console.log(d.boro_name);
                         console.log(d);
 
-                        p11.then(data => {
+                        p1.then(data => {
                             const boroughListArray = Object.values(data);
                             // boroughsEUIList(boroughListArray,selectedValue);
                             for(let i=0; i<boroughListArray.length; i++) {
@@ -304,6 +276,57 @@
                                 }
                             }
                         });
+
+                        if(d === "Manhattan"){
+                            p4.then(data => {
+                                var coref = Object.values(data)
+                                var strout = "R = " + coref[0]
+                                console.log(strout);
+                                updateMessageBox2(strout);
+                            })
+                            updateScatterPlot("/static/Manhattan.csv");
+                        }
+
+                        if(d.toString() === "Queens" ){
+                            p4.then(data => {
+                                var coref = Object.values(data)
+                                var strout = "R = " + coref[1]
+                                console.log(strout);
+                                updateMessageBox2(strout);
+                            })
+                            updateScatterPlot("/static/Queens.csv");
+                        }
+
+                        if(d.toString() === "Bronx" ){
+                            p4.then(data => {
+                                var coref = Object.values(data)
+                                var strout = "R = " + coref[2]
+                                console.log(strout);
+                                updateMessageBox2(strout);
+                            })
+                            updateScatterPlot("/static/Bronx.csv");
+                        }
+
+                        if(d.toString() === "Brooklyn" ){
+                            p4.then(data => {
+                                var coref = Object.values(data)
+                                var strout = "R = " + coref[3]
+                                console.log(strout);
+                                updateMessageBox2(strout);
+                            })
+                            updateScatterPlot("/static/Brooklyn.csv");
+                        }
+
+                        if(d.toString() === "Staten Island" ){
+                            p4.then(data => {
+                                var coref = Object.values(data)
+                                var strout = "R = " + coref[4]
+                                console.log(strout);
+                                updateMessageBox2(strout);
+                            })
+                            updateScatterPlot("/static/Staten_Island.csv");
+                        }
+
                         return d;
                     });
             })
@@ -451,19 +474,6 @@ d3.csv("/static/parseData.csv").then ( function(data) {
     svg1.append("g")
     .call(d3.axisLeft(y));
 
-        const euiReceived = d3.json("/get-borough-data", function(error, data) {
-            //if (error) throw error;
-            // 分区布局节点
-            partition.nodes(data);
-            x.domain([0, data.value]).nice();
-        });
-        const corReceived = d3.json("/get-cor", function(error, data) {
-            //if (error) throw error;
-            // 分区布局节点
-            partition.nodes(data);
-            x.domain([0, data.value]).nice();
-        });
-        const p1 = Promise.resolve(euiReceived)
         const dataReceived = d3.json("/get-data", function(error, data) {
             //if (error) throw error;
             // 分区布局节点
@@ -479,7 +489,6 @@ d3.csv("/static/parseData.csv").then ( function(data) {
 
         // Get a reference to the dropdown list
         var dropdown = document.getElementById("Borough");
-        const p4 =  Promise.resolve(corReceived)
         // Add an event listener for when the user selects an option
         dropdown.addEventListener("change", function() {
         // Get the value of the selected option
