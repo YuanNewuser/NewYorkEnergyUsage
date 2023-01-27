@@ -3,6 +3,7 @@ import pandas as pd
 
 import json
 import numpy as np
+from pandas.core.interchange import dataframe
 
 #1. Declare application
 application= Flask(__name__)
@@ -223,6 +224,39 @@ def returnPropertyTypeAllData():
 
     print(list_item)
     return json.dumps(list_item)
+
+@application.route("/get-filtered-data", methods=["GET","POST"])
+def returnFilteredData():
+    df1 = pd.read_csv('NewYorkEnergyUsage.csv')
+
+    borough_name = request.form.get('filteredBoroughName', 'Manhattan')
+    property_type = request.form.get('filteredPropertyType', 'Multifamily')
+
+    print(borough_name)
+    print(property_type)
+    print(df1)
+
+    # dfFiltered = df1[(df1['Property Type'].str.contains('Multifamily')) & (df1['Borough'].str.contains('Manhattan'))]
+    dfFiltered = df1[df1.Borough == borough_name]
+    # print("dfFiltered.head() = " + dfFiltered.head())
+
+    dfall = df1.groupby(['Property Type', 'Borough']).sum()
+    dfall = dfall.reset_index()
+    dfa = dfall.values
+    print(dfall.head())
+
+    list_item = []
+    cols = dfall.columns.values.tolist()
+    print(cols)
+    for l in dfa:
+        item = {}
+        for i in range(len(cols)):
+            item[cols[i]] = l[i]
+        list_item.append(item)
+
+    print(list_item)
+    return json.dumps(list_item)
+
 if __name__ == "__main__":
     application.run(debug=True)
 

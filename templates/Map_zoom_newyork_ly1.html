@@ -11,6 +11,13 @@
     <!-- below to import a css file -->
     <!-- <link rel="stylesheet" type="text/css" href="../source/css/style.css"> -->
     <script>
+        var boroughSelect = document.getElementById("Borough");
+        console.log(boroughSelect);
+        var propertyTypeSelect = document.getElementById("propertyType");
+        console.log(propertyTypeSelect);
+        var filteredBoroughName;
+        var filteredPropertyType;
+
         function updateMessageBox(newText) {
             var textElement = document.getElementById("messageText1");
             textElement.innerHTML = newText;
@@ -49,7 +56,7 @@
         }
     </script>
     <div class="info-div" id="infoDiv" style="border: thin solid black">
-        <p><b><i> Welcome to the Newyork energy usage visualization tool: </b><br>
+        <p><b><i> Welcome to the Newyork energy usage visualization tool: <br>
             <br>
             1. With the Borough, Property Type dropdown selection, you will see the corresponding energy usage information in messageBox on the right and related color coding on the map.
             (i.e. Energy Usage Density Level 1: 1000000- 2000000 kbtu/ft², Level 2: 1000000- 2000000 kbtu/ft², Level 3:  2000000- 4000000 kbtu/ft², Level 4:  4000000- 6000000 kbtu/ft² , Level 5:  6000000- 8000000 kbtu/ft²) ."
@@ -59,7 +66,7 @@
             A bar chart displays the overall usage for each property type;
             <br>
             3. With the X axis selection, you will see the correlation of the selected item to energy usage density, and it will reflect on the scarterplot.
-            </i></p >
+            </i></b></p >
     </div>
 </head>
 
@@ -68,20 +75,20 @@
         <label for="Borough">Borough:</label>
         <select id="Borough" class="select-box">
             <optgroup label="Borough" class="select-box__value"></optgroup>
-            <option value="1" class="select-box__list">Manhattan</option>
-            <option value="2" class="select-box__list">Queens</option>
-            <option value="3" class="select-box__list">Bronx</option>
-            <option value="4" class="select-box__list">Brooklyn</option>
-            <option value="5" class="select-box__list">Staten Island</option>
+            <option value="1" name='Manhattan' class="select-box__list">Manhattan</option>
+            <option value="2" name='Queens' class="select-box__list">Queens</option>
+            <option value="3" name='Bronx' class="select-box__list">Bronx</option>
+            <option value="4" name='Brooklyn' class="select-box__list">Brooklyn</option>
+            <option value="5" name='Staten Island' class="select-box__list">Staten Island</option>
         </select>
         <label for="PropertyType">Property Type:</label>
         <select id="PropertyType" class="select-box">
             <optgroup label="Property Type" class="select-box__current"></optgroup>
-            <option value="1" class="select-box__option">Multifamily</option>
-            <option value="2" class="select-box__option">Office</option>
-            <option value="3" class="select-box__option">Industrial</option>
-            <option value="4" class="select-box__option">Hospitality</option>
-            <option value="5" class="select-box__option">Hotel</option>
+            <option value="1" name='Multifamily' class="select-box__option">Multifamily</option>
+            <option value="2" name='Office' class="select-box__option">Office</option>
+            <option value="3" name='Industrial' class="select-box__option">Industrial</option>
+            <option value="4" name='Hospitality' class="select-box__option">Hospitality</option>
+            <option value="5" name='Hotel' class="select-box__option">Hotel</option>
         </select>
         <label for="Borough">Correlation-x axis:</label>
         <select id="x_axis" class="select-box">
@@ -219,7 +226,12 @@
 
         const p4 =  Promise.resolve(corReceived)
 
+        const filterReceived = d3.json("/get-filtered-data", function(error, data) {
+            partition.nodes(data);
+            x.domain([0, data.value]).nice();
+        });
 
+        const pFiltered =  Promise.resolve(filterReceived)
     
         /**
          * 利用pathGenerator与features生成path路径，绘制地图
@@ -259,6 +271,7 @@
                         // return d.properties.boro_name;
                         // console.log(d.boro_name);
                         console.log(d);
+                        filteredBoroughName = d;
 
                         p1.then(data => {
                             const boroughListArray = Object.values(data);
@@ -267,7 +280,9 @@
                                 const boroughArray = boroughListArray[i];
                                 console.log(boroughArray);
                                 if ( boroughArray["Borough"] === d) {
-                                    var euiArray = "Average Usage Metrics for Borough " + d
+                                    var euiArray = "Average Usage Metrics for "
+                                        + "<br> Borough " + d
+                                        + "<br> PropertyType" + ": " + filteredPropertyType
                                         + "<br> sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
                                         + "<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
                                         + "<br> TotalGHGEmissions：" + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
@@ -456,9 +471,6 @@ d3.csv("/static/parseData.csv").then ( function(data) {
 
 })
 
-//Read the data
-/*d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/2_TwoNum.csv").then( function(data) {*/
-
     // Add X axis
     var x = d3.scaleLinear()
     .domain([1800, 2021])
@@ -493,12 +505,14 @@ d3.csv("/static/parseData.csv").then ( function(data) {
         dropdown.addEventListener("change", function() {
         // Get the value of the selected option
         var selectedValue = this.value;
-        
+
         // Do something with the selected value
         // For example, you could use an if statement to take different actions
         // depending on the selected value:
             if (selectedValue === "1") {
                 // Do something when the first option is selected
+                filteredBoroughName = "Manhattan";
+                console.log(filteredBoroughName);
                 p1.then(data => {
                     const boroughListArray = Object.values(data);
                     // boroughsEUIList(boroughListArray,selectedValue);
@@ -506,8 +520,9 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                         const boroughArray = boroughListArray[i];
                         console.log(boroughArray);
                         if ( boroughArray["Borough"] === "Manhattan") {
-                            var euiArray = "Average Usage Metrics for Borough"
-                                + "<br> Manhattan sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: Manhattan"
+                                + "<br> sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
                                 + "<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
                                 + "<br> TotalGHGEmissions：" + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
                                 + "<br> WaterUse：" + boroughArray["WaterUse"] + " kgal"
@@ -524,6 +539,8 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                 updateScatterPlot("/static/Manhattan.csv")
             } else if (selectedValue === "2") {
                 // Do something when the second option is selected
+                filteredBoroughName = "Queens";
+                console.log(filteredBoroughName);
                 p1.then(data => {
                     const boroughListArray = Object.values(data);
                     // boroughsEUIList(boroughListArray,selectedValue);
@@ -531,8 +548,9 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                         const boroughArray = boroughListArray[i];
                         console.log(boroughArray);
                         if ( boroughArray["Borough"] === "Queens") {
-                            var euiArray = "Average Usage Metrics for Borough"
-                                + "<br> Queens sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: Queens"
+                                + "<br> sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
                                 + "<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
                                 + "<br> TotalGHGEmissions：" + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
                                 + "<br> WaterUse：" + boroughArray["WaterUse"] + " kgal"
@@ -548,6 +566,8 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                 updateScatterPlot("/static/Queens.csv")
             } else if (selectedValue === "3") {
                 // Do something when the third option is selected
+                filteredBoroughName = "Bronx";
+                console.log(filteredBoroughName);
                 p1.then(data => {
                     const boroughListArray = Object.values(data);
                     // boroughsEUIList(boroughListArray,selectedValue);
@@ -555,8 +575,9 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                         const boroughArray = boroughListArray[i];
                         console.log(boroughArray);
                         if ( boroughArray["Borough"] === "Bronx") {
-                            var euiArray = "Average Usage Metrics for Borough"
-                                + "<br> Bronx sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: Bronx"
+                                + "<br> sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
                                 + "<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
                                 + "<br> TotalGHGEmissions：" + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
                                 + "<br> WaterUse：" + boroughArray["WaterUse"] + " kgal"
@@ -572,6 +593,8 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                 updateScatterPlot("/static/Bronx.csv")
             } else if (selectedValue === "4") {
                 // Do something when the third option is selected
+                filteredBoroughName = "Brooklyn";
+                console.log(filteredBoroughName);
                 p1.then(data => {
                     const boroughListArray = Object.values(data);
                     // boroughsEUIList(boroughListArray,selectedValue);
@@ -579,8 +602,9 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                         const boroughArray = boroughListArray[i];
                         console.log(boroughArray);
                         if ( boroughArray["Borough"] === "Brooklyn") {
-                            var euiArray = "Average Usage Metrics for Borough"
-                                + "<br> Brooklyn sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: Brooklyn"
+                                + "<br> sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
                                 + "<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
                                 + "<br> TotalGHGEmissions：" + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
                                 + "<br> WaterUse：" + boroughArray["WaterUse"] + " kgal"
@@ -596,6 +620,8 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                 updateScatterPlot("/static/Brooklyn.csv")
             } else if (selectedValue === "5") {
                 // Do something when the third option is selected
+                filteredBoroughName = "Staten Island";
+                console.log(filteredBoroughName);
                 p1.then(data => {
                     const boroughListArray = Object.values(data);
                     // boroughsEUIList(boroughListArray); // Staten Island
@@ -603,8 +629,9 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                         const boroughArray = boroughListArray[i];
                         console.log(boroughArray);
                         if ( boroughArray["Borough"] === "Staten Island") {
-                            var euiArray = "Average Usage Metrics for Borough"
-                                + "<br> Staten Island sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: Staten Island"
+                                + "<br> sEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse：" + boroughArray["NaturalGasUse"] + " kBtu"
                                 + "<br> ElectricityUseGridPurchase：" + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
                                 + "<br> TotalGHGEmissions：" + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
                                 + "<br> WaterUse：" + boroughArray["WaterUse"] + " kgal"
@@ -619,6 +646,9 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                 })
                 updateScatterPlot("/static/Staten_Island.csv")
             }
+
+        });
+
         // Below used to retrive property type related information
         const euiPropertyAllReceived = d3.json("/get-propertyType-all-data", function(error, data) {
             //if (error) throw error;
@@ -638,14 +668,19 @@ d3.csv("/static/parseData.csv").then ( function(data) {
 
             if (selectedValue === "1") {
                 // Do something when the first option is selected
-                p3.then(data => {
+                filteredPropertyType = "Multifamily";
+                console.log(filteredPropertyType);
+
+                pFiltered.then(data => {
                     const propertyListArray = Object.values(data);
                     // boroughsEUIList(boroughListArray,selectedValue);
                     for(let i=0; i<propertyListArray.length; i++) {
                         const propertyArray = propertyListArray[i];
                         console.log(propertyArray);
                         if ( propertyArray["Property Type"] === "Multifamily") {
-                            var euiArray = "Average Usage Metrics for Property Types" + "<br> Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: " + filteredBoroughName
+                                + "<br> Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
                                 + "<br> Electricity Use Grid Purchase：" + propertyArray["Electricity Use - Grid Purchase (kBtu)"]
                                 + "<br> Total GHG Emissions：" + propertyArray["Total GHG Emissions (Metric Tons CO2e)"]
                                 + "<br> Water Use：" + propertyArray["Water Use (All Water Sources) (kgal)"]
@@ -656,14 +691,19 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                 })
             } else if (selectedValue === "2") {
                 // Do something when the second option is selected
-                p3.then(data => {
+                filteredPropertyType = "Office";
+                console.log(filteredPropertyType);
+
+                pFiltered.then(data => {
                     const propertyListArray = Object.values(data);
                     // boroughsEUIList(boroughListArray,selectedValue);
                     for(let i=0; i<propertyListArray.length; i++) {
                         const propertyArray = propertyListArray[i];
                         console.log(propertyArray);
                         if ( propertyArray["Property Type"] === "Office") {
-                            var euiArray = "Average Usage Metrics for Property Types" + "<br> Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: " + filteredBoroughName
+                                + "<br> Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
                                 + "<br> Electricity Use Grid Purchase：" + propertyArray["Electricity Use - Grid Purchase (kBtu)"]
                                 + "<br> Total GHG Emissions：" + propertyArray["Total GHG Emissions (Metric Tons CO2e)"]
                                 + "<br> Water Use：" + propertyArray["Water Use (All Water Sources) (kgal)"]
@@ -673,14 +713,19 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                 })
             } else if (selectedValue === "3") {
                 // Do something when the third option is selected
-                p3.then(data => {
+                filteredPropertyType = "Industrial";
+                console.log(filteredPropertyType);
+
+                pFiltered.then(data => {
                     const propertyListArray = Object.values(data);
                     // boroughsEUIList(boroughListArray,selectedValue);
                     for(let i=0; i<propertyListArray.length; i++) {
                         const propertyArray = propertyListArray[i];
                         console.log(propertyArray);
                         if ( propertyArray["Property Type"] === "Industrial") {
-                            var euiArray = "Average Usage Metrics for Property Types" + "<br> Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
+                            var euiArray = "Average Usage Metrics "
+                                + "<br> Borough: " + filteredBoroughName
+                                + "<br> Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
                                 + "<br> Electricity Use Grid Purchase：" + propertyArray["Electricity Use - Grid Purchase (kBtu)"]
                                 + "<br> Total GHG Emissions：" + propertyArray["Total GHG Emissions (Metric Tons CO2e)"]
                                 + "<br> Water Use：" + propertyArray["Water Use (All Water Sources) (kgal)"]
@@ -690,14 +735,19 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                 })
             } else if (selectedValue === "4") {
                 // Do something when the third option is selected
-                p3.then(data => {
+                filteredPropertyType = "Hospitality";
+                console.log(filteredPropertyType);
+
+                pFiltered.then(data => {
                     const propertyListArray = Object.values(data);
                     // boroughsEUIList(boroughListArray,selectedValue);
                     for(let i=0; i<propertyListArray.length; i++) {
                         const propertyArray = propertyListArray[i];
                         console.log(propertyArray);
                         if ( propertyArray["Property Type"] === "Hospitality") {
-                            var euiArray = "Average Usage Metrics for Property Types" + "<br> Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: " + filteredBoroughName
+                                + "<br> Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
                                 + "<br> Electricity Use Grid Purchase：" + propertyArray["Electricity Use - Grid Purchase (kBtu)"]
                                 + "<br> Total GHG Emissions：" + propertyArray["Total GHG Emissions (Metric Tons CO2e)"]
                                 + "<br> Water Use：" + propertyArray["Water Use (All Water Sources) (kgal)"]
@@ -707,14 +757,19 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                 })
             } else if (selectedValue === "5") {
                 // Do something when the third option is selected
-                p3.then(data => {
+                filteredPropertyType = "Hotel";
+                console.log(filteredPropertyType);
+
+                pFiltered.then(data => {
                     const propertyListArray = Object.values(data);
                     // boroughsEUIList(boroughListArray); // Staten Island
                     for(let i=0; i<propertyListArray.length; i++) {
                         const propertyArray = propertyListArray[i];
                         console.log(propertyArray);
                         if ( propertyArray["Property Type"] === "Hotel") {
-                            var euiArray = "Average Usage Metrics for Property Types" + "<br> Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: " + filteredBoroughName
+                                + "<br> Property Type:"+ propertyArray["Property Type"] +"<br> Source EUI:"+ propertyArray["Source EUI (kBtu/ft²)"] + "<br> Natural Gas Use：" + propertyArray["Natural Gas Use (kBtu)"]
                                 + "<br> Electricity Use Grid Purchase：" + propertyArray["Electricity Use - Grid Purchase (kBtu)"]
                                 + "<br> Total GHG Emissions：" + propertyArray["Total GHG Emissions (Metric Tons CO2e)"]
                                 + "<br> Water Use：" + propertyArray["Water Use (All Water Sources) (kgal)"]
@@ -723,8 +778,6 @@ d3.csv("/static/parseData.csv").then ( function(data) {
                     }
                 })
             }
-        });
-
         });
 
     </script>
