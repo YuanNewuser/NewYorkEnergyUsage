@@ -47,24 +47,22 @@
                         })
         }
     </script>
-    
+    <div class="info-div" id="infoDiv" style="border: thin solid black">
+        <p><b><i> Welcome to the Newyork energy usage visulization tool:  </b><br>
+            <br>
+            1. With the Borough, Property Type dropdown selection, you will see the cooresponded energy usage information in messageBox on the right and related color coding on the map.
+            (i.e. Energy Usage Density Level 1: 1000000- 2000000 kbtu/ft², Level 2: 1000000- 2000000 kbtu/ft², Level 3:  2000000- 4000000 kbtu/ft², Level 4:  4000000- 6000000 kbtu/ft² , Level 5:  6000000- 8000000 kbtu/ft²) ."
+            <br>
+            2. With the Property Type dropdown selection, you will see the cooresponded energy usage information in messageBox on the right and related color coding on the map;
+            <br>
+            A bar chart displaye the overall usage for each property type;
+            <br>
+            3. With the X axis selection, you will see the correlation of the selected item to energy usage density, and it will reflect on the scarterplot.
+            </i></p >
+    </div>
 </head>
 
 <body>
-<div class="info-div" id="infoDiv" style="border: thin solid black">
-    <p><b><i> Welcome to the Newyork energy usage visulization tool:  </b><br>
-        <br>
-        1. With the Borough, Property Type dropdown selection, you will see the cooresponded energy usage information in messageBox on the right and related color coding on the map.
-        (i.e. Energy Usage Density Level 1: 1000000- 2000000 kbtu/ft², Level 2: 1000000- 2000000 kbtu/ft², Level 3:  2000000- 4000000 kbtu/ft², Level 4:  4000000- 6000000 kbtu/ft² , Level 5:  6000000- 8000000 kbtu/ft²) ."
-        <br>
-        2. With the Property Type dropdown selection, you will see the cooresponded energy usage information in messageBox on the right and related color coding on the map;
-        <br>
-        A bar chart displaye the overall usage for each property type;
-        <br>
-        3. With the X axis selection, you will see the correlation of the selected item to energy usage density, and it will reflect on the scarterplot.
-        </i></p>
-</div>
-
     <div class="selection-wrapper">
         <label for="Borough">Borough:</label>
         <select id="Borough" class="select-box">
@@ -260,9 +258,6 @@ const margin = {top: 30, right: 40, bottom: 10, left: 50},
         width = 470 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
-var margin1 = {top: 30, right: 30, bottom: 70, left: 60},
-    width1 = 460 - margin1.left - margin1.right,
-    height1 = 400 - margin1.top - margin1.bottom;
 
 var container = d3.select("#my_dataviz");
 var svg1 = container
@@ -296,13 +291,78 @@ svg1.append("text")
                 .attr("y", height - 365)
                 .text("Source EUI / Year Built Correlation");
 
-var svg2 = d3.select("#my_dataviz")
+// set the dimensions and margins of the graph
+const margin1 = {top: 30, right: 30, bottom: 70, left: 60},
+    width1 = 460 - margin1.left - margin1.right,
+    height1 = 400 - margin1.top - margin1.bottom;
+
+// append the svg object to the body of the page
+const svg2 = d3.select("#my_dataviz1")
   .append("svg")
     .attr("width", width1 + margin1.left + margin1.right)
     .attr("height", height1 + margin1.top + margin1.bottom)
   .append("g")
-    .attr("transform",
-          "translate(" + margin1.left + "," + margin1.top + ")");
+    .attr("transform", `translate(${margin1.left}, ${margin1.top})`);
+    svg2.append("text")
+  .attr("class", "x label")
+  .attr("text-anchor", "end")
+  .attr("x", width1)
+  .attr("y", height1 - 15)
+  .text("Property Type");
+  svg2.append("text")
+  .attr("class", "y label")
+  .attr("text-anchor", "end")
+  .attr("y", 50)
+  .attr("dy", ".75em")
+  .attr("transform", "rotate(-90)")
+  .text("Source EUI (kBtu/ft²)");
+  svg2.append("text")
+                .attr("class", "chart label")
+                .attr("text-anchor", "end")
+                .attr("x", width - 10)
+                .attr("y", height - 365)
+                .text("Source EUI / Property Type");
+
+// Parse the Data
+d3.csv("/static/parseData.csv").then ( function(data) {
+
+  // sort data
+  data.sort(function(b, a) {
+    return a.seui - b.seui;
+  });
+
+  // X axis
+  const x2 = d3.scaleBand()
+    .range([ 0, width1 ])
+    .domain(data.map(d => d.pt))
+    .padding(0.2);
+  svg2.append("g")
+    .attr("transform", `translate(0, ${height1})`)
+    .call(d3.axisBottom(x2))
+    .selectAll("text")
+      .attr("transform", "translate(-10,0)rotate(-45)")
+      .style("text-anchor", "end");
+
+  // Add Y axis
+  const y2 = d3.scaleLinear()
+    .domain([0, 7500000])
+    .range([ height1, 0]);
+  svg2.append("g")
+    .call(d3.axisLeft(y2));
+
+  // Bars
+  svg2.selectAll("mybar")
+    .data(data)
+    .enter()
+    .append("rect")
+      .attr("x", d => x2(d.pt))
+      .attr("y", d => y2(d.seui))
+      .attr("width", x2.bandwidth())
+      .attr("height", d => height1 - y2(d.seui))
+      .attr("fill", "#69b3a2")
+
+})
+
 //Read the data
 /*d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/2_TwoNum.csv").then( function(data) {*/
 
@@ -388,7 +448,7 @@ var svg2 = d3.select("#my_dataviz")
                 })
                 p4.then(data => {
                     var coref = Object.values(data)
-                    var strout = "The Pearson correlation coefficient is " + coref[0]
+                    var strout = "R = " + coref[0]
                     updateMessageBox1(strout)
                 })
                 updateScatterPlot("/static/Manhattan.csv")
@@ -412,7 +472,7 @@ var svg2 = d3.select("#my_dataviz")
                 })
                 p4.then(data => {
                     var coref = Object.values(data)
-                    var strout = "The Pearson correlation coefficient is " + coref[1]
+                    var strout = "R = " + coref[1]
                     updateMessageBox1(strout)
                 })
                 updateScatterPlot("/static/Queens.csv")
@@ -436,7 +496,7 @@ var svg2 = d3.select("#my_dataviz")
                 })
                 p4.then(data => {
                     var coref = Object.values(data)
-                    var strout = "The Pearson correlation coefficient is " + coref[2]
+                    var strout = "R = " + coref[2]
                     updateMessageBox1(strout)
                 })
                 updateScatterPlot("/static/Bronx.csv")
@@ -460,7 +520,7 @@ var svg2 = d3.select("#my_dataviz")
                 })
                 p4.then(data => {
                     var coref = Object.values(data)
-                    var strout = "The Pearson correlation coefficient is " + coref[3]
+                    var strout = "R = " + coref[3]
                     updateMessageBox1(strout)
                 })
                 updateScatterPlot("/static/Brooklyn.csv")
@@ -484,7 +544,7 @@ var svg2 = d3.select("#my_dataviz")
                 })
                 p4.then(data => {
                     var coref = Object.values(data)
-                    var strout = "The Pearson correlation coefficient is " + coref[4]
+                    var strout = "R = " + coref[4]
                     updateMessageBox1(strout)
                 })
                 updateScatterPlot("/static/Staten_Island.csv")
@@ -594,61 +654,52 @@ var svg2 = d3.select("#my_dataviz")
                 })
             }
         });
-            d3.selectAll("path")
-                .attr("fill", function(d, i) {
-                    return ss2[i % 6]
-                })
 
         });
-
-        // Below is for ploting the bar chart
-        var containerBar = d3.select("#my_dataviz1");
-        var svgBar = containerBar
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        svgBar.style("position", "absolute")
-            .style("top", "350px")
-            .style("right", "800px");
-        svgBar.append("text")
-            .attr("class", "x label")
-            .attr("text-anchor", "end")
-            .attr("x", width)
-            .attr("y", height - 15)
-            .text("Property Type");
-
-        const euiPropertyReceived = d3.json("/get-propertyType-eui-data", function(error, data) {
-            //if (error) throw error;
-            partition.nodes(data);
-            x.domain([0, data.value]).nice();
-
-        });
-        const pproperty = Promise.resolve(euiPropertyReceived)
-
-        var linear = d3.scaleLinear()
-            .domain([0, d3.max(pproperty)])
-            .range([ 0,400]);
-
-        var rectHeight = 30;
-        svgBar.selectAll("rect")
-            .data(pproperty)
-            .enter()
-            .append("rect")
-            .attr("x",0)
-            .attr("y",function(d,i){
-                return i * (rectHeight + 5);
-            })
-            .attr("width",function(d){
-                return linear(d);
-            })
-            .attr("height",rectHeight)
-            .attr("fill","steelblue")
-            .attr("opacity",0.4);
-
-
+        /*console.log(energyDateReceived);
+        document.getElementById("yearsListTest").innerHTML = energyDateReceived;*/
+        
+        /*window.onload = function(){
+            // Below is used to test the append the year list in dropdown
+            const energyData = [{"name": "2010","value": "2010"},{"name": "2011","value": "2011"}]; // this is would be retrived from py
+            const energyDate = [ "2010", "2011"]; // this is would be retrived from py
+    
+            // has some problem, but at least work
+            d3.select("yearsListTest")
+            .data(energyDate)
+            .enter().append("div")
+            .style("width", function(d) { return d * 50 + "px"; })
+            .text(function(d) { return d; });
+    
+            const c = document.querySelector('#yearsListTest');
+            const yeardiv= c.appendChild(document.createElement('div'));
+        
+    
+            /*
+            for(const key in energyData){
+                document.getElementById("yearsListTest").options.appendChild( // add, append, appendItem has problem
+                    new Option(energyData[key].name, energyData[key].value)
+                );
+            }
+    
+            // Below is used to test displaying statistical data
+            const energyMessageDiv = document.createElement("div");
+            const nodeText = document.createTextNode("I am test for energy usage");
+            energyMessageDiv.appendChild(nodeText);
+            energyMessageDiv.style.color = 'grey';
+            document.body.appendChild(energyMessageDiv);
+    
+            // const svg1 = d3.select("selection-map-wrapper").append("div").attr("I am test for energy usage");
+    
+            const messagesection = d3.selectAll("selection-map-wrapper");
+            const div33 = messagesection.append("div");
+            div33.style.color = 'red';
+            div33.style.x0 = 50;
+            div33.style.y0 = 50;
+            div33.name("messageTest");
+            div33.attr("Hello, world!");
+    
+        }*/
     </script>
 </body>
 
@@ -665,13 +716,12 @@ var svg2 = d3.select("#my_dataviz")
     .selection-wrapper {
         justify-content: space-around;
         display: flex;
-        top: 80px;
     }
 
     .map-message-wapper {
         display: grid;
         grid-template-columns: 700px 400px;
-        grid-template-rows: 300px 100px;
+        grid-template-rows: 100px 100px;
         grid-gap: 10px;
     }
 
@@ -680,8 +730,7 @@ var svg2 = d3.select("#my_dataviz")
         position: relative;
         display: block;
         width: 450px;
-        height: 170px;
-        top: 130px;
+        height: 200px;
         margin: 0 auto;
         font-family: var(--font-family-main);
         font-size: 18px;
@@ -697,7 +746,7 @@ var svg2 = d3.select("#my_dataviz")
         position: relative;
         display: block;
         width: 450px;
-        height: 50px;
+        height: 100px;
         margin: 0 auto;
         font-family: var(--font-family-main);
         font-size: 18px;
@@ -820,7 +869,7 @@ var svg2 = d3.select("#my_dataviz")
         width: 450px;
         height: 100px;
         right: 100px;
-        top: 100px;
+        top: 300px;
         padding: 10px;
     }
 
@@ -830,7 +879,7 @@ var svg2 = d3.select("#my_dataviz")
         width: 450px;
         height: 200px;
         right: 100px;
-        top: 780px;
+        top: 980px;
         padding: 10px;
     }
 
@@ -840,7 +889,7 @@ var svg2 = d3.select("#my_dataviz")
         width: 460px;
         height: 400px;
         right: 90px;
-        top: 450px;
+        top: 550px;
         padding: 0;
         display: block;
         margin: 6px;
@@ -858,7 +907,7 @@ var svg2 = d3.select("#my_dataviz")
         width: 460px;
         height: 400px;
         right: 650px;
-        top: 450px;
+        top: 550px;
         padding: 0;
         display: block;
         margin: 6px;
