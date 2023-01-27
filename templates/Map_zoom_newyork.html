@@ -10,166 +10,132 @@
 
     <!-- below to import a css file -->
     <!-- <link rel="stylesheet" type="text/css" href="../source/css/style.css"> -->
+    <script>
+        var boroughSelect = document.getElementById("Borough");
+        console.log(boroughSelect);
+        var propertyTypeSelect = document.getElementById("propertyType");
+        console.log(propertyTypeSelect);
+        var filteredBoroughName = "Manhattan";
+        var filteredPropertyType = "Multifamily";
+
+        function updateMessageBox(newText) {
+            var textElement = document.getElementById("messageText1");
+            textElement.innerHTML = newText;
+        }
+        function updateMessageBox2(newText) {
+            var textElement = document.getElementById("messageText2");
+            textElement.innerHTML = newText;
+        }
+
+        function updateScatterPlot(newData) {
+                         // Add X axis
+                        var x = d3.scaleLinear()
+                        .domain([1800, 2021])
+                        .range([ 0, 380 ]);
+                        svg1.append("g")
+                        .attr("transform", `translate(0, 350)`)
+                        .call(d3.axisBottom(x));
+
+                        // Add Y axis
+                        var y = d3.scaleLinear()
+                        .domain([0, 850000])
+                        .range([ 350, 0]);
+                        svg1.append("g")
+                        .call(d3.axisLeft(y));
+                        d3.csv(newData).then( function(data) {
+                            // Add dots
+                            svg1.append('g')
+                            .selectAll("dot")
+                            .data(data)
+                            .join("circle")
+                                .attr("cx", function (d) { return x(d.yb); } )
+                                .attr("cy", function (d) { return y(d.seui); } )
+                                .attr("r", 1.5)
+                                .style("fill", "#69b3a2")
+                        })
+        }
+
+        function updateGHGScatterPlot(newData) {
+            // Add X axis
+            var x = d3.scaleLinear()
+                .domain([1800, 2021])
+                .range([ 0, 380 ]);
+            svg1.append("g")
+                .attr("transform", `translate(0, 350)`)
+                .call(d3.axisBottom(x));
+
+            // Add Y axis
+            var y = d3.scaleLinear()
+                .domain([0, 850000])
+                .range([ 350, 0]);
+            svg1.append("g")
+                .call(d3.axisLeft(y));
+            d3.csv(newData).then( function(data) {
+                // Add dots
+                svg1.append('g')
+                    .selectAll("dot")
+                    .data(data)
+                    .join("circle")
+                    .attr("cx", function (d) { return x(d.tge); } )
+                    .attr("cy", function (d) { return y(d.seui); } )
+                    .attr("r", 1.5)
+                    .style("fill", "Yellow")
+            })
+        }
+
+    </script>
+    <div class="info-div" id="infoDiv" style="border: thin solid black">
+        <p><b><i> Welcome to the Newyork energy usage visualization tool: <br>
+            <br>
+            1. With the Borough, Property Type dropdown selection, you will see the corresponding energy usage information in messageBox on the right and related color coding on the map.
+            (i.e. Energy Usage Density Level 1: 1000000- 2000000 kbtu/ft², Level 2: 1000000- 2000000 kbtu/ft², Level 3:  2000000- 4000000 kbtu/ft², Level 4:  4000000- 6000000 kbtu/ft² , Level 5:  6000000- 8000000 kbtu/ft²) ."
+            <br>
+            2. With the Property Type dropdown selection, you will see the corresponding energy usage information in messageBox on the right and related color coding on the map;
+            <br>
+            A bar chart displays the overall usage for each property type;
+            <br>
+            3. With the X axis selection, you will see the correlation of the selected item to energy usage density, and it will reflect on the scarterplot.
+            </i></b></p >
+    </div>
 </head>
 
 <body>
-    <div class="selection-map-wrapper">
     <div class="selection-wrapper">
-
-        <div class="select-box">
-            <p class="selectTitle IND">Energy Usage</p>
-            <div id="indicator" class="select-box__current" tabindex="0">
-                <i class="select-box__icon fal fa-chevron-down" alt="Arrow Icon" aria-hidden="true"></i>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="sourceEUI" value="sourceEUI" name="indicator" checked="checked"><p class="select-box__input-text" value="fuelMainFuel">Source EUI</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="totalGHGEmission" value="totalGHGEmission" name="indicator"><p class="select-box__input-text" value="fuelCoal">Total GHG Emissions</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="naturalGasUse" value="naturalGasUse" name="indicator"><p class="select-box__input-text" value="fuelFossil">Natural gas use</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="electricityUseGridPurchase" value="electricityUseGridPurchase" name="indicator"><p class="select-box__input-text" value="fuelOtherFossil">Electricity Use Grid Purchase</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="waterUse" value="waterUse" name="indicator"><p class="select-box__input-text" value="fuelOil">Water Use</p></div>
-            </div>
-            <ul id="indicatorList" class="select-box__list" onclick="energyUsageInputSelection()">
-                <li><label class="select-box__option" for="sourceEUI" aria-hidden="true">Source EUI</label></li>
-                <li><label class="select-box__option" for="totalGHGEmission" aria-hidden="true">Total GHG Emissions</label></li>
-                <li><label class="select-box__option" for="naturalGasUse" aria-hidden="true">Natural gas use</label></li>
-                <li><label class="select-box__option" for="electricityUseGridPurchase" aria-hidden="true">Electricity Use Grid Purchase</label></li>
-                <li><label class="select-box__option" for="waterUse" aria-hidden="true">Water Use</label></li>
-            </ul>
-        </div>
-
-        <div class="select-box">
-            <p class="selectTitle IND">Boroughs</p>
-            <div id="borough" class="select-box__current" tabindex="0">
-                <i class="select-box__icon fal fa-chevron-down" alt="Arrow Icon" aria-hidden="true"></i>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="Bronx" value="Bronx" name="indicator" checked="checked"><p class="select-box__input-text" value="fuelMainFuel">Bronx</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="Brooklyn" value="Brooklyn" name="indicator"><p class="select-box__input-text" value="fuelCoal">Brooklyn</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="Manhattan" value="Manhattan" name="indicator"><p class="select-box__input-text" value="fuelFossil">Manhattan</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="Queens" value="Queens" name="indicator"><p class="select-box__input-text" value="fuelOtherFossil">Queens</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="Staten Island" value="Staten Island" name="indicator"><p class="select-box__input-text" value="fuelOil">Staten Island</p></div>
-            </div>
-            <ul id="boroughList" class="select-box__list" onclick="energyUsageInputSelection()" >
-                <li><label class="select-box__option" for="Bronx" aria-hidden="true">Bronx</label></li>
-                <li><label class="select-box__option" for="Brooklyn" aria-hidden="true">Brooklyn</label></li>
-                <li><label class="select-box__option" for="Manhattan" aria-hidden="true">Manhattan</label></li>
-                <li><label class="select-box__option" for="Queens" aria-hidden="true">Queens</label></li>
-                <li><label class="select-box__option" for="Staten Island" aria-hidden="true">Staten Island</label></li>
-            </ul>
-        </div>
-
-            <div class="select-box">
-                <p class="selectTitle IND">Property Type</p>
-                <div id="propertyType" class="select-box__current" tabindex="0">
-                    <i class="select-box__icon fal fa-chevron-down" alt="Arrow Icon" aria-hidden="true"></i>
-                    <div class="select-box__value"><input class="select-box__input" type="radio" id="Multifamily" value="Multifamily" name="indicator" checked="checked"><p class="select-box__input-text" value="Multifamily">Multifamily</p></div>
-                    <div class="select-box__value"><input class="select-box__input" type="radio" id="Office" value="Brooklyn" name="indicator"><p class="select-box__input-text" value="Office">Office</p></div>
-                    <div class="select-box__value"><input class="select-box__input" type="radio" id="Industrial" value="Industrial" name="indicator"><p class="select-box__input-text" value="Industrial">Industrial</p></div>
-                    <div class="select-box__value"><input class="select-box__input" type="radio" id="Retail" value="Retail" name="indicator"><p class="select-box__input-text" value="Retail">Retail</p></div>
-                    <div class="select-box__value"><input class="select-box__input" type="radio" id="Hotels & Hospitality" value="Hotels & Hospitality" name="indicator"><p class="select-box__input-text" value="fuelOil">Hotels & Hospitality</p></div>
-                    <div class="select-box__value"><input class="select-box__input" type="radio" id="MixedUse" value="MixedUse" name="indicator"><p class="select-box__input-text" value="MixedUse">MixedUse</p></div>
-                    <div class="select-box__value"><input class="select-box__input" type="radio" id="SpecialPurpose" value="SpecialPurpose" name="indicator"><p class="select-box__input-text" value="SpecialPurpose">SpecialPurpose</p></div>
-                </div>
-                <ul id="propertyTypeList" class="select-box__list" onclick="energyUsageInputSelection()">
-                    <li><label class="select-box__option" for="Multifamily" aria-hidden="true">Multifamily</label></li>
-                    <li><label class="select-box__option" for="Office" aria-hidden="true">Office</label></li>
-                    <li><label class="select-box__option" for="Industrial" aria-hidden="true">Industrial</label></li>
-                    <li><label class="select-box__option" for="Retail" aria-hidden="true">Retail</label></li>
-                    <li><label class="select-box__option" for="Hotels & Hospitality" aria-hidden="true">Hotels & Hospitality</label></li>
-                    <li><label class="select-box__option" for="MixedUse" aria-hidden="true">Mixed Use</label></li>
-                    <li><label class="select-box__option" for="SpecialPurpose" aria-hidden="true">Special Purpose</label></li>
-                </ul>
-            </div>
-
-        <div class="select-box">
-            <p class="selectTitle YEAR">Years</p>
-            <div id="years" class="select-box__current" tabindex="0">
-                <i class="select-box__icon fal fa-chevron-down" alt="Arrow Icon" aria-hidden="true"></i>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2020" value="2020" name="year" checked="checked"><p class="select-box__input-text">2020</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2019" value="2019" name="year"><p class="select-box__input-text">2019</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2018" value="2018" name="year"><p class="select-box__input-text">2018</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2017" value="2017" name="year"><p class="select-box__input-text">2017</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2016" value="2016" name="year"><p class="select-box__input-text">2016</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2015" value="2015" name="year"><p class="select-box__input-text">2015</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2014" value="2014" name="year"><p class="select-box__input-text">2014</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2013" value="2013" name="year"><p class="select-box__input-text">2013</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2012" value="2012" name="year"><p class="select-box__input-text">2012</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2011" value="2011" name="year"><p class="select-box__input-text">2011</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2010" value="2010" name="year"><p class="select-box__input-text">2010</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2009" value="2009" name="year"><p class="select-box__input-text">2009</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2008" value="2008" name="year"><p class="select-box__input-text">2008</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2007" value="2007" name="year"><p class="select-box__input-text">2007</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2006" value="2006" name="year"><p class="select-box__input-text">2006</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2005" value="2005" name="year"><p class="select-box__input-text">2005</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2004" value="2004" name="year"><p class="select-box__input-text">2004</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2003" value="2003" name="year"><p class="select-box__input-text">2003</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2002" value="2002" name="year"><p class="select-box__input-text">2002</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2001" value="2001" name="year"><p class="select-box__input-text">2001</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2000" value="2000" name="year"><p class="select-box__input-text">2000</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1999" value="1999" name="year"><p class="select-box__input-text">1999</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1998" value="1998" name="year"><p class="select-box__input-text">1998</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1997" value="1997" name="year"><p class="select-box__input-text">1997</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1996" value="1996" name="year"><p class="select-box__input-text">1996</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1995" value="1995" name="year"><p class="select-box__input-text">1995</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1994" value="1994" name="year"><p class="select-box__input-text">1994</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1993" value="1993" name="year"><p class="select-box__input-text">1993</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1992" value="1992" name="year"><p class="select-box__input-text">1992</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1991" value="1991" name="year"><p class="select-box__input-text">1991</p></div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1990" value="1990" name="year"><p class="select-box__input-text">1990</p></div></div>
-            <ul id="yearsList" class="select-box__list" onclick="energyUsageInputSelection()">
-                <li><label class="select-box__option" for="2020" aria-hidden="true">2020</label></li>
-                <li><label class="select-box__option" for="2019" aria-hidden="true">2019</label></li>
-                <li><label class="select-box__option" for="2018" aria-hidden="true">2018</label></li>
-                <li><label class="select-box__option" for="2017" aria-hidden="true">2017</label></li>
-                <li><label class="select-box__option" for="2016" aria-hidden="true">2016</label></li>
-                <li><label class="select-box__option" for="2015" aria-hidden="true">2015</label></li>
-                <li><label class="select-box__option" for="2014" aria-hidden="true">2014</label></li>
-                <li><label class="select-box__option" for="2013" aria-hidden="true">2013</label></li>
-                <li><label class="select-box__option" for="2012" aria-hidden="true">2012</label></li>
-                <li><label class="select-box__option" for="2011" aria-hidden="true">2011</label></li>
-                <li><label class="select-box__option" for="2010" aria-hidden="true">2010</label></li>
-                <li><label class="select-box__option" for="2009" aria-hidden="true">2009</label></li>
-                <li><label class="select-box__option" for="2008" aria-hidden="true">2008</label></li>
-                <li><label class="select-box__option" for="2007" aria-hidden="true">2007</label></li>
-                <li><label class="select-box__option" for="2006" aria-hidden="true">2006</label></li>
-                <li><label class="select-box__option" for="2005" aria-hidden="true">2005</label></li>
-                <li><label class="select-box__option" for="2004" aria-hidden="true">2004</label></li>
-                <li><label class="select-box__option" for="2003" aria-hidden="true">2003</label></li>
-                <li><label class="select-box__option" for="2002" aria-hidden="true">2002</label></li>
-                <li><label class="select-box__option" for="2001" aria-hidden="true">2001</label></li>
-                <li><label class="select-box__option" for="2000" aria-hidden="true">2000</label></li>
-                <li><label class="select-box__option" for="1999" aria-hidden="true">1999</label></li>
-                <li><label class="select-box__option" for="1998" aria-hidden="true">1998</label></li>
-                <li><label class="select-box__option" for="1997" aria-hidden="true">1997</label></li>
-                <li><label class="select-box__option" for="1996" aria-hidden="true">1996</label></li>
-                <li><label class="select-box__option" for="1995" aria-hidden="true">1995</label></li>
-                <li><label class="select-box__option" for="1994" aria-hidden="true">1994</label></li>
-                <li><label class="select-box__option" for="1993" aria-hidden="true">1993</label></li>
-                <li><label class="select-box__option" for="1992" aria-hidden="true">1992</label></li>
-                <li><label class="select-box__option" for="1991" aria-hidden="true">1991</label></li>
-                <li><label class="select-box__option" for="1990" aria-hidden="true">1990</label></li>
-            </ul>
-        </div>
-
-
-        <div class="select-box">
-            <p class="selectTitle YEAR Test">Years Test</p>
-            <div id="yearsTest" class="select-box__current" tabindex="0">
-                <i class="select-box__icon fal fa-chevron-down" alt="Arrow Icon" aria-hidden="true"></i>
-                <div class="select-box__value">
-                    <input class="select-box__input" type="radio" id="2020Test" value="2020Test" name="year" checked="checked">
-                    <p class="select-box__input-text_test">2020</p>
-                </div>
-            </div>
-            <ul id="yearsListTest" class="select-box__list">
-                <li><label class="select-box__option" for="2020" aria-hidden="true">2020Test</label></li>
-            </ul>
-        </div>
-
-
+        <label for="Borough">Borough:</label>
+        <select id="Borough" class="select-box">
+            <optgroup label="Borough" class="select-box__value"></optgroup>
+            <option value="1" name='Manhattan' class="select-box__list">Manhattan</option>
+            <option value="2" name='Queens' class="select-box__list">Queens</option>
+            <option value="3" name='Bronx' class="select-box__list">Bronx</option>
+            <option value="4" name='Brooklyn' class="select-box__list">Brooklyn</option>
+            <option value="5" name='Staten Island' class="select-box__list">Staten Island</option>
+        </select>
+        <label for="PropertyType">Property Type:</label>
+        <select id="PropertyType" class="select-box">
+            <optgroup label="Property Type" class="select-box__current"></optgroup>
+            <option value="1" name='Multifamily' class="select-box__option">Multifamily</option>
+            <option value="2" name='Office' class="select-box__option">Office</option>
+            <option value="3" name='Industrial' class="select-box__option">Industrial</option>
+            <option value="4" name='Hospitality' class="select-box__option">Hospitality</option>
+            <option value="5" name='Hotel' class="select-box__option">Hotel</option>
+        </select>
+        <label for="x_axis">Correlation-x axis:</label>
+        <select id="x_axis" class="select-box">
+            <optgroup label="x_axis" class="select-box__current"></optgroup>
+            <option value="1" name='yearBuilt' class="select-box__option">Year Built</option>
+            <option value="2" name='occupancy' class="select-box__option">Occupancy</option>
+            <option value="3" name='electricity' class="select-box__option">Electricity Use - Grid Purchase (kBtu)</option>
+            <option value="4" name='naturalGasUse' class="select-box__option">Natural Gas Use (kBtu)</option>
+            <option value="5" name='totalGHGEmissions' class="select-box__option">Total GHG Emissions (Metric Tons CO2e)</option>
+            <option value="6" name='waterUse' class="select-box__option">Water Use (All Water Sources) (kgal)</option>
+        </select>
     </div>
 
     <div class="map-message-wapper">
         <!-- below div include the map header and the real map -->
         <div class = "map-wapper">
         <div id="header" class="dw-chart-header">
-            <h3 class="block headline-block"><span class="block-inner" contenteditable="true">[ New York Energy Usage ]</span></h3>
+            <h3 class="block headline-block"><span class="block-inner" contenteditable="false">[ New York Energy Usage Intensity]</span></h3>
         </div>
 
         <svg width="170" height="27.796875" class="chart">
@@ -206,185 +172,760 @@
         </div>
 
         <!-- below div include the related map region message we would like to display -->
-        <div id="messageBlock" class="messageBlockClass" >
-            <text class="messageText" fill="grey">This is text
+        <div id="msgb1" class="messageBox">
+            <text class="messageText" id="messageText1">Choose Brough or Property Type to show info
             </text>
         </div>
-
+        <div id="my_dataviz" class = "my_dataviz"></div>
+        <div id="msgb2" class="messageBox">
+            <text class="messageText" id="messageText2">Choose x axis and borough to show correlation coef
+            </text>
+        </div>
+        <div id="my_dataviz1" class = "my_dataviz"></div>
     </div>
 
-    </div>
 
-    <!-- below to hyperlink another page -->
-    <!--  <div id="divPage"></div> <a href="CopyMap.html" id="aUrl">Load Page</a> -->
+    <script>
+        /**
+         * 基本配置 
+         */
+        const svgWidth = 700;
+        const svgHeight = 700;
+        const padding = 50;
+    
+        const svg = d3.select(".chart")
+            .attr("height", svgHeight)
+            .attr("width", svgWidth);
+    
+        const mapContainer = svg.append("g"); //添加mapContainer装载地图绘制内容
+        const mapDataContainer = svg.append("g"); //添加mapContainer装载地图绘制内容
+    
+        /** 
+         * 获取投影，并配置
+         */
+        const x0 = padding;
+        const y0 = padding;
+        const x1 = svgWidth - padding * 2;
+        const y1 = svgHeight - padding * 2;
+    
+    
+        const projection = d3.geoMercator().fitExtent(
+            [
+                [x0, y0], //左上角坐标
+                [x1, y1], //右下角坐标
+            ], NewYorkGeoJson);
+        console.log(projection);
+    
+        /**
+         * 获取geographic path generator，并配置
+         */
+        const pathGenerator = d3.geoPath().projection(projection);
+    
+    
+        const color = d3.scaleLinear()
+            .domain([0, 2, 4, 6, 8, 9])
+            .range(["blue", "green", "light yellow", "yellow", "dark yellow", "red"]);
+    
+        const color1 = d3.scaleQuantize()
+            .domain([1, 10])
+            .range(d3.schemePurples[9]);
+    
+        const ss2 = d3.schemeSet4;
+        const sp2 = d3.schemePastel2;
 
-</body>
+        const testData = ["Hello World!"];
 
-<script>
-    /**
-     * 基本配置 
-     */
-    const svgWidth = 700;
-    const svgHeight = 700;
-    const padding = 50;
-
-    const svg = d3.select(".chart")
-        .attr("height", svgHeight)
-        .attr("width", svgWidth);
-
-    const mapContainer = svg.append("g"); //添加mapContainer装载地图绘制内容
-
-    /** 
-     * 获取投影，并配置
-     */
-    const x0 = padding;
-    const y0 = padding;
-    const x1 = svgWidth - padding * 2;
-    const y1 = svgHeight - padding * 2;
-
-
-    const projection = d3.geoMercator().fitExtent(
-        [
-            [x0, y0], //左上角坐标
-            [x1, y1], //右下角坐标
-        ], NewYorkGeoJson);
-    console.log(projection);
-
-    /**
-     * 获取geographic path generator，并配置
-     */
-    const pathGenerator = d3.geoPath().projection(projection);
-
-
-    const color = d3.scaleLinear()
-        .domain([0, 2, 4, 6, 8, 9])
-        .range(["blue", "green", "light yellow", "yellow", "dark yellow", "red"]);
-
-    const color1 = d3.scaleQuantize()
-        .domain([1, 10])
-        .range(d3.schemePurples[9]);
-
-    const ss2 = d3.schemeSet4;
-    const sp2 = d3.schemePastel2;
-
-    /**
-     * 利用pathGenerator与features生成path路径，绘制地图
-     */
-    const mapPath = mapContainer.selectAll("path")
-        .data(NewYorkGeoJson.features) //数据绑定
-        .enter().append("path")
-        .attr("d", pathGenerator) //绘制path
-        .attr("stroke-width", 0.5)
-        .attr("stroke", "black")
-
-        .attr("fill", function(d, i) {
-            return ss2[i % 6]
-         })
-
-        .on("mouseover", function(d, i) {
-            d3.select(this)
-                .attr("fill", sp2[i % 6])
-                .text("test test 4");  // not work
-        })
-        .on("mouseout", function(d, i) {
-            d3.select(this)
-                .attr("fill", ss2[i % 6])
-                .text("test test 5"); // not work
+        const euiReceived1 = d3.json("/get-borough-data", function(error, data) {
+            partition.nodes(data);
+            x.domain([0, data.value]).nice();
         });
 
-    function zoomed() {
-        const t = d3.event.transform;
-        mapContainer.attr("transform", `translate(${t.x}, ${t.y}) scale(${t.k})`); //改变mapContainer的位置及缩放
-    }
-    const zoom = d3.zoom()
-        .scaleExtent([1, 3])  //Set the listening scale
-        .on("zoom", zoomed);  //Set the listening event
+        const p1 = Promise.resolve(euiReceived1);
 
-    svg.call(zoom); //仍然应用于svg上，但是事件触发时改变的是
+        const corReceived = d3.json("/get-cor", function(error, data) {
+            //if (error) throw error;
+            // 分区布局节点
+            partition.nodes(data);
+            x.domain([0, data.value]).nice();
+        });
 
-    const energyDateReceived = d3.json("/get-date", function(error, data) {
-        //if (error) throw error;
-        // 分区布局节点
-        partition.nodes(data);
-        x.domain([0, data.value]).nice();
-        console.log(data.value);
-    });
+        const p4 =  Promise.resolve(corReceived)
 
-    const p1 = Promise.resolve(energyDateReceived);
-    p1.then(value => {
-        console.log(value); // 👉️ output object
-        const yearListObject = value;
-        const yearListArray = Object.values(value)
-        console.log(yearListArray);  // output array
-        console.log(yearListArray.length);  // output array
+        const filterReceived = d3.json("/get-filtered-data", function(error, data) {
+            partition.nodes(data);
+            x.domain([0, data.value]).nice();
+        });
 
-        for(let i=0; i<176; i++){
-            console.log(yearListArray[i]);
-            const newOption = document.createElement("li");
-            newOption.text=i;
-            newOption.value=i;
-            // document.getElementById('#yearsListTest').append(newOption);
+        const pFiltered =  Promise.resolve(filterReceived)
+    
+        /**
+         * 利用pathGenerator与features生成path路径，绘制地图
+         */
+        const mapPath = mapContainer.selectAll("path")
+            .data(NewYorkGeoJson.features) //数据绑定
+            .enter().append("path")
+            .attr("d", pathGenerator) //绘制path
+            .attr("stroke-width", 0.5)
+            .attr("stroke", "black")
+    
+            .attr("fill", function(d, i) {
+                return ss2[i % 6]
+             })
+    
+            .on("mouseover", function(d, i) {
+                // console.log(p11);
+                const boroughProperties = NewYorkGeoJson.features[i].properties;
+                console.log(boroughProperties);
+                const borough = [boroughProperties.boro_name];
+                console.log(borough);
+                d3.select(this)
+                    .data(borough) //bind data
+                    //.enter()
+                    //.append("text")
+                    .attr("fill", sp2[i % 6])
+                    //.attr("transform", function(d) {
+                        //const centroid = pathGenerator.centroid(d);
+                        //return "translate(" + centroid[0] + "," + centroid[1] + ")"   // split effects
+                    //})
+                    .attr("text-anchor", "middle")
+                    .attr("x", 50)
+                    .attr("y", 100)
+                    .attr("font-size", 20)
+                    //.attr("dy", ".35em")
+                    .text(function(d,i) {
+                        // return d.properties.boro_name;
+                        // console.log(d.boro_name);
+                        console.log(d);
+                        filteredBoroughName = d;
 
-            d3.select("yearsListTest")
-                .data(yearListArray[i])
-                //.enter().append("li")
-                // .append("label")
-                //.attr('class','select-box__option')
-                // .attr('aria-hidden','true')
-                // .style("width", function(d) { return d * 50 + "px"; })
-                //.text(function(d) { return d; });
+                        p1.then(data => {
+                            const boroughListArray = Object.values(data);
+                            // boroughsEUIList(boroughListArray,selectedValue);
+                            for(let i=0; i<boroughListArray.length; i++) {
+                                const boroughArray = boroughListArray[i];
+                                console.log(boroughArray);
+                                if ( boroughArray["Borough"] === d) {
+                                    var euiArray = "Average Usage Metrics for "
+                                        + "<br> Borough: " + d
+                                        + "<br> PropertyType" + ": " + filteredPropertyType
+                                        + "<br> SourceEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse: " + boroughArray["NaturalGasUse"] + " kBtu"
+                                        + "<br> ElectricityUseGridPurchase: " + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
+                                        + "<br> TotalGHGEmissions: " + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
+                                        + "<br> WaterUse: " + boroughArray["WaterUse"] + " kgal"
+                                    updateMessageBox(euiArray)
+                                }
+                            }
+                        });
+
+                        if(d === "Manhattan"){
+                            p4.then(data => {
+                                var coref = Object.values(data)
+                                var strout = "R = " + coref[0]
+                                console.log(strout);
+                                updateMessageBox2(strout);
+                            })
+                            updateScatterPlot("/static/Manhattan.csv");
+                        }
+
+                        if(d.toString() === "Queens" ){
+                            p4.then(data => {
+                                var coref = Object.values(data)
+                                var strout = "R = " + coref[1]
+                                console.log(strout);
+                                updateMessageBox2(strout);
+                            })
+                            updateScatterPlot("/static/Queens.csv");
+                        }
+
+                        if(d.toString() === "Bronx" ){
+                            p4.then(data => {
+                                var coref = Object.values(data)
+                                var strout = "R = " + coref[2]
+                                console.log(strout);
+                                updateMessageBox2(strout);
+                            })
+                            updateScatterPlot("/static/Bronx.csv");
+                        }
+
+                        if(d.toString() === "Brooklyn" ){
+                            p4.then(data => {
+                                var coref = Object.values(data)
+                                var strout = "R = " + coref[3]
+                                console.log(strout);
+                                updateMessageBox2(strout);
+                            })
+                            updateScatterPlot("/static/Brooklyn.csv");
+                        }
+
+                        if(d.toString() === "Staten Island" ){
+                            p4.then(data => {
+                                var coref = Object.values(data)
+                                var strout = "R = " + coref[4]
+                                console.log(strout);
+                                updateMessageBox2(strout);
+                            })
+                            updateScatterPlot("/static/Staten_Island.csv");
+                        }
+
+                        return d;
+                    });
+            })
+            .on("mouseout", function(d, i) {
+                d3.select(this)
+                    .attr("fill", ss2[i % 6])
+                    .text(testData); // not work
+            });
+    
+        function zoomed() {
+            const t = d3.event.transform;
+            mapContainer.attr("transform", `translate(${t.x}, ${t.y}) scale(${t.k})`); //改变mapContainer的位置及缩放
         }
+        const zoom = d3.zoom()
+            .scaleExtent([1, 3])  //Set the listening scale
+            .on("zoom", zoomed);  //Set the listening event
+    
+        svg.call(zoom); //仍然应用于svg上，但是事件触发时改变的是
 
-    });
+// set the dimensions and margins of the graph
+const margin = {top: 30, right: 40, bottom: 10, left: 50},
+        width = 470 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
 
-    // Below is used to test the append the year list in dropdown
-    const energyData = [{"name": "2010","value": "2010"},{"name": "2011","value": "2011"}]; // this is would be retrived from py
-    const energyDate = [ "2010", "2011"]; // this is would be retrived from py
 
-    // const c = document.querySelector('#yearsListTest');
-    // const yeardiv= c.appendChild(document.createElement('div'));
+var container = d3.select("#my_dataviz");
+var svg1 = container
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    svg1.style("position", "absolute")
+    .style("top", "500px");
+    svg1.append("text")
+  .attr("class", "x label")
+  .attr("text-anchor", "end")
+  .attr("x", width)
+  .attr("y", height - 15)
+  .text("Year Built");
+  
 
-    function energyUsageInputSelection(){
-        const thisvalue = d3.select(this);
-        console.log(thisvalue.attr);
-        console.log(thisvalue.id);
-        console.log(thisvalue.name);
-    }
+// Add the y-axis label
+svg1.append("text")
+  .attr("class", "y label")
+  .attr("text-anchor", "end")
+  .attr("y", 6)
+  .attr("dy", ".75em")
+  .attr("transform", "rotate(-90)")
+  .text("Source EUI (kBtu/ft²)");
+  svg1.append("text")
+                .attr("class", "chart label")
+                .attr("text-anchor", "end")
+                .attr("x", width - 10)
+                .attr("y", height - 365)
+                .text("Source EUI / Year Built Correlation");
 
-    window.onload = function(){
+// set the dimensions and margins of the graph
+const margin1 = {top: 30, right: 30, bottom: 70, left: 60},
+    width1 = 460 - margin1.left - margin1.right,
+    height1 = 400 - margin1.top - margin1.bottom;
 
-        /*
-        for(const key in energyData){
-            document.getElementById("yearsListTest").options.appendChild( // add, append, appendItem has problem
-                new Option(energyData[key].name, energyData[key].value)
-            );
-        }
+// append the svg object to the body of the page
+const svg2 = d3.select("#my_dataviz1")
+  .append("svg")
+    .attr("width", width1 + margin1.left + margin1.right)
+    .attr("height", height1 + margin1.top + margin1.bottom)
+  .append("g")
+    .attr("transform", `translate(${margin1.left}, ${margin1.top})`);
+    svg2.append("text")
+  .attr("class", "x label")
+  .attr("text-anchor", "end")
+  .attr("x", width1)
+  .attr("y", height1 - 15)
+  .text("Property Type");
+  svg2.append("text")
+  .attr("class", "y label")
+  .attr("text-anchor", "end")
+  .attr("y", 50)
+  .attr("dy", ".75em")
+  .attr("transform", "rotate(-90)")
+  .text("Source EUI (kBtu/ft²)");
+  svg2.append("text")
+                .attr("class", "chart label")
+                .attr("text-anchor", "end")
+                .attr("x", width - 10)
+                .attr("y", height - 365)
+                .text("Source EUI / Property Type");
 
-        // Below is used to test displaying statistical data
-        const energyMessageDiv = document.createElement("div");
-        const nodeText = document.createTextNode("I am test for energy usage");
-        energyMessageDiv.appendChild(nodeText);
-        energyMessageDiv.style.color = 'grey';
-        document.body.appendChild(energyMessageDiv);
+// Parse the Data
+d3.csv("/static/parseData.csv").then ( function(data) {
 
-        // const svg1 = d3.select("selection-map-wrapper").append("div").attr("I am test for energy usage");
+  // sort data
+  data.sort(function(b, a) {
+    return a.seui - b.seui;
+  });
 
-        const messagesection = d3.selectAll("selection-map-wrapper");
-        const div33 = messagesection.append("div");
-        div33.style.color = 'red';
-        div33.style.x0 = 50;
-        div33.style.y0 = 50;
-        div33.name("messageTest");
-        div33.attr("Hello, world!");*/
+  // X axis
+  const x2 = d3.scaleBand()
+    .range([ 0, width1 ])
+    .domain(data.map(d => d.pt))
+    .padding(0.2);
+  svg2.append("g")
+    .attr("transform", `translate(0, ${height1})`)
+    .call(d3.axisBottom(x2))
+    .selectAll("text")
+      .attr("transform", "translate(-10,0)rotate(-45)")
+      .style("text-anchor", "end");
 
-    }
-</script>
+  // Add Y axis
+  const y2 = d3.scaleLinear()
+    .domain([0, 7500000])
+    .range([ height1, 0]);
+  svg2.append("g")
+    .call(d3.axisLeft(y2));
+
+  // Bars
+  svg2.selectAll("mybar")
+    .data(data)
+    .enter()
+    .append("rect")
+      .attr("x", d => x2(d.pt))
+      .attr("y", d => y2(d.seui))
+      .attr("width", x2.bandwidth())
+      .attr("height", d => height1 - y2(d.seui))
+      .attr("fill", "#69b3a2")
+
+})
+
+    // Add X axis
+    var x = d3.scaleLinear()
+    .domain([1800, 2021])
+    .range([ 0, 380 ]);
+    svg1.append("g")
+    .attr("transform", `translate(0, 350)`)
+    .call(d3.axisBottom(x));
+
+    // Add Y axis
+    var y = d3.scaleLinear()
+    .domain([0, 850000])
+    .range([ 350, 0]);
+    svg1.append("g")
+    .call(d3.axisLeft(y));
+
+        const dataReceived = d3.json("/get-data", function(error, data) {
+            //if (error) throw error;
+            // 分区布局节点
+            partition.nodes(data);
+            x.domain([0, data.value]).nice();
+        });
+        var dropdown1 = document.getElementById("x_axis");
+    
+        // Add an event listener for when the user selects an option
+        // Get the value of the selected option
+        const p2 = Promise.resolve(dataReceived)
+                // set the dimensions and margins of the graph
+
+        // Get a reference to the dropdown list
+        var dropdown = document.getElementById("Borough");
+        // Add an event listener for when the user selects an option
+        dropdown.addEventListener("change", function() {
+        // Get the value of the selected option
+        var selectedValue = this.value;
+
+        // Do something with the selected value
+        // For example, you could use an if statement to take different actions
+        // depending on the selected value:
+            if (selectedValue === "1") {
+                // Do something when the first option is selected
+                filteredBoroughName = "Manhattan";
+                console.log(filteredBoroughName);
+                p1.then(data => {
+                    const boroughListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<boroughListArray.length; i++) {
+                        const boroughArray = boroughListArray[i];
+                        console.log(boroughArray);
+                        if ( boroughArray["Borough"] === "Manhattan") {
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: Manhattan"
+                                + "<br> PropertyType: " + filteredPropertyType
+                                + "<br> SourceEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse: " + boroughArray["NaturalGasUse"] + " kBtu"
+                                + "<br> ElectricityUseGridPurchase: " + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
+                                + "<br> TotalGHGEmissions: " + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
+                                + "<br> WaterUse: " + boroughArray["WaterUse"] + " kgal"
+                            updateMessageBox(euiArray)
+                        }
+                        // var euiArray = "Manhattan" + ": "+ data["Manhattan"]
+                    }
+                })
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[0]
+                    updateMessageBox2(strout)
+                })
+                updateScatterPlot("/static/Manhattan.csv")
+            } else if (selectedValue === "2") {
+                // Do something when the second option is selected
+                filteredBoroughName = "Queens";
+                console.log(filteredBoroughName);
+                p1.then(data => {
+                    const boroughListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<boroughListArray.length; i++) {
+                        const boroughArray = boroughListArray[i];
+                        console.log(boroughArray);
+                        if ( boroughArray["Borough"] === "Queens") {
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: Queens"
+                                + "<br> PropertyType: " + filteredPropertyType
+                                + "<br> SourceEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse: " + boroughArray["NaturalGasUse"] + " kBtu"
+                                + "<br> ElectricityUseGridPurchase: " + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
+                                + "<br> TotalGHGEmissions: " + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
+                                + "<br> WaterUse: " + boroughArray["WaterUse"] + " kgal"
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[1]
+                    updateMessageBox2(strout)
+                })
+                updateScatterPlot("/static/Queens.csv")
+            } else if (selectedValue === "3") {
+                // Do something when the third option is selected
+                filteredBoroughName = "Bronx";
+                console.log(filteredBoroughName);
+                p1.then(data => {
+                    const boroughListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<boroughListArray.length; i++) {
+                        const boroughArray = boroughListArray[i];
+                        console.log(boroughArray);
+                        if ( boroughArray["Borough"] === "Bronx") {
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: Bronx"
+                                + "<br> PropertyType: " + filteredPropertyType
+                                + "<br> SourceEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse: " + boroughArray["NaturalGasUse"] + " kBtu"
+                                + "<br> ElectricityUseGridPurchase: " + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
+                                + "<br> TotalGHGEmissions: " + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
+                                + "<br> WaterUse: " + boroughArray["WaterUse"] + " kgal"
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[2]
+                    updateMessageBox2(strout)
+                })
+                updateScatterPlot("/static/Bronx.csv")
+            } else if (selectedValue === "4") {
+                // Do something when the third option is selected
+                filteredBoroughName = "Brooklyn";
+                console.log(filteredBoroughName);
+                p1.then(data => {
+                    const boroughListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<boroughListArray.length; i++) {
+                        const boroughArray = boroughListArray[i];
+                        console.log(boroughArray);
+                        if ( boroughArray["Borough"] === "Brooklyn") {
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: Brooklyn"
+                                + "<br> PropertyType: " + filteredPropertyType
+                                + "<br> SourceEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"
+                                + "<br> NaturalGasUse: " + boroughArray["NaturalGasUse"] + " kBtu"
+                                + "<br> ElectricityUseGridPurchase: " + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
+                                + "<br> TotalGHGEmissions: " + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
+                                + "<br> WaterUse: " + boroughArray["WaterUse"] + " kgal"
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[3]
+                    updateMessageBox2(strout)
+                })
+                updateScatterPlot("/static/Brooklyn.csv")
+            } else if (selectedValue === "5") {
+                // Do something when the third option is selected
+                filteredBoroughName = "Staten Island";
+                console.log(filteredBoroughName);
+                p1.then(data => {
+                    const boroughListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray); // Staten Island
+                    for(let i=0; i<boroughListArray.length; i++) {
+                        const boroughArray = boroughListArray[i];
+                        console.log(boroughArray);
+                        if ( boroughArray["Borough"] === "Staten Island") {
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: Staten Island"
+                                + "<br> PropertyType: " + filteredPropertyType
+                                + "<br> SourceEUI" + ": " + boroughArray["SourceEUI"] +" kbtu/ft²"+ "<br> NaturalGasUse: " + boroughArray["NaturalGasUse"] + " kBtu"
+                                + "<br> ElectricityUseGridPurchase: " + boroughArray["ElectricityUseGridPurchase"] + " kBtu"
+                                + "<br> TotalGHGEmissions: " + boroughArray["TotalGHGEmissions"] + " Metric Tons CO2e"
+                                + "<br> WaterUse: " + boroughArray["WaterUse"] + " kgal"
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[4]
+                    updateMessageBox2(strout)
+                })
+                updateScatterPlot("/static/Staten_Island.csv")
+            }
+
+        });
+
+        // Below used to retrive property type related information
+        const euiPropertyAllReceived = d3.json("/get-propertyType-all-data", function(error, data) {
+            //if (error) throw error;
+            partition.nodes(data);
+            x.domain([0, data.value]).nice();
+        });
+
+        const p3 = Promise.resolve(euiPropertyAllReceived)
+        console.log(p3)
+        // Get a reference to the dropdown list
+        var propertyDropdown = document.getElementById("PropertyType");
+
+        // Add an event listener for when the user selects an option
+        propertyDropdown.addEventListener("change", function() {
+            // Get the value of the selected option
+            var selectedValue = this.value;
+
+            if (selectedValue === "1") {
+                // Do something when the first option is selected
+                filteredPropertyType = "Multifamily";
+                console.log(filteredPropertyType);
+
+                pFiltered.then(data => {
+                    const propertyListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<propertyListArray.length; i++) {
+                        const propertyArray = propertyListArray[i];
+                        console.log(propertyArray);
+                        if ( propertyArray["Property Type"] === "Multifamily") {
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: " + filteredBoroughName
+                                + "<br> Property Type:"+ propertyArray["Property Type"]
+                                + "<br> SourceEUI:"+ propertyArray["Source EUI (kBtu/ft²)"] +" kbtu/ft²"
+                                + "<br> Natural Gas Use: " + propertyArray["Natural Gas Use (kBtu)"] + " kBtu"
+                                + "<br> Electricity Use Grid Purchase: " + propertyArray["Electricity Use - Grid Purchase (kBtu)"] + " kBtu"
+                                + "<br> Total GHG Emissions: " + propertyArray["Total GHG Emissions (Metric Tons CO2e)"] + " Metric Tons CO2e"
+                                + "<br> Water Use: " + propertyArray["Water Use (All Water Sources) (kgal)"] + " kgal"
+                            updateMessageBox(euiArray)
+                        }
+                        // var euiArray = "Manhattan" + ": "+ data["Manhattan"]
+                    }
+                })
+            } else if (selectedValue === "2") {
+                // Do something when the second option is selected
+                filteredPropertyType = "Office";
+                console.log(filteredPropertyType);
+
+                pFiltered.then(data => {
+                    const propertyListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<propertyListArray.length; i++) {
+                        const propertyArray = propertyListArray[i];
+                        console.log(propertyArray);
+                        if ( propertyArray["Property Type"] === "Office") {
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: " + filteredBoroughName
+                                + "<br> Property Type:"+ propertyArray["Property Type"]
+                                +" <br> SourceEUI:"+ propertyArray["Source EUI (kBtu/ft²)"] +" kbtu/ft²"
+                                + "<br> Natural Gas Use: " + propertyArray["Natural Gas Use (kBtu)"] + " kBtu"
+                                + "<br> Electricity Use Grid Purchase: " + propertyArray["Electricity Use - Grid Purchase (kBtu)"] + " kBtu"
+                                + "<br> Total GHG Emissions: " + propertyArray["Total GHG Emissions (Metric Tons CO2e)"] + " Metric Tons CO2e"
+                                + "<br> Water Use: " + propertyArray["Water Use (All Water Sources) (kgal)"] + " kgal"
+
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            } else if (selectedValue === "3") {
+                // Do something when the third option is selected
+                filteredPropertyType = "Industrial";
+                console.log(filteredPropertyType);
+
+                pFiltered.then(data => {
+                    const propertyListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<propertyListArray.length; i++) {
+                        const propertyArray = propertyListArray[i];
+                        console.log(propertyArray);
+                        if ( propertyArray["Property Type"] === "Industrial") {
+                            var euiArray = "Average Usage Metrics "
+                                + "<br> Borough: " + filteredBoroughName
+                                + "<br> Property Type:"+ propertyArray["Property Type"]
+                                + "<br> SourceEUI:"+ propertyArray["Source EUI (kBtu/ft²)"] +" kbtu/ft²"
+                                + "<br> Natural Gas Use: " + propertyArray["Natural Gas Use (kBtu)"] + " kBtu"
+                                + "<br> Electricity Use Grid Purchase: " + propertyArray["Electricity Use - Grid Purchase (kBtu)"] + " kBtu"
+                                + "<br> Total GHG Emissions: " + propertyArray["Total GHG Emissions (Metric Tons CO2e)"] + " Metric Tons CO2e"
+                                + "<br> Water Use: " + propertyArray["Water Use (All Water Sources) (kgal)"] + " kgal"
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            } else if (selectedValue === "4") {
+                // Do something when the third option is selected
+                filteredPropertyType = "Hospitality";
+                console.log(filteredPropertyType);
+
+                pFiltered.then(data => {
+                    const propertyListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray,selectedValue);
+                    for(let i=0; i<propertyListArray.length; i++) {
+                        const propertyArray = propertyListArray[i];
+                        console.log(propertyArray);
+                        if ( propertyArray["Property Type"] === "Hospitality") {
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: " + filteredBoroughName
+                                + "<br> Property Type:"+ propertyArray["Property Type"]
+                                + "<br> SourceEUI:"+ propertyArray["Source EUI (kBtu/ft²)"] +" kbtu/ft²"
+                                + "<br> Natural Gas Use: " + propertyArray["Natural Gas Use (kBtu)"] + " kBtu"
+                                + "<br> Electricity Use Grid Purchase: " + propertyArray["Electricity Use - Grid Purchase (kBtu)"] + " kBtu"
+                                + "<br> Total GHG Emissions: " + propertyArray["Total GHG Emissions (Metric Tons CO2e)"] + " Metric Tons CO2e"
+                                + "<br> Water Use: " + propertyArray["Water Use (All Water Sources) (kgal)"] + " kgal"
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            } else if (selectedValue === "5") {
+                // Do something when the third option is selected
+                filteredPropertyType = "Hotel";
+                console.log(filteredPropertyType);
+
+                pFiltered.then(data => {
+                    const propertyListArray = Object.values(data);
+                    // boroughsEUIList(boroughListArray); // Staten Island
+                    for(let i=0; i<propertyListArray.length; i++) {
+                        const propertyArray = propertyListArray[i];
+                        console.log(propertyArray);
+                        if ( propertyArray["Property Type"] === "Hotel") {
+                            var euiArray = "Average Usage Metrics for "
+                                + "<br> Borough: " + filteredBoroughName
+                                + "<br> Property Type: "+ propertyArray["Property Type"]
+                                + "<br> SourceEUI: "+ propertyArray["Source EUI (kBtu/ft²)"] +" kbtu/ft²"
+                                + "<br> Natural Gas Use: " + propertyArray["Natural Gas Use (kBtu)"] + " kBtu"
+                                + "<br> Electricity Use Grid Purchase: " + propertyArray["Electricity Use - Grid Purchase (kBtu)"] + " kBtu"
+                                + "<br> Total GHG Emissions: " + propertyArray["Total GHG Emissions (Metric Tons CO2e)"] + " Metric Tons CO2e"
+                                + "<br> Water Use: " + propertyArray["Water Use (All Water Sources) (kgal)"] + " kgal"
+                            updateMessageBox(euiArray)
+                        }
+                    }
+                })
+            }
+        });
+
+
+        // Get a correlation reference to the dropdown list
+        var correctionDropdown = document.getElementById("x_axis");
+
+        correctionDropdown.addEventListener("change", function() {
+            var selectedValue = this.value;
+
+            if(filteredBoroughName === "Manhattan"){
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[0]
+                    console.log(strout);
+                    updateMessageBox2(strout);
+                })
+                if(selectedValue === "1"){
+                    updateScatterPlot("/static/Manhattan.csv");
+                }
+
+                if(selectedValue === "5"){
+                    updateGHGScatterPlot("/static/Manhattan.csv");
+                }
+
+
+            }
+
+            if(filteredBoroughName.toString() === "Queens" ){
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[1]
+                    console.log(strout);
+                    updateMessageBox2(strout);
+                })
+                if(selectedValue === "1"){
+                    updateScatterPlot("/static/Queens.csv");
+                }
+
+                if(selectedValue === "5"){
+                    updateGHGScatterPlot("/static/Queens.csv");
+                }
+
+            }
+
+            if(filteredBoroughName.toString() === "Bronx" ){
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[2]
+                    console.log(strout);
+                    updateMessageBox2(strout);
+                })
+
+                if(selectedValue === "1"){
+                    updateScatterPlot("/static/Bronx.csv");
+                }
+
+                if(selectedValue === "5"){
+                    updateGHGScatterPlot("/static/Bronx.csv");
+                }
+            }
+
+            if(filteredBoroughName.toString() === "Brooklyn" ){
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[3]
+                    console.log(strout);
+                    updateMessageBox2(strout);
+                })
+
+                if(selectedValue === "1"){
+                    updateScatterPlot("/static/Brooklyn.csv");
+                }
+                if(selectedValue === "5"){
+                    updateGHGScatterPlot("/static/Brooklyn.csv");
+                }
+            }
+
+            if(filteredBoroughName.toString() === "Staten Island" ){
+                p4.then(data => {
+                    var coref = Object.values(data)
+                    var strout = "R = " + coref[4]
+                    console.log(strout);
+                    updateMessageBox2(strout);
+                })
+
+                if(selectedValue === "1"){
+                    updateScatterPlot("/static/Staten_Island.csv");
+                }
+                if(selectedValue === "5"){
+                    updateGHGScatterPlot("/static/Staten_Island.csv");
+                }
+            }
+
+
+        });
+
+    </script>
+</body>
+
+
 
 <style>
     .selection-map-wrapper {
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 100px 10px;
+        grid-template-rows: 100px 700px;
         grid-gap: 10px;
     }
 
@@ -395,16 +936,18 @@
 
     .map-message-wapper {
         display: grid;
-        grid-template-columns: 800px 400px;
-        grid-template-rows: 100px 100px;
+        grid-template-columns: 700px 450px 450px;
+        grid-template-rows: 460px 460px;
         grid-gap: 10px;
     }
 
-    .messageText {
+    #messageText1 {
+        grid-row: 1/2;
+        grid-col: 2/3;
         position: relative;
         display: block;
-        width: 100%;
-        height: 350px;
+        width: 450px;
+        height: 200px;
         margin: 0 auto;
         font-family: var(--font-family-main);
         font-size: 18px;
@@ -415,7 +958,23 @@
         z-index: 9;
         margin: 6px;
     }
-
+    #messageText2 {
+        grid-row: 2/2;
+        grid-col: 3/3;
+        position: relative;
+        display: block;
+        width: 450px;
+        height: 200px;
+        margin: 0 auto;
+        font-family: var(--font-family-main);
+        font-size: 18px;
+        color: #60666d;
+        padding: 0.4em;
+        box-shadow: rgb(0 0 0 / 4%) 0 0.0625em 0.0625em,
+        rgb(0 0 0 / 10%) 0 0.125em 0.5em, rgb(255 255 255 / 7%) 0 0 0 1px inset;
+        z-index: 9;
+        margin: 6px;
+    }
     .select-box {
         position: relative;
         display: block;
@@ -484,6 +1043,170 @@
         background-color: #fff;
         font-size: 12px;
         font-weight: 900;
+    }
+    .select-box__list {
+        position: absolute;
+        width: 100%;
+        padding: 0;
+        margin: -8px;
+        margin-top: 20px;
+        list-style: none;
+        background-color: #fff;
+        opacity: 0;
+        -webkit-animation-name: HideList;
+        animation-name: HideList;
+        -webkit-animation-duration: 0.5s;
+        animation-duration: 0.5s;
+        -webkit-animation-delay: 0.5s;
+        animation-delay: 0.5s;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+        -webkit-animation-timing-function: step-start;
+        animation-timing-function: step-start;
+        box-shadow: 0 15px 30px -10px rgb(0 0 0 / 10%);
+        max-height: 380px;
+        overflow: auto;
+        font-size: 12px;
+        box-shadow: rgba(0, 0, 0, 0.25) 0 0.0625em 0.0625em,
+        rgba(0, 0, 0, 0.25) 0 0.125em 0.5em,
+        rgba(255, 255, 255, 0.1) 0 0 0 1px inset;
+    }
+    .select-box__option {
+        display: block;
+        padding: 5px;
+        background-color: #fff;
+    }
+    .select-box__option:focus, .select-box__option:hover {
+        color: white;
+        background-color: #32afafc9;
+    }
+
+    #msgb1 {
+        grid-row: 1/2;
+        grid-col: 2/3;
+        position: absolute;
+        width: 450px;
+        height: 100px;
+        left: 700px;
+        top: 300px;
+        padding: 10px;
+    }
+
+    #msgb2 {
+        grid-row: 1/2;
+        grid-col: 3/3;
+        position: absolute;
+        width: 450px;
+        height: 100px;
+        right: 100px;
+        top: 300px;
+        padding: 10px;
+    }
+
+    #my_dataviz {
+        grid-row: 1/2;
+        grid-col: 3/3;
+        position: absolute;
+        width: 460px;
+        height: 400px;
+        right: 90px;
+        top: 550px;
+        padding: 0;
+        display: block;
+        margin: 6px;
+        font-family: var(--font-family-main);
+        font-size: 18px;
+        color: #60666d;
+        box-shadow: rgb(0 0 0 / 4%) 0 0.0625em 0.0625em,
+        rgb(0 0 0 / 10%) 0 0.125em 0.5em, rgb(255 255 255 / 7%) 0 0 0 1px inset;
+        z-index: 9;
+    }
+
+    #my_dataviz1 {
+        grid-row: 2/2;
+        position: absolute;
+        width: 460px;
+        height: 400px;
+        left: 710px;
+        top: 550px;
+        padding: 0;
+        display: block;
+        margin: 6px;
+        font-family: var(--font-family-main);
+        font-size: 18px;
+        color: #60666d;
+        box-shadow: rgb(0 0 0 / 4%) 0 0.0625em 0.0625em,
+        rgb(0 0 0 / 10%) 0 0.125em 0.5em, rgb(255 255 255 / 7%) 0 0 0 1px inset;
+        z-index: 9;
+    }
+
+    select {
+        /* Set the width of the dropdown box */
+        width: 200px;
+        /* Set the background color of the dropdown box */
+        background-color: #f2f2f2;
+        /* Set the font size and font family for the options in the dropdown box */
+        font-size: 16px;
+        font-family: Arial, sans-serif;
+    }
+
+    .select-box {
+        position: relative;
+        display: block;
+        width: 200px;
+        height: 50px;
+        margin: 0 auto;
+        font-family: var(--font-family-main);
+        font-size: 18px;
+        color: #60666d;
+        padding: 0.4em;
+        box-shadow: rgb(0 0 0 / 4%) 0 0.0625em 0.0625em,
+        rgb(0 0 0 / 10%) 0 0.125em 0.5em, rgb(255 255 255 / 7%) 0 0 0 1px inset;
+        z-index: 9;
+        margin: 6px;
+    }
+    .select-box:hover {
+        box-shadow: rgba(0, 0, 0, 0.25) 0 0.0625em 0.0625em,
+        rgba(0, 0, 0, 0.25) 0 0.125em 0.5em,
+        rgba(255, 255, 255, 0.1) 0 0 0 1px inset;
+    }
+    .select-box .selectTitle {
+        font-size: 0.5em;
+    }
+    .select-box__current {
+        position: relative;
+        cursor: pointer;
+        outline: 0;
+    }
+    .select-box__current:focus + .select-box__list {
+        opacity: 1;
+        -webkit-animation-name: none;
+        animation-name: none;
+    }
+    .select-box__current:focus + .select-box__list .select-box__option {
+        cursor: pointer;
+    }
+    .select-box__current:focus .select-box__icon {
+        transform: translateY(-50%) rotate(180deg);
+    }
+    .select-box__icon {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        width: 20px;
+        opacity: 0.3;
+        transition: 0.2s ease;
+        color: red;
+        font-size: 1.5em;
+        color: #333232;
+    }
+    .select-box__value {
+        display: flex;
+        align-items: center;
+    }
+    .select-box__input:checked + .select-box__input-text {
+        display: block;
     }
     .select-box__list {
         position: absolute;

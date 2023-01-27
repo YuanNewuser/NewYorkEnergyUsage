@@ -2,7 +2,8 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 import pandas as pd
 
 import json
-
+import numpy as np
+from pandas.core.interchange import dataframe
 
 #1. Declare application
 application= Flask(__name__)
@@ -48,9 +49,7 @@ def homepage():
     # data.TotalGHGEmissions= TotalGHGEmissions
     # data.WaterUse= WaterUse
 
-    # Note: MAC and Windows has different handling when reading this file !!!
-    # Windows:  df = pd.read_csv('NewYorkEnergyUsage.csv')
-    df = pd.read_csv('../NewYorkEnergyUsage.csv')
+    df = pd.read_csv('NewYorkEnergyUsage.csv')
     # dfP=dfP
     
     
@@ -115,12 +114,11 @@ def homepage():
 #1481  2106  ...   199.964497
 #1800  2559  ...   168.784931
 #[5 rows x 13 columns]
-
 @application.route("/get-data/",methods=["GET","POST"])
 def returnProdData():
-    df1 = pd.read_csv('NewYorkEnergyUsage.csv')
+    df1 = pd.read_csv('data3.csv')
     Boroughs = df1["Borough"].values
-    sEUI = df1["Source EUI (kBtu/ft²)"].values
+    sEUI = df1["SourceEUI"].values
     dict_sEUI = {}
     for i in range(len(Boroughs)):
         dict_sEUI[Boroughs[i]] = sEUI[i]
@@ -129,22 +127,47 @@ def returnProdData():
 @application.route("/get-data",methods=["GET","POST"])
 def returnData():
     df = pd.read_csv('NewYorkEnergyUsage.csv', index_col=0)
+    df = df[['Year Built','Source EUI (kBtu/ft²)']]
     dfa = df.values
     list_item = []
-    cols = df.columns.values.tolist()
+    cols = ['x','y']
+    for l in dfa:
+        item = {}
+        for i in range(len(cols)):
+            if cols[i] == 'x':
+                item[cols[i]] = int(l[i])
+            if cols[i] == 'y':
+                item[cols[i]] = l[i]
+        list_item.append(item)
+    return json.dumps(list_item)
+
+@application.route("/get-borough-data",methods=["GET","POST"])
+def returnBoroughData():
+    df1 = pd.read_csv('data3.csv')
+    print(df1)
+    dfa = df1.values
+    print(dfa)
+    # Boroughs = df1["Borough"].values
+    # sEUI = df1["SourceEUI"].values
+    # naturalGasUse = df1["NaturalGasUse"].values
+    # electricityUseGridPurchase = df1["ElectricityUseGridPurchase"].values
+    # totalGHGEmissions = df1["TotalGHGEmissions"].values
+    # waterUse = df1["WaterUse"].values
+    list_item = []
+    cols = df1.columns.values.tolist()
     for l in dfa:
         item = {}
         for i in range(len(cols)):
             item[cols[i]] = l[i]
         list_item.append(item)
-    return json.dumps(list_item)
-# Below for automatically populate in the dropdown list
 
+    print(list_item)
+    return json.dumps(list_item)
 # Below for automatically populate in the dropdown list
 @application.route("/get-date",methods=["GET","POST"])
 def returnYearList():
 
-    df = pd.read_csv('../NewYorkEnergyUsage.csv')
+    df = pd.read_csv('NewYorkEnergyUsage.csv')
     yeardf = df["Year Built"].unique()
 
     print(yeardf)
@@ -152,8 +175,90 @@ def returnYearList():
     yearJsonString = json.dumps({'Year': yeardf.tolist()})
 
     return yearJsonString
+@application.route("/get-propertyType-eui-data",methods=["GET","POST"])
+def returnPropertyTypeEUIData():
+    df1 = pd.read_csv('NewYorkEnergyUsage.csv')
+    df1 = df1.groupby(['Property Type'])['Source EUI (kBtu/ft²)'].sum()
+    # dfall = df1.groupby(['Property Type']).sum()
+    dfall = df1.reset_index()
+    print(dfall.head())
+
+    propertyTypes = df1["Property Type"].values
+    sEUI = df1["Source EUI (kBtu/ft²)"].values
+    dict_sEUI = {}
+    for i in range(len(propertyTypes)):
+        dict_sEUI[propertyTypes[i]] = sEUI[i]
+    return json.dumps(dict_sEUI)
+@application.route("/get-cor",methods=["GET","POST"])
+def returnCorList():
+    df1 = pd.read_csv('static/Manhattan.csv')
+    df2 = pd.read_csv('static/Queens.csv')
+    df3 = pd.read_csv('static/Bronx.csv')
+    df4 = pd.read_csv('static/Brooklyn.csv')
+    df5 = pd.read_csv('static/Staten_Island.csv')
+    data_list = [df1,df2,df3,df4,df5]
+    Corlist = []
+    for i in range(5):
+        x = data_list[i]["yb"]
+        y = data_list[i]["seui"]
+        Corlist.append(str(x.corr(y)))
+    
+    return json.dumps(Corlist)
+
+@application.route("/get-propertyType-all-data",methods=["GET","POST"])
+def returnPropertyTypeAllData():
+    df1 = pd.read_csv('NewYorkEnergyUsage.csv',index_col=0)
+    dfalls = df1.groupby(['Property Type']).sum()
+    dfall = dfalls.reset_index()
+    dfa = dfall.values
+    print(dfall.head())
+
+    list_item = []
+    cols = dfall.columns.values.tolist()
+    print(cols)
+    for l in dfa:
+        item = {}
+        for i in range(len(cols)):
+            item[cols[i]] = l[i]
+        list_item.append(item)
+
+    print(list_item)
+    return json.dumps(list_item)
+
+@application.route("/get-filtered-data", methods=["GET","POST"])
+def returnFilteredData():
+    df1 = pd.read_csv('NewYorkEnergyUsage.csv')
+
+    borough_name = request.form.get('filteredBoroughName', 'Manhattan')
+    property_type = request.form.get('filteredPropertyType', 'Multifamily')
+
+    print(borough_name)
+    print(property_type)
+    print(df1)
+
+    # dfFiltered = df1[(df1['Property Type'].str.contains('Multifamily')) & (df1['Borough'].str.contains('Manhattan'))]
+    dfFiltered = df1[df1.Borough == borough_name]
+    # print("dfFiltered.head() = " + dfFiltered.head())
+
+    dfall = df1.groupby(['Property Type', 'Borough']).sum()
+    dfall = dfall.reset_index()
+    dfa = dfall.values
+    print(dfall.head())
+
+    list_item = []
+    cols = dfall.columns.values.tolist()
+    print(cols)
+    for l in dfa:
+        item = {}
+        for i in range(len(cols)):
+            item[cols[i]] = l[i]
+        list_item.append(item)
+
+    print(list_item)
+    return json.dumps(list_item)
 
 if __name__ == "__main__":
     application.run(debug=True)
+
 
 
