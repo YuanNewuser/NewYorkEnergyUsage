@@ -2,6 +2,8 @@
 application.py - To run the application
 Map_zoom_newyork.html - Visualization of plots (Map, Bar chart, Scatter plot)
 
+Note: There may exist env problem when run it in Mac, kindly follow google suggestions to solve the enrionement issues firstly; It would be much better using Windows;
+
 # d3.js_demo
 This is used to test d3 samples as  well as implement our visualization project.
 
